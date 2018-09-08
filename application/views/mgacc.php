@@ -195,10 +195,10 @@
 						<form method="post" id="form<?php echo $id; ?>" >
 							<td>
 								<i class="material-icons">power_settings_new</i>
-								<input id="logout_button_<?php echo $id; ?>" type="submit" value="Logout" onclick="reassuringDelete('<?php echo $id ?>')" style="background-color: red; border-radius: 5px; color: white">
+								<input id="logout_button_<?php echo $id; ?>" type="submit" value="Logout" onclick="reassuringLogout('<?php echo $id ?>')" style="background-color: red; border: none; border-radius: 5px; color: white">
 								<h6></h6>
 								<i class="material-icons">delete_forever</i>
-								<input id="delete_button_<?php echo $id; ?>" type="submit" value="Delete" onclick="reassuringDelete('<?php echo $id ?>', '<?php echo $this->session->userdata('allAdminData')['username'][$i] ?>')">
+								<input id="delete_button_<?php echo $id; ?>" type="submit" value="Delete" onclick="reassuringDelete('<?php echo $id ?>', '<?php echo $this->session->userdata('allAdminData')['username'][$i] ?>')" style="background-color: black; border: none; border-radius: 5px; color: white;">
 							</td>
 						</form>
 					</tr>
@@ -250,6 +250,8 @@
 		function reassuringLogout(id, nama) {
     			document.getElementById("row"+id).style.color = "white";
     			document.getElementById("row"+id).style.backgroundColor = "red";
+          document.getElementById("logout_button_"+id).style.color = "black";
+          document.getElementById("logout_button_"+id).style.backgroundColor = "white";
 			setTimeout(popUp, 10);
 			function popUp() {
 				if (confirm("Apakah anda yakin ingin melakukan Logout pada akun yang bernama "+nama+" (ID="+id+")?")) {
@@ -258,6 +260,8 @@
 				} else {
     					document.getElementById("row"+id).style.color = "black";
     					document.getElementById("row"+id).style.backgroundColor = "white";
+              document.getElementById("logout_button_"+id).style.color = "black";
+              document.getElementById("logout_button_"+id).style.backgroundColor = "white";
 					return false;
 				}
 			}
@@ -265,23 +269,24 @@
 		function reassuringDelete(id, nama) {
     			document.getElementById("row"+id).style.color = "white";
     			document.getElementById("row"+id).style.backgroundColor = "red";
-    			document.getElementById("login_button_"+id).style.color = "white";
-    			document.getElementById("login_button_"+id).style.backgroundColor = "white";
+    			document.getElementById("delete_button_"+id).style.color = "black";
+    			document.getElementById("delete_button_"+id).style.backgroundColor = "white";
 			setTimeout(popUp, 10);
-			function popUp() {
-				if (confirm("Apakah anda yakin ingin menghapus akun yang bernama "+nama+" (ID="+id+")?")) {
-					alert(nama+" (ID="+id+") telah berhasil dihapus!");
-       					//window.location = "<?php echo site_url('admin'); ?>";
-					return true;
-				} else {
-    					document.getElementById("row"+id).style.color = "black";
-    					document.getElementById("row"+id).style.backgroundColor = "white";
-    					document.getElementById("login_button_"+id).style.color = "white";
-    					document.getElementById("login_button_"+id).style.backgroundColor = "red";
-					return false;
-				}
-			}
-		}
+
+      function popUp() {
+        if (confirm("Apakah anda yakin ingin menghapus akun yang bernama "+nama+" (ID="+id+")?")) {
+          alert(nama+" (ID="+id+") telah berhasil dihapus!");
+                //window.location = "<?php echo site_url('admin'); ?>";
+          return true;
+        } else {
+              document.getElementById("row"+id).style.color = "black";
+              document.getElementById("row"+id).style.backgroundColor = "white";
+              document.getElementById("delete_button_"+id).style.color = "black";
+              document.getElementById("delete_button_"+id).style.backgroundColor = "white";
+          return false;
+        }
+      }
+    }
 		function addClient() {
 			document.getElementById('form_addClient').submit();
 		}
