@@ -128,6 +128,7 @@
 					}
 					//print_r ($where);
 
+
 					$where = array (
 						'judul' 	=> $this->input->post('input_news_title'),
 						'deskripsi' 	=> $this->input->post('inputtt'),

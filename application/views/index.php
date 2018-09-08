@@ -506,7 +506,7 @@ body, html {
                 <br>
                 <div class="cns-content" style="height: 150px;overflow: hidden;">
                     <a href="#"><?php echo $this->session->userdata['news']['judul'][$i]; ?></a>
-                    <p style=""><?php echo $this->session->userdata['news']['deskripsi'][$i]; ?></p>
+                    <p style="text-align: justify;"><?php echo $this->session->userdata['news']['deskripsi'][$i]; ?></p>
                 </div>
             </div>
         </div>
