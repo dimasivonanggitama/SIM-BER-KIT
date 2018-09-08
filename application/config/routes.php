@@ -54,7 +54,9 @@ $route['default_controller'] = 'user';
 $route['admin'] = 'user/login';
 //$route['admin_Sistem/addNews'] = '/user/login';
 //$route['logout'] = 'admin_Sistem/logout';
-$route['admin/manageAccount'] = 'admin_Sistem/addAccount';
+$route['admin/addNews'] 	= 'admin_Konten/addNews';
+$route['admin/editNews'] 	= 'admin_Konten/editNews';
+$route['admin/manageAccount'] 	= 'admin_Sistem/addAccount';
 
 //$route['default_controller'] = '';
 $route['404_override'] = '';

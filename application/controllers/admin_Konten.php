@@ -100,7 +100,7 @@
 			$this->load->library('session');
 			if ($this->uri->segment(3) != null) {
 				$this->session->set_userdata('requestDeleteData', $this->uri->segment(3));
-				redirect('admin_Konten/deleteNews');
+				//redirect('admin_Konten/deleteNews');
 			} else {
 				$this->load->model('news');
 				$this->news->deleteNewsModel($this->session->userdata('requestDeleteData'));
@@ -115,9 +115,10 @@
 
 			if ($this->uri->segment(3) != null) {
 				$this->session->set_userdata('requestShowData', $this->uri->segment(3));
-				redirect('admin_Konten/editNews');
+				//redirect('admin_Konten/editNews');
 			} else {
 				if ($this->input->post('input_news_status')) {
+					//unset session
 					$where = array (
 						'username'	 => $this->session->userdata['admin']['username']
 					);
@@ -127,11 +128,6 @@
 					}
 					//print_r ($where);
 
-					$input_news_title = ;
-					$input_news_content = ;
-					//echo $input_news_content;
-					//$input_news_image = $this->input->post('input_news_image');
-					$input_news_status = $this->input->post('input_news_status');
 					$where = array (
 						'judul' 	=> $this->input->post('input_news_title'),
 						'deskripsi' 	=> $this->input->post('inputtt'),
@@ -141,21 +137,23 @@
 					);
 					$this->news->updateNews($where, $this->session->userdata('requestShowData'));
 
-					$this->session->set_userdata('konten', $where);
+					//$this->session->set_userdata('konten', $where);
 					unset ($_POST);
 					//print_r ($where);
-    					//redirect('admin_Konten/addNews');
+    					redirect('admin_Konten/getNews');
 				} else {
 					unset ($_POST);
 					$i = 1;
-					$countResult = $this->addNews->getNewsByID($this->session->userdata('requestShowData'));
-					foreach ($id->result() as $row) {
-						$this->session->userdata('judul')          	= $row->judul;
-						$this->session->userdata('deskripsi')     	= $row->deskripsi;
-						//$this->session->userdata('gambar')        	= $row->gambar;
-						$this->session->userdata('status_konten') 	= $row->status_konten;
+					$countResult = $this->news->getNewsByID($this->session->userdata('requestShowData'));
+					foreach ($countResult->result() as $row) {
+						$this->session->set_userdata('judul', $row->judul);
+						$this->session->set_userdata('deskripsi', $row->deskripsi);
+						//$this->session->set_userdata('gambar', $row->gambar);
+						$this->session->set_userdata('status_konten', $row->status_konten);
 					}
-					$this->load->view('addNews');
+					echo $this->session->userdata('requestShowData');
+					echo "testa";
+					//$this->load->view('addNews');
 				} 
 			}
 		}

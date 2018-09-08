@@ -25,7 +25,7 @@
 		}
 		public function updateNews($where, $idKonten) {
 			$this->load->database();
-			$this->db->update('konten', $where, array('id' => $id_admin));
+			$this->db->update('konten', $where, array('id_konten' => $idKonten));
 		}
 		public function etc() {
 			echo "

@@ -62,16 +62,20 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="<?php echo site_url('admin_Konten/addNews'); ?>">
-                  <i class="material-icons">note_add</i>
-                  <span>Add New News</span>
+		<?php if ($this->session->userdata('requestShowData')) { ?>
+                	<a class="nav-link " href="<?php echo site_url('admin_Konten/addNews'); ?>">
+		<?php } else { ?>
+                	<a class="nav-link active" href="<?php echo site_url('admin_Konten/addNews'); ?>">
+		<?php } ?>
+                  	<i class="material-icons">note_add</i>
+                  	<span>Add New News</span>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="form-components.html">
-                  <i class="material-icons">edit</i>
-                  <span>Edit News</span>
-                </a>
+		<?php if ($this->session->userdata('requestShowData')) { ?>
+                	<a class="nav-link active" href="<?php echo site_url('admin_Konten/addNews'); ?>">
+                  		<i class="material-icons">edit</i>
+                  		<span>Edit News</span>
+                	</a>
+		<?php } ?>
               </li>
               <li class="nav-item">
                 <a class="nav-link " href="<?php echo site_url('admin_Konten/getNews'); ?>">
@@ -177,7 +181,7 @@
                 			<div class="card card-small mb-3">
                   				<div class="card-body">
                     					<form action="<?php echo site_url('admin_Konten/addNews'); ?>" class="add-new-post" enctype="multipart/form-data" id="form_addNews" method="post">
-                      						<input class="form-control form-control-lg mb-3" name="input_news_title" type="text" placeholder="Your Post Title">
+                      						<input class="form-control form-control-lg mb-3" name="input_news_title" type="text" placeholder="<?php if ($this->session->userdata('requestShowData')) echo $this->session->userdata('judul'); else echo 'Your Post Title'; ?>">
                       						<div class="add-new-post__editor mb-1" onkeyup="myFunction()" id="editor-container" name="input_news_content"></div>
                       						<input type="hidden" id="input_hidden" name="inputtt">
 								<script>
@@ -264,6 +268,16 @@
     <script src="/assets/js/shards-dashboards.1.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
     <script src="/assets/js/app/app-blog-new-post.1.0.0.js"></script>
+    <script>
+	window.onbeforeunload = function(){ 
+		return 'Apakah anda yakin ingin keluar dari halaman ini? Semua perubahan yang telah dilakukan pada Field Input akan hilang';
+	};
+	window.onunload = function() {
+    		alert('Bye.');
+		$array_items = array($this->session->userdata('judul'), $this->session->userdata('deskripsi'), $this->session->userdata('status_konten'), $this->session->userdata('requestShowData'));
+		$this->session->unset_userdata($array_items);
+	}
+    </script>
   </body>
 
 </html>

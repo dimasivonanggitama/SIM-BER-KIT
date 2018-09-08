@@ -57,12 +57,6 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link " href="form-components.html">
-                  <i class="material-icons">edit</i>
-                  <span>Edit News</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="form-components.html">
                   <i class="material-icons">view_module</i>
                   <span>Forms &amp; Components</span>
                 </a>
@@ -253,7 +247,7 @@
 							<form type="post" id="form<?php echo $id ?>" action="<?php echo site_url('admin_Konten/deleteNews/'.$id); ?>">
 								<td>
 									<?php if ($this->session->userdata['admin']['status'] == "konten") { ?>
-										<a href="<?php echo site_url('admin_Konten/editNews'); ?>">Edit</a>
+										<a href="<?php echo site_url('admin'); ?>">Edit</a>
 										<a> </a>
 									<?php } ?>
 									<a href="#" onclick="reassuringDeleteForDraftNews('<?php echo $id ?>')">Hapus</a>
