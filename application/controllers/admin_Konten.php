@@ -127,8 +127,8 @@
 					}
 					//print_r ($where);
 
-					$input_news_title = ;
-					$input_news_content = ;
+					$input_news_title ;
+					$input_news_content ;
 					//echo $input_news_content;
 					//$input_news_image = $this->input->post('input_news_image');
 					$input_news_status = $this->input->post('input_news_status');
