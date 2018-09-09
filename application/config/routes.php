@@ -51,11 +51,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'user';
 
-$route['admin'] = 'user/login';
+$route['admin'] 		= 'user/login';
 //$route['admin_Sistem/addNews'] = '/user/login';
 //$route['logout'] = 'admin_Sistem/logout';
 $route['admin/addNews'] 	= 'admin_Konten/addNews';
 $route['admin/editNews'] 	= 'admin_Konten/editNews';
+$route['admin/ourClient'] 		= 'admin_Konten/addClient';
+$route['admin/getNews'] 	= 'admin_Konten/getNews';
 $route['admin/manageAccount'] 	= 'admin_Sistem/addAccount';
 
 //$route['default_controller'] = '';

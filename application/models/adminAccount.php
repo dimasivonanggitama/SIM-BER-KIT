@@ -20,7 +20,6 @@
 		public function getAdminID($username) {
 			$this->load->database();
 			$this->db->select('id');
-			echo $username;
 			return $this->db->get_where('admin', array('username' => $username));
 		}
 		public function postAvatar($data_photo, $id_admin) {

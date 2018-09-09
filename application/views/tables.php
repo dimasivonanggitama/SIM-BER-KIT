@@ -1,17 +1,22 @@
 ﻿<!doctype html>
 <html class="no-js h-100" lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Antara Digital</title>
-    <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="/assets/css/shards-dashboards.1.0.0.min.css">
-    <link rel="stylesheet" href="../assets/css/extras.1.0.0.min.css">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+	<?php if ($this->session->userdata('afterUpdateCondition')) {
+		$message = "Update Post News dengan ID=". $this->session->userdata('afterUpdateCondition')['id_konten'] ." berhasil disimpan sebagai ". $this->session->userdata('afterUpdateCondition')['status_konten'] ." !";
+		echo "<script>alert('$message'); </script>";
+		$this->session->unset_userdata('afterUpdateCondition'); ?>
+	<?php } ?>
+    	<meta charset="utf-8">
+    	<meta http-equiv="x-ua-compatible" content="ie=edge">
+    	<title>Antara Digital</title>
+    	<meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    	<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="/assets/css/shards-dashboards.1.0.0.min.css">
+    	<link rel="stylesheet" href="../assets/css/extras.1.0.0.min.css">
+    	<script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
   <body class="h-100">
 
@@ -56,23 +61,19 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="form-components.html">
-                  <i class="material-icons">view_module</i>
-                  <span>Forms &amp; Components</span>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link active" href="<?php echo site_url('admin_Konten/getNews'); ?>">
                   <i class="material-icons">table_chart</i>
                   <span>List News</span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link " href="user-profile-lite.html">
-                  <i class="material-icons">person</i>
-                  <span>User Profile</span>
-                </a>
-              </li>
+		<?php if ($this->session->userdata['admin']['status'] == "konten") { ?>
+              		<li class="nav-item">
+                		<a class="nav-link " href="<?php echo site_url('admin_Konten/addClient'); ?>">
+                  			<i class="material-icons">group</i>
+                  			<span>Our Client</span>
+                		</a>
+              		</li>
+		<?php } ?>
 
             </ul>
           </div>
@@ -195,7 +196,7 @@
 							<form type="post" id="form<?php echo $id ?>" action="<?php echo site_url('admin_Konten/deleteNews/'.$id); ?>">
 								<td>
 									<?php if ($this->session->userdata['admin']['status'] == "konten") { ?>
-										<a href="<?php echo site_url('admin_Konten/editNews'); ?>">Edit</a>
+										<a href="<?php echo site_url('admin_Konten/editNews/'.$id); ?>">Edit</a>
 										<a> </a>
 									<?php } ?>
 									<a href="#" onclick="reassuringDeleteForPostNews('<?php echo $id ?>')">Hapus</a>
@@ -247,7 +248,7 @@
 							<form type="post" id="form<?php echo $id ?>" action="<?php echo site_url('admin_Konten/deleteNews/'.$id); ?>">
 								<td>
 									<?php if ($this->session->userdata['admin']['status'] == "konten") { ?>
-										<a href="<?php echo site_url('admin'); ?>">Edit</a>
+										<a href="<?php echo site_url('admin_Konten/editNews/'.$id); ?>">Edit</a>
 										<a> </a>
 									<?php } ?>
 									<a href="#" onclick="reassuringDeleteForDraftNews('<?php echo $id ?>')">Hapus</a>

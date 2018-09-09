@@ -27,16 +27,6 @@
 			$this->load->database();
 			$this->db->update('konten', $where, array('id_konten' => $idKonten));
 		}
-		public function etc() {
-			echo "
-tegas 1
-bawa suasana 2
-jangan bikin malu
-jangan lemot 3
-jaga perasaan
-jagngab ada nyakitin termasuk ortu 4	
-lulus tepat waktu 5";
-		}
 	}
 
 

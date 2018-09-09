@@ -56,18 +56,6 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="form-components.html">
-                  <i class="material-icons">edit</i>
-                  <span>Edit News</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="form-components.html">
-                  <i class="material-icons">view_module</i>
-                  <span>Forms &amp; Components</span>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="<?php echo site_url('admin_Konten/getNews'); ?>">
                   <i class="material-icons">table_chart</i>
                   <span>List News</span>

@@ -2,13 +2,12 @@
 <html class="no-js h-100" lang="en">
   	<head>
 		<?php 
-			//$this->load->library('session');
 			if ($this->session->userdata('konten')) {
 				if ($this->session->userdata['konten']['status_Konten']) { 
 					$message = "Post News berhasil disimpan sebagai ". $this->session->userdata['konten']['status_Konten'] ." !";
 					echo "<script>alert('$message'); </script>";
 					$this->session->unset_userdata('konten');
-				}
+				} 
 			}
 		?>
 		<meta charset="utf-8">
@@ -63,30 +62,32 @@
               </li>
               <li class="nav-item">
 		<?php if ($this->session->userdata('requestShowData')) { ?>
-                	<a class="nav-link " href="<?php echo site_url('admin_Konten/addNews'); ?>">
+                	<a class="nav-link " href="<?php echo site_url('admin/addNews'); ?>">
 		<?php } else { ?>
-                	<a class="nav-link active" href="<?php echo site_url('admin_Konten/addNews'); ?>">
+                	<a class="nav-link active" href="<?php echo site_url('admin/addNews'); ?>">
 		<?php } ?>
                   	<i class="material-icons">note_add</i>
                   	<span>Add New News</span>
                 </a>
+              </li>
+              <li class="nav-item">
 		<?php if ($this->session->userdata('requestShowData')) { ?>
-                	<a class="nav-link active" href="<?php echo site_url('admin_Konten/addNews'); ?>">
+                	<a class="nav-link active" href="#">
                   		<i class="material-icons">edit</i>
                   		<span>Edit News</span>
                 	</a>
 		<?php } ?>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="<?php echo site_url('admin_Konten/getNews'); ?>">
+                <a class="nav-link " href="<?php echo site_url('admin/getNews'); ?>">
                   <i class="material-icons">table_chart</i>
                   <span>List News</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="user-profile-lite.html">
-                  <i class="material-icons">person</i>
-                  <span>User Profile</span>
+                <a class="nav-link " href="<?php echo site_url('admin/ourClient'); ?>">
+                  <i class="material-icons">group</i>
+                  <span>Our Client</span>
                 </a>
               </li>
             </ul>
@@ -170,8 +171,13 @@
             <!-- Page Header -->
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <span class="text-uppercase page-subtitle">News Posts</span>
-                <h3 class="page-title">Add New News</h3>
+		<?php if ($this->session->userdata('requestShowData')) { ?>
+                	<span class="text-uppercase page-subtitle">Update News Posts</span>
+                	<h3 class="page-title">Edit News</h3>
+		<?php } else { ?>
+                	<span class="text-uppercase page-subtitle">News Posts</span>
+                	<h3 class="page-title">Add New News</h3>
+		<?php } ?>
               </div>
             </div>
             <!-- End Page Header -->
@@ -180,15 +186,11 @@
                 		<!-- Add New Post Form -->
                 			<div class="card card-small mb-3">
                   				<div class="card-body">
-                    					<form action="<?php echo site_url('admin_Konten/addNews'); ?>" class="add-new-post" enctype="multipart/form-data" id="form_addNews" method="post">
-                      						<input class="form-control form-control-lg mb-3" name="input_news_title" type="text" placeholder="<?php if ($this->session->userdata('requestShowData')) echo $this->session->userdata('judul'); else echo 'Your Post Title'; ?>">
-                      						<div class="add-new-post__editor mb-1" onkeyup="myFunction()" id="editor-container" name="input_news_content"></div>
+                    					<form action="<?php if ($this->session->userdata('requestShowData')) echo site_url('admin_Konten/editNews'); else echo site_url('admin_Konten/addNews'); ?>" class="add-new-post" enctype="multipart/form-data" id="form_addNews" method="post">
+                      						<input class="form-control form-control-lg mb-3" name="input_news_title" type="text" placeholder="Your Post Title" value="<?php if ($this->session->userdata('requestShowData')) echo $this->session->userdata('judul'); ?>">
+                      						<div class="add-new-post__editor mb-1" onkeyup="passingDataFromInputTypeDivIntoInputTypeText()" id="editor-container" name="input_news_content"></div>
                       						<input type="hidden" id="input_hidden" name="inputtt">
-								<script>
-									function myFunction() {
-										document.getElementById("input_hidden").value = document.getElementById("editor-container").innerHTML;
-									}
-								</script>
+								<?php if ($this->session->userdata('requestShowData')) echo '<script type="text/javascript">document.getElementById("editor-container").innerHTML = "'.$this->session->userdata('deskripsi'). '";</script>'; ?>
 		                				<input class="form-control" type="file">
                    					</form>
                   				</div>
@@ -207,31 +209,23 @@
                       <li class="list-group-item p-3">
                         <span class="d-flex mb-2">
                           <i class="material-icons mr-1">flag</i>
-                          <strong class="mr-1">Status:</strong> Draft
-                          <a class="ml-auto" href="#">Edit</a>
+                          <strong class="mr-1">Status:</strong> 
+				<?php if ($this->session->userdata('status_konten')) echo $this->session->userdata('status_konten');
+				else echo "???"; ?>
                         </span>
                         <span class="d-flex mb-2">
                           <i class="material-icons mr-1">visibility</i>
                           <strong class="mr-1">Visibility:</strong>
                           <strong class="text-success">Public</strong>
-                          <a class="ml-auto" href="#">Edit</a>
-                        </span>
-                        <span class="d-flex mb-2">
-                          <i class="material-icons mr-1">calendar_today</i>
-                          <strong class="mr-1">Schedule:</strong> Now
-                          <a class="ml-auto" href="#">Edit</a>
-                        </span>
-                        <span class="d-flex">
-                          <i class="material-icons mr-1">score</i>
-                          <strong class="mr-1">Readability:</strong>
-                          <strong class="text-warning">Ok</strong>
                         </span>
                       </li>
                       <li class="list-group-item d-flex px-3">
-                        <button class="btn btn-sm btn-outline-accent" form="form_addNews" name="input_news_status" type="submit" value="draft">
-				<i class="material-icons">save</i>
-			 	Save Draft
-			</button>
+			<?php if ($this->session->userdata('status_konten') != 'post' || $this->session->userdata('status_konten') == null) { ?>
+                        	<button class="btn btn-sm btn-outline-accent" form="form_addNews" name="input_news_status" type="submit" value="draft">
+					<i class="material-icons">save</i>
+				 	Save Draft
+				</button>
+			<?php } ?>
                         <button class="btn btn-sm btn-accent ml-auto" form="form_addNews" name="input_news_status" type="submit" value="post">
 				<i class="material-icons">file_copy</i> 
 				Publish
@@ -258,26 +252,28 @@
     </div>
     
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
-    <script src="/assets/js/extras.1.0.0.min.js"></script>
-    <script src="/assets/js/shards-dashboards.1.0.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
-    <script src="/assets/js/app/app-blog-new-post.1.0.0.js"></script>
-    <script>
-	window.onbeforeunload = function(){ 
-		return 'Apakah anda yakin ingin keluar dari halaman ini? Semua perubahan yang telah dilakukan pada Field Input akan hilang';
-	};
-	window.onunload = function() {
-    		alert('Bye.');
-		$array_items = array($this->session->userdata('judul'), $this->session->userdata('deskripsi'), $this->session->userdata('status_konten'), $this->session->userdata('requestShowData'));
-		$this->session->unset_userdata($array_items);
-	}
-    </script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    	<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
+    	<script src="/assets/js/extras.1.0.0.min.js"></script>
+    	<script src="/assets/js/shards-dashboards.1.0.0.min.js"></script>
+   	<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
+    	<script src="/assets/js/app/app-blog-new-post.1.0.0.js"></script>
+	<script>
+		function passingDataFromInputTypeDivIntoInputTypeText() {
+			document.getElementById("input_hidden").value = document.getElementById("editor-container").innerHTML;
+		}
+		window.onbeforeunload = function() {
+			<?php $this->session->set_userdata('passing_requestShowData', $this->session->userdata('requestShowData'));
+				$array_items = array('requestShowData', 'judul', 'deskripsi', 'status_konten');
+				$this->session->unset_userdata($array_items);
+			?>
+    			return "Are you sure to leave this page?";
+		}
+	</script>
   </body>
 
 </html>

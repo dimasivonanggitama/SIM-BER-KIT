@@ -77,7 +77,7 @@
 				$this->session->set_userdata('konten', $where);
 				unset ($_POST);
 				print_r ($where);
-    				//redirect('admin_Konten/addNews');
+    				redirect('admin/addNews');
 			} else {
 				unset ($_POST);
     				$this->load->view('addNews');
@@ -100,7 +100,7 @@
 			$this->load->library('session');
 			if ($this->uri->segment(3) != null) {
 				$this->session->set_userdata('requestDeleteData', $this->uri->segment(3));
-				//redirect('admin_Konten/deleteNews');
+				redirect('admin_Konten/deleteNews');
 			} else {
 				$this->load->model('news');
 				$this->news->deleteNewsModel($this->session->userdata('requestDeleteData'));
@@ -111,50 +111,68 @@
 		function editNews() {
 			//echo "this is an edit news function";
 			$this->load->library('session');
+			$this->load->model('adminAccount');
 			$this->load->model('news');
 
 			if ($this->uri->segment(3) != null) {
 				$this->session->set_userdata('requestShowData', $this->uri->segment(3));
-				//redirect('admin_Konten/editNews');
+				redirect('admin/editNews');
 			} else {
 				if ($this->input->post('input_news_status')) {
-					//unset session
+					//get the ID's admin for the history of author who updating it.
 					$where = array (
 						'username'	 => $this->session->userdata['admin']['username']
 					);
-					$AdminID = $this->news->getAdminID($where);
+					$AdminID = $this->adminAccount->getAdminID($where['username']);
 					foreach ($AdminID->result() as $row) {
 						$id = $row->id;
 					}
-					//print_r ($where);
-
-
+					
+					//substring the description data only real paragraph, because there is so much <tag> in it (inputing with DIV type).
+					function get_string_between($string, $start, $end) {
+						$string = " ".$string;
+						$ini = strpos($string,$start);
+						if ($ini == 0) return $string;
+						$ini += strlen($start); 
+						$len = strpos($string,$end,$ini) - $ini;
+						return substr($string,$ini,$len);
+					}
+					$parsed = get_string_between($this->input->post('inputtt'), "<p>", "</p>");
+					
+					//update the data into database.
 					$where = array (
 						'judul' 	=> $this->input->post('input_news_title'),
-						'deskripsi' 	=> $this->input->post('inputtt'),
+						'deskripsi' 	=> $parsed,
 						//'gambar' 	=> $this->input->post('input_news_image'),
 						'status_Konten' => $this->input->post('input_news_status'),
 						'id_admin' 	=> $id
-					);
-					$this->news->updateNews($where, $this->session->userdata('requestShowData'));
+					);print_r($where);
+					$this->news->updateNews($where, $this->session->userdata('passing_requestShowData'));
 
-					//$this->session->set_userdata('konten', $where);
+					$where3 = array (
+						'status_konten' => $this->input->post('input_news_status'),
+						'id_konten' 	=> $this->session->userdata('passing_requestShowData')
+					);
+					$this->session->set_userdata('afterUpdateCondition', $where3);
+					
+					$this->session->unset_userdata('passing_requestShowData');
 					unset ($_POST);
 					//print_r ($where);
-    					redirect('admin_Konten/getNews');
+    					redirect('admin/getNews');
 				} else {
-					unset ($_POST);
-					$i = 1;
-					$countResult = $this->news->getNewsByID($this->session->userdata('requestShowData'));
-					foreach ($countResult->result() as $row) {
-						$this->session->set_userdata('judul', $row->judul);
-						$this->session->set_userdata('deskripsi', $row->deskripsi);
-						//$this->session->set_userdata('gambar', $row->gambar);
-						$this->session->set_userdata('status_konten', $row->status_konten);
+					if ($this->session->userdata('requestShowData') == null) redirect('admin/getNews');
+					else {
+						unset ($_POST);
+						$i = 1;
+						$countResult = $this->news->getNewsByID($this->session->userdata('requestShowData'));
+						foreach ($countResult->result() as $row) {
+							$this->session->set_userdata('judul', $row->judul);
+							$this->session->set_userdata('deskripsi', $row->deskripsi);
+							//$this->session->set_userdata('gambar', $row->gambar);
+							$this->session->set_userdata('status_konten', $row->status_konten);
+						}
+						$this->load->view('addNews');
 					}
-					echo $this->session->userdata('requestShowData');
-					echo "testa";
-					//$this->load->view('addNews');
 				} 
 			}
 		}
