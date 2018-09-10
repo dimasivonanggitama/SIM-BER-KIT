@@ -1,5 +1,10 @@
 <?php
 	class adminAccount extends CI_Model {
+		public function deleteAccountModel($id) {
+			$this->load->database();
+			$this->db->where('id', $id);
+			$this->db->delete('admin');
+		}
 		public function deleteStatus_log($id_admin) {
 			$this->load->database();
 			$this->db->update('admin', array('status_log' => null), array('id' => $id_admin));
@@ -21,6 +26,15 @@
 			$this->load->database();
 			$this->db->select('id');
 			return $this->db->get_where('admin', array('username' => $username));
+		}
+		public function postAccount($data_name) {
+			$this->load->database();
+			$data = array (
+				'username' => $data_name,
+				'password' => 'admin',
+				'status' => 'konten'
+			);
+			$this->db->insert('admin', $data);
 		}
 		public function postAvatar($data_photo, $id_admin) {
 			$this->load->database();

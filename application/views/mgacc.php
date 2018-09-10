@@ -192,27 +192,27 @@
 								?>
 							</td> 
 						<?php } ?>
-						<form method="post" id="form<?php echo $id; ?>" >
+						<form method="post" id="form<?php echo $id; ?>">
 							<td>
 								<i class="material-icons">power_settings_new</i>
-								<input id="logout_button_<?php echo $id; ?>" type="submit" value="Logout" onclick="reassuringLogout('<?php echo $id ?>')" style="background-color: red; border: none; border-radius: 5px; color: white">
-								<h6></h6>
-								<i class="material-icons">delete_forever</i>
-								<input id="delete_button_<?php echo $id; ?>" type="submit" value="Delete" onclick="reassuringDelete('<?php echo $id ?>', '<?php echo $this->session->userdata('allAdminData')['username'][$i] ?>')" style="background-color: black; border: none; border-radius: 5px; color: white;">
+								<input id="logout_button_<?php echo $id; ?>" type="submit" value="Logout" onclick="reassuringLogout('<?php echo $id ?>', '<?php echo $this->session->userdata('allAdminData')['username'][$i] ?>')" style="background-color: red; border: none; border-radius: 5px; color: white">
+								<?php if ($this->session->userdata('allAdminData')['username'][$i] != 'admin') { ?>
+									<h6></h6>
+									<i class="material-icons">delete_forever</i>
+									<input id="delete_button_<?php echo $id; ?>" type="submit" value="Delete" onclick="reassuringDelete('<?php echo $id ?>', '<?php echo $this->session->userdata('allAdminData')['username'][$i] ?>')" style="background-color: black; border: none; border-radius: 5px; color: white;">
+								<?php } ?>
 							</td>
 						</form>
 					</tr>
 				<?php }
 			} ?>
 				<tr>
-					<td>Tambah Akun</td>
-					<form action="<?php echo site_url('admin_Konten/addClient'); ?>" id="form_addClient" method="post">
+					<td>Tambah Akun Konten:</td>
+					<form action="<?php echo site_url('admin/manageAccount'); ?>" id="form_addAccount" method="post">
                           			<td><input name="input_username" type="text" placeholder="Username"></td>
-						<td>Logo klien: <input type="file" name="logoKlien" ></td>
 						<td></td>
 						<td></td>
-						<td></td>
-						<td><a href="#" onclick="addClient()"><i class="material-icons">add</i>Tambahkan</a></td>
+						<td><a href="#" onclick="addAccount()"><i class="material-icons">add</i>Tambahkan</a></td>
 					</form>
 				</tr>
                       </tbody>
@@ -250,18 +250,18 @@
 		function reassuringLogout(id, nama) {
     			document.getElementById("row"+id).style.color = "white";
     			document.getElementById("row"+id).style.backgroundColor = "red";
-          document.getElementById("logout_button_"+id).style.color = "black";
-          document.getElementById("logout_button_"+id).style.backgroundColor = "white";
+          		document.getElementById("logout_button_"+id).style.color = "black";
+          		document.getElementById("logout_button_"+id).style.backgroundColor = "white";
 			setTimeout(popUp, 10);
 			function popUp() {
 				if (confirm("Apakah anda yakin ingin melakukan Logout pada akun yang bernama "+nama+" (ID="+id+")?")) {
-       					window.location = "<?php echo site_url('admin_Sistem/'); ?>";
+               				window.location = "<?php echo site_url('admin_Sistem/logoutAccount/'); ?>"+id;
 					return true;
 				} else {
     					document.getElementById("row"+id).style.color = "black";
     					document.getElementById("row"+id).style.backgroundColor = "white";
-              document.getElementById("logout_button_"+id).style.color = "black";
-              document.getElementById("logout_button_"+id).style.backgroundColor = "white";
+              				document.getElementById("logout_button_"+id).style.color = "black";
+              				document.getElementById("logout_button_"+id).style.backgroundColor = "white";
 					return false;
 				}
 			}
@@ -275,9 +275,9 @@
 
       function popUp() {
         if (confirm("Apakah anda yakin ingin menghapus akun yang bernama "+nama+" (ID="+id+")?")) {
-          alert(nama+" (ID="+id+") telah berhasil dihapus!");
-                //window.location = "<?php echo site_url('admin'); ?>";
-          return true;
+          	alert(nama+" (ID="+id+") telah berhasil dihapus!");
+               	window.location = "<?php echo site_url('admin_Sistem/deleteAccount/'); ?>"+id;
+          	return true;
         } else {
               document.getElementById("row"+id).style.color = "black";
               document.getElementById("row"+id).style.backgroundColor = "white";
@@ -287,8 +287,8 @@
         }
       }
     }
-		function addClient() {
-			document.getElementById('form_addClient').submit();
+		function addAccount() {
+			document.getElementById('form_addAccount').submit();
 		}
 	</script>
   </body>

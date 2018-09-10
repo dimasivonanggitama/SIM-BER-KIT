@@ -9,12 +9,12 @@
 		}
 
 		function addAccount() {
-			if ($this->input->post('namaKlien')) {
-				$namaKlien = $this->input->post('namaKlien');
-				$logoKlien = $this->input->post('logoKlien');
-				$this->ourClient->postClient($namaKlien, $logoKlien);
+			if ($this->input->post('input_username')) {
+				$namaAccount = $this->input->post('input_username');
+				$this->adminAccount->postAccount($namaAccount);
 				unset ($_POST);
 			}
+
 			//Get column name of client
 			$columnName = $this->adminAccount->getAdminColumnNameExceptPasswordAndStatus();
 			$i = 1;
@@ -47,9 +47,28 @@
     			$this->load->view('mgacc');
 		}
 
-		function logout(){
-			$this->load->library('session');
-			$this->session->sess_destroy();
-    			redirect('/admin');
+		function deleteAccount() {
+			if ($this->uri->segment(3) != null) {
+				$this->session->set_userdata('requestDeleteData', $this->uri->segment(3));
+				redirect('admin_Sistem/deleteAccount');
+			} else {
+				$this->adminAccount->deleteAccountModel($this->session->userdata('requestDeleteData'));
+				$this->session->unset_userdata('requestDeleteData');
+				redirect('admin/manageAccount');
+			}
+		}
+
+		function logoutAccount(){
+			if ($this->uri->segment(3) != null) {
+				$this->session->set_userdata('requestLogoutData', $this->uri->segment(3));
+				redirect('admin_Sistem/logoutAccount');
+			} else {
+				$this->load->model('ourClient');
+				$this->adminAccount->deleteStatus_log($this->session->userdata('requestLogoutData'));
+				if ($this->session->userdata('requestLogoutData') == '2') {
+					$this->session->unset_userdata('requestLogoutData');
+					redirect('admin_Konten/logout');
+				} else redirect('admin/manageAccount');
+			}
 		}
 	}
