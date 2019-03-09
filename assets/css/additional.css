@@ -1,0 +1,26 @@
+.crop {
+	position: relative;
+    height: 50%;
+    overflow: hidden;
+}
+
+.balitjestro {
+  height: 50%;
+  width: 50%;
+}
+
+.crop img {
+	opacity: 0.8;
+    margin: -110px 0 0 0; /*top-right-bottom-left*/
+}
+
+.center {
+  position: absolute;
+  left: 0;
+  top: 35%;
+  width: 100%;
+  text-align: center;
+  background-color: black;
+  color: white;
+  opacity: 0.75;
+}

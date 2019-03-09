@@ -2,45 +2,20 @@
 	class user extends CI_Controller {
 		public function __construct() {
 			parent::__construct();
-			$this->load->model('adminAccount');
-			$this->load->model('login');
-			$this->load->model('news');
+			//$this->load->model('adminAccount');
+			//$this->load->model('login');
+			//$this->load->model('news');
 		}
 
   		public function index() {
-			$this->load->library('session');
-			//echo "work!\n";
-			$this->load->model('news');
-			$count_result = $this->news->getNews()->num_rows();
-			//echo $count_result;
-			if ($count_result > 0) {
-				function get_string_between($string, $start, $end) {
-					$string = " ".$string;
-					$ini = strpos($string,$start);
-					if ($ini == 0) return $string;
-					$ini += strlen($start); 
-					$len = strpos($string,$end,$ini) - $ini;
-					return substr($string,$ini,$len);
-				}
-				$getPostedNews = $this->news->getNews();
-				$i = 1;
-				foreach ($getPostedNews->result() as $row) {
-					$where['judul'][$i] = $row->judul; //huruf kapital sangat berpengaruh pada nama tabel.
-					$fullstring = $row->deskripsi; 
-			
-					$parsed = get_string_between($fullstring, "<p>", "</p>");
-					$where['deskripsi'][$i] = $parsed;
-
-					$i++;
-				}
-				//print_r ($where);
-				$this->session->set_userdata('news', $where);
-				$this->session->set_userdata('total_news', $count_result);
-				//var_dump ($this->session->userdata('total_news'));
-			}
+			//menampilkan index
     			$this->load->view('index');
   		}
-
+		
+		public function tambah() {
+    			$this->load->view('tambah');
+		}
+		
 		public function login() {
 			$this->load->library('session');
 			if ($this->input->post('username')) {
