@@ -3,18 +3,18 @@
 		public function __construct() {
 			parent::__construct();
 			//$this->load->model('adminAccount');
-			//$this->load->model('login');
+			$this->load->model('login');
 			//$this->load->model('news');
 		}
 
   		public function index() {
-			//menampilkan index
+			//menampilkan landing page
     			$this->load->view('index');
   		}
 		
-		public function tambah() {
-    			$this->load->view('tambah');
-		}
+		// public function tambah() {
+    			// $this->load->view('tambah');
+		// }
 		
 		public function login() {
 			$this->load->library('session');
@@ -46,25 +46,26 @@
 					$this->session->set_userdata('admin', 'gagal');
 				}
 				unset ($_POST);
-				//redirect('/admin'); 
 			}
 
 			if ($this->session->userdata('admin')) {
 				if ($this->session->userdata('admin') == 'gagal' || $this->session->userdata('admin') == 'logged') {			//efek jika login gagal tidak sesuai dengan database
 					$this->load->view('login');
 				} else {								//efek jika login berhasil sesuai dengan database
-    					$this->load->view('cms');
+					//$this->load->view('cms');
+					echo "this is admin views";
 				}
 			} else { 									//Jika belum pernah masuk ke halaman login dan ingin login
-				$this->load->view('login');
+				//$this->load->view('login');
+				echo "failed!";
 			}
 		}
 
-		function ourServices() {
-			$this->load->library('session');
-			if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
-				$this->load->view($this->uri->segment(3));
-			} else redirect('/');
-		}
+		// function ourServices() {
+			// $this->load->library('session');
+			// if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
+				// $this->load->view($this->uri->segment(3));
+			// } else redirect('/');
+		// }
 
 	}

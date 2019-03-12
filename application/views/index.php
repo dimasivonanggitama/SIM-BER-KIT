@@ -35,26 +35,27 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
+									<img src="assets/images/icons/alert.svg"></img>
 									<h5 class="modal-title" id="form_login_label">LOGIN</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<form>
+								<form action="<?php echo site_url('/admin'); ?>" method="post">
 									<div class="modal-body">
 										<h6 class="modal-title" id="form_login_label">ANDA HARUS LOGIN TERLEBIH DAHULU</h6>
 										
 										<div class="form-group">
 											<label for="input_username">Username</label>
-											<input class="form-control" id="input_username" placeholder="Masukkan username anda" type="text">
+											<input class="form-control" name="input_username" placeholder="Masukkan username anda" type="text">
 										</div>
 										<div class="form-group">
 											<label for="input_password">Password</label>
-											<input class="form-control" id="input_password" placeholder="Password" type="password" >
+											<input class="form-control" name="input_password" placeholder="Password" type="password" >
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-primary">Login</button>
+										<button type="submit" class="btn btn-primary">Login</button>
 									</div>
 								</form>
 							</div>
