@@ -1,0 +1,45 @@
+agenda = lang_agenda
+tanggal diterima = 	
+lang_tanggalterima_surat
+Nomor Naskah Dinas = lang_naskahdinas_surat
+Tanggal Naskah Dinas = lang_tgldinas_surat
+Lampiran = lang_lampiran_surat
+Sifat = lang_sifat_surat
+Jenis = lang_jenis_surat
+Dari = lang_dari_surat
+Perihal =lang_hal_surat
+Disposisi = lang_disposisi
+Ketentuan = lang_ketentuan
+Catatan Kepala Kantor = lang_catatankepala
+
+SELECT * FROM ap_surat_masuk ORDER BY id_agenda DESC LIMIT 1;
+
+ $this->data['surat_sifat'] = $this->ap_surat_sifat_m->get();
+
+  $this->data['sifat'] = $this->ap_surat_sifat_m->get();
+    $this->data['jenis'] = $this->ap_surat_jenis_m->get();
+    $this->data['subview'] = $this->uri->rsegment(1) . '/index';
+    $this->data['jscript'] = $this->uri->rsegment(1) . '/js';
+    $this->load->view('_layout_main', $this->data);
+
+
+
+
+'id_agenda' => $this->ap_surat_masuk_m->increment(),
+                   'nomor_naskah' => $this->input->post('nomor_naskah'),
+                   'tgl_naskah' => $this->input->post('tgl_naskah'),
+                   'lampiran_naskah' => $this->input->post('lampiran_naskah'),
+                   'id_sifat_kategori' => $this->input->post('sifat_kategori'),
+                   'id_jenis_kategori' => $this->input->post('jenis_kategori'),
+                   'dari_naskah' => $this->input->post('dari_naskah'),
+                   'perihal_naskah' => $this->input->post('perihal_naskah'),
+                   'file_surat' => $jeneng,
+                   'date_create_surat' => date('Y-m-d H:i:s')
+
+
+tgl update
+  <?php if($val->date_update_sop==NULL){?>
+            <td></td>
+            <?php }else{?>
+            <td><div align="center" ><?php echo date('d-m-Y H:i:s',strtotime($val->date_update_sop));?></div></td>
+            <?php }?>
