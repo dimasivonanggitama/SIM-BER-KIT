@@ -51,14 +51,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'user';
 
-$route['admin'] 		= 'user/login';
-//$route['admin_Sistem/addNews'] = '/user/login';
-//$route['logout'] = 'admin_Sistem/logout';
-$route['admin/addNews'] 	= 'admin_Konten/addNews';
+$route['admin'] 						= 'adminController/index';
+$route['dataKonsumen'] 					= 'adminController/dataKonsumen';
+$route['dataKonsumen/(:num)'] 			= 'adminController/dataKonsumen';
+$route['dataKonsumen_add'] 				= 'adminController/dataKonsumen_add';
+$route['dataKonsumen_delete'] 			= 'adminController/dataKonsumen_delete';
+$route['dataKonsumen_delete_all'] 		= 'adminController/dataKonsumen_delete_all';
+$route['dataKonsumen_filter'] 			= 'adminController/dataKonsumen_filter';
+$route['dataKonsumen_filter_reset'] 	= 'adminController/dataKonsumen_filter_reset';
+$route['dataKonsumen_sort'] 			= 'adminController/dataKonsumen_sort';
+$route['dataKonsumen_sort_reset'] 		= 'adminController/dataKonsumen_sort_reset';
+$route['dataKonsumen_update'] 			= 'adminController/dataKonsumen_update';
+$route['dataVarietasBenihSumberJeruk'] 	= 'adminController/getDataVarietasBenihSumberJeruk';
+$route['home'] 							= 'user/index';
+$route['login'] 						= 'user/login';
+$route['logout'] 						= 'adminController/logout';
+$route['permintaan'] 					= 'user/permintaan';
+$route['permintaan_add'] 				= 'user/permintaan_add';
+
 $route['admin/editNews'] 	= 'admin_Konten/editNews';
 $route['admin/ourClient'] 	= 'admin_Konten/addClient';
 $route['admin/getNews'] 	= 'admin_Konten/getNews';
 $route['admin/manageAccount'] 	= 'admin_Sistem/addAccount';
+//$route['admin_Sistem/addNews'] = '/user/login';
 
 //$route['default_controller'] = '';
 $route['404_override'] = '';

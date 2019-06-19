@@ -1,0 +1,209 @@
+/*
+@keyframes animateToHide {
+	from {
+		opacity: 0;
+	} to {
+		opacity: 0;
+	}
+}
+*/
+
+@media screen and (max-width: 769px) {				/* Bootstrap responsive min size is 768px */ /* max is maximal limit screen for mobile ("0 px" until "max-width px") */
+	.additional_sidebar-mobile {
+		display:block!important;
+	}
+	.additional-sidebar-close-button {
+		display: block;
+	}
+	.additional_sidebar-open-button {
+		display: block;
+	}
+	.sidebar {
+		animation: sidebarSlideToLeft 1s forwards;
+	}
+	@keyframes sidebarSlideToLeft {					/* sliding Slidebar to #LEFT */
+		from {
+			left:0;
+			opacity:1;
+		} to {
+			left:-300px;
+			opacity:0;
+		}
+	} 
+} 
+
+@media screen and (min-width: 768px) {				/* Bootstrap responsive min size is 768px */ /* min is minimum screen for desktop ("min-width px" until "infinity px") */
+	.additional-sidebar-close-button {
+		display: none;
+	}
+	.additional_sidebar-open-button {
+		display: none;
+	}
+	.sidebar {
+		animation: sidebarSlideToRight 1s;
+	}
+	@keyframes sidebarSlideToRight {				/* sliding Slidebar to #RIGHT */
+		from {
+			left:-300px;
+			opacity:0;
+		} to {
+			left:0;
+			opacity:1;
+		}
+	}
+}
+
+.additional_colorChanging-tambahKonsumen {
+	animation: colorChangingfromRed 3s;
+}
+	@keyframes colorChangingfromRed {				/* sliding Slidebar to #RIGHT */
+		from {
+			background: #FF0000;
+		} to {
+			background: #FFFFFF;
+		}
+	}
+
+.additional-dropdown-popover-menu-notification {
+	left: -550px;
+}
+
+.additional-dropdown-popover-menu-profile {
+	left: -45px;
+}
+
+.additional-mark-highlight-text {
+	background-color: green;
+	color: white;
+}
+
+.additional-selected-filter {
+	background-color: #FFAAAA;
+	color: black; 						/* text color */
+}
+
+.additional-selected-filter:hover {
+	background-color: #ECECEC;
+	color: black; 						/* text color */
+}
+
+.additional-selected-sort {
+	background-color: #CCDDFF;
+	color: black; 						/* text color */
+}
+
+.additional-selected-sort:hover {
+	background-color: #ECECEC;
+	color: black; 						/* text color */
+}
+
+.additional-selected-row:hover {
+	background-color: #ECECEC;
+	color: black; 						/* text color */
+}
+
+a.additional-navbar-profile-dropdown {
+	color: black;
+}
+
+a.additional-navbar-profile-dropdown:hover {
+	color: dodgerblue;
+}
+
+a.additional-navbar-notification-bell {
+	color: black;
+}
+
+a.additional-navbar-notification-bell:hover {
+	color: dodgerblue;
+}
+
+div.additional-table-delete-button {
+	width: 18px;
+	height: 23px;
+	background: url("/assets/images/icons/trash-black.png") no-repeat;
+}
+
+div.additional-table-delete-button:hover {
+	background: url("/assets/images/icons/trash-red.png") no-repeat;
+}
+
+div.additional-table-edit-button {
+	width: 23px;
+	height: 23px;
+	background: url("/assets/images/icons/pencil-black.png") no-repeat;
+}
+
+div.additional-table-edit-button:hover {
+	background: url("/assets/images/icons/pencil-red.png") no-repeat;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+.navbar {
+	
+}
+
+.sidebar {
+	background-color: white;
+	box-shadow: 10px 0px 20px #CCCCC9;
+	height: 100%;
+	left: 0;
+	overflow-x: hidden;
+	padding-top: 20px;
+	position: fixed;
+	top: 0;
+	width: 230px;
+	z-index: 1;
+}
+
+.additional_sidebar-mobile {
+	background-color: white;
+	box-shadow: 10px 0px 20px #CCCCC9;
+	height: 100%;
+	left: 0;
+	overflow-x: hidden;
+	padding-top: 20px;
+	position: fixed;
+	top: 0;
+	width: 230px;
+	z-index: 1;
+}
+
+.ul_sidebar {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;	
+}
+
+.sidebar-menu {
+  border-left: 0px solid dodgerblue;
+  display: block;
+  color: black; 						/* text color */
+  padding: 16px;
+  text-decoration: none;
+  transition: border-left 0.2s linear;
+}
+
+.sidebar-menu:hover {
+  background-color: #F9F9F9;
+  border-left: 4px solid dodgerblue;
+  text-decoration: none;
+}
+
+.sidebar-menu-active {
+  background-color: #F9F9F9;
+  border-left: 4px solid dodgerblue;
+  color: black; 						/* text color */
+  display: block;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar-menu-active:hover {
+  text-decoration: none;
+}
+

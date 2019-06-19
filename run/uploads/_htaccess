@@ -1,0 +1,5 @@
+Order Deny,Allow
+Deny from all
+<Files ~ ".(pdf|ppt|pptx|doc|docx|jpg|png|jpeg|gif|zip|rar|exe|cab)$">
+Allow from all
+</Files>

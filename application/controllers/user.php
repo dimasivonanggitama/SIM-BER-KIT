@@ -2,25 +2,28 @@
 	class user extends CI_Controller {
 		public function __construct() {
 			parent::__construct();
-			//$this->load->model('adminAccount');
-			//$this->load->model('login');
-			//$this->load->model('news');
+			//$this->load->config('user');
+			$this->load->helper('url');
+			$this->load->library('session');
+			$this->load->model('adminModel');
+			$this->load->model('userModel');
 		}
 
   		public function index() {
-			//menampilkan index
-    			$this->load->view('index');
+			//menampilkan landing page
+    		$this->load->view('index');
+			if ($this->session->has_userdata('loginfirst')) {
+				$this->session->unset_userdata('loginfirst');
+			}
+			if ($this->session->has_userdata('logout')) {
+				$this->session->unset_userdata('logout');
+			}
   		}
 		
-		public function tambah() {
-    			$this->load->view('tambah');
-		}
-		
 		public function login() {
-			$this->load->library('session');
-			if ($this->input->post('username')) {
-				$username = $this->input->post('username');
-				$password = $this->input->post('password');
+			if ($this->input->post('input_username')) {
+				$username = $this->input->post('input_username');
+				$password = $this->input->post('input_password');
 				$where = array (
 					'username' => $username,
 					'password' => $password
@@ -29,42 +32,102 @@
 				//$this->db->query ("parameter berbentuk sintaks query"));
 				//		atau
 				//$this->nama class model->nama method atau function yang ada di class model tersebut (parameter);
-				$cek = $this->login->getNameAndPassword('admin', $where)->num_rows();
+				$cek = $this->adminModel->getAdmin($where)->num_rows();
+				//echo "cek = $cek";
 				if ($cek > 0) {
-					$cek = $this->login->getNameAndPassword('admin', $where);
+					//akun ditemukan
+					$cek = $this->adminModel->getAdmin($where);
 					foreach ($cek->result() as $row) {
-						$where['status'] = $row->status;
-						$id = $row->id;
+						$where['login_status'] = $row->login_status;
+						$id = $row->id_user;
 					}
-					//print_r ($where);
-					if ($row->status_log) $this->session->set_userdata('admin', 'logged');
+					if ($row->login_status) $this->session->set_userdata('admin', 'logged');
 					else {
 						$this->session->set_userdata('admin', $where);
-						$this->adminAccount->postStatus_log($id);
+						$this->adminModel->postStatus_log($id);
 					}
 				} else {
+					//akun tidak ditemukan
 					$this->session->set_userdata('admin', 'gagal');
 				}
 				unset ($_POST);
-				//redirect('/admin'); 
-			}
+			} else return redirect('/');
 
 			if ($this->session->userdata('admin')) {
+				//Jika sudah punya session:
 				if ($this->session->userdata('admin') == 'gagal' || $this->session->userdata('admin') == 'logged') {			//efek jika login gagal tidak sesuai dengan database
-					$this->load->view('login');
-				} else {								//efek jika login berhasil sesuai dengan database
-    					$this->load->view('cms');
+					//tapi gagal login karena akun tidak ditemukan
+					echo "Back to login view because the account is not found";
+				} else {
+					//login berhasil
+					//return $this->load->view('cms');
+					redirect('admin');
 				}
-			} else { 									//Jika belum pernah masuk ke halaman login dan ingin login
-				$this->load->view('login');
+			} else {
+				//Jika belum punya session --> alihkan ke form login modal
+				//echo "You need to login first!";
+				return $this->load->view('index');
 			}
 		}
-
-		function ourServices() {
-			$this->load->library('session');
-			if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
-				$this->load->view($this->uri->segment(3));
-			} else redirect('/');
+		
+		function permintaan() {
+			//$this->load->view('guest/UTC_test');
+			$this->load->view('guest/permintaan');
 		}
+		
+		function permintaan_add() {
+			$add_data = array (
+				'data_konsumen' 	=> $this->input->post('input_nama_pemesan'),
+				'kabupatenkota' 	=> $this->input->post('input_kabupatenkota_pemesan'),
+				'alamat' 			=> $this->input->post('input_alamat_pemesan'),
+				'alamat_email' 		=> $this->input->post('input_alamat_email_pemesan'),
+				'contactPerson' 	=> $this->input->post('input_nomor_telepon'),			// contactPerson harus string/varchar, karena nomor telepon tidak akan pernah digunakan untuk operasi matematika (+-*:).
+				'tanggal_selesai'	=> $this->input->post('input_tanggal_selesai'),
+				'nama_varietas' 	=> $this->input->post('select_varietas'),
+				'jumlah_BD' 		=> $this->input->post('input_jumlah_bd'),
+				'jumlah_BP' 		=> $this->input->post('input_jumlah_bp')
+			);
+			
+			include_once('simple_html_dom.php');
+			$scrap_currentDate							= file_get_html('http://free.timeanddate.com/clock/i6t96jdh/n631/tlid38/tt1/tw0/tm3/td2')->plaintext;
+			$scrap_currentDate_removeStringsExceptDate 	= str_replace("world", "", $scrap_currentDate);
+			
+			//$this->userModel->postDataPermintaan($add_data);
+			//return redirect('permintaan');
+			
+			//$time = new DateTime('Asia/Jakarta');
+			//echo $time->format('Y-m-d H:i:s');
+			
+			//#Not work as expected:
+			//#--> echo $this->input->post('hidden_timestamp'); --> not work as expected
+			//#--> $html = '<iframe src="http://free.timeanddate.com/clock/i6t7omfd/n555/tlid38/th1" frameborder="0" width="57" height="18"><iframe src="http://free.timeanddate.com/clock/i6t7omfd/n555/tlid38/th1" frameborder="0" width="57" height="18"></iframe>
+			// </iframe>
+			// ';
+
+			// Instantiate a new instance of the class. Passing the string
+			// variable automatically loads the HTML for you.
+			// $h2t = new DOMDocument();
+			// $h2t->loadHTML($html);
+
+			// $contents = $h2t->getElementsByTagName('div');
+			// $text = '';
+			// foreach ( $contents[0]->childNodes as $content )   {
+				// $nodeType = $content->nodeName;
+				// if ( strtolower($nodeType[0]) == 'h' ){
+					// $text .= $content->textContent.PHP_EOL;
+				// }
+				// else    {
+					// $text .= $content->textContent;
+				// }
+			// }
+			// echo $text;
+		}
+
+		// function ourServices() {
+			// $this->load->library('session');
+			// if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
+				// $this->load->view($this->uri->segment(3));
+			// } else redirect('/');
+		// }
 
 	}
