@@ -2,15 +2,22 @@
 	class user extends CI_Controller {
 		public function __construct() {
 			parent::__construct();
+<<<<<<< HEAD
 			//$this->load->config('user');
 			$this->load->helper('url');
 			$this->load->library('session');
 			$this->load->model('adminModel');
 			$this->load->model('userModel');
+=======
+			//$this->load->model('adminAccount');
+			$this->load->model('login');
+			//$this->load->model('news');
+>>>>>>> 49bed53695bea46ef5e0c36d01d95cb88fb83d24
 		}
 
   		public function index() {
 			//menampilkan landing page
+<<<<<<< HEAD
     		$this->load->view('index');
 			if ($this->session->has_userdata('loginfirst')) {
 				$this->session->unset_userdata('loginfirst');
@@ -20,6 +27,15 @@
 			}
   		}
 		
+=======
+    			$this->load->view('index');
+  		}
+		
+		// public function tambah() {
+    			// $this->load->view('tambah');
+		// }
+		
+>>>>>>> 49bed53695bea46ef5e0c36d01d95cb88fb83d24
 		public function login() {
 			if ($this->input->post('input_username')) {
 				$username = $this->input->post('input_username');
@@ -51,11 +67,16 @@
 					$this->session->set_userdata('admin', 'gagal');
 				}
 				unset ($_POST);
+<<<<<<< HEAD
 			} else return redirect('/');
+=======
+			}
+>>>>>>> 49bed53695bea46ef5e0c36d01d95cb88fb83d24
 
 			if ($this->session->userdata('admin')) {
 				//Jika sudah punya session:
 				if ($this->session->userdata('admin') == 'gagal' || $this->session->userdata('admin') == 'logged') {			//efek jika login gagal tidak sesuai dengan database
+<<<<<<< HEAD
 					//tapi gagal login karena akun tidak ditemukan
 					echo "Back to login view because the account is not found";
 				} else {
@@ -67,6 +88,16 @@
 				//Jika belum punya session --> alihkan ke form login modal
 				//echo "You need to login first!";
 				return $this->load->view('index');
+=======
+					$this->load->view('login');
+				} else {								//efek jika login berhasil sesuai dengan database
+					//$this->load->view('cms');
+					echo "this is admin views";
+				}
+			} else { 									//Jika belum pernah masuk ke halaman login dan ingin login
+				//$this->load->view('login');
+				echo "failed!";
+>>>>>>> 49bed53695bea46ef5e0c36d01d95cb88fb83d24
 			}
 		}
 		
@@ -104,6 +135,7 @@
 			// </iframe>
 			// ';
 
+<<<<<<< HEAD
 			// Instantiate a new instance of the class. Passing the string
 			// variable automatically loads the HTML for you.
 			// $h2t = new DOMDocument();
@@ -122,6 +154,14 @@
 			// }
 			// echo $text;
 		}
+=======
+		// function ourServices() {
+			// $this->load->library('session');
+			// if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
+				// $this->load->view($this->uri->segment(3));
+			// } else redirect('/');
+		// }
+>>>>>>> 49bed53695bea46ef5e0c36d01d95cb88fb83d24
 
 		// function ourServices() {
 			// $this->load->library('session');
