@@ -21,6 +21,11 @@
 					Anda telah melakukan <strong>Logout</strong>.
 				</div>
 			<?php } ?>
+			<?php if ($this->session->has_userdata('announcementText')) { ?>
+				<div class="container alert alert-<?php echo $this->session->userdata('announcementColor'); ?> text-center" id="success-alert" style="position: fixed;">
+					<?php echo $this->session->userdata('announcementText'); ?>
+				</div>
+			<?php } ?>
 			<div class="center">
 				<h1 style="font-size:4vw">Sistem Informasi <br>Manajemen Benih Sumber<br> Bebas Penyakit</h1>
 			</div>
@@ -42,7 +47,6 @@
 						</h4>
 					</a>
 				</li>
-<<<<<<< HEAD
 				<?php if ($this->session->has_userdata('admin') == NULL) { ?>
 					<li class="nav-item">
 						<a class="nav-link text-dark" data-toggle="modal" href="#form_login">
@@ -81,40 +85,6 @@
 										</div>
 									</form>
 								</div>
-=======
-				<li class="nav-item">
-					<a class="nav-link" href="#">Search</a>
-				</li>
-				<li class="nav-item">
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_login"><img src="assets/images/icons/tools.svg"></img></button>
-					<div class="modal fade" id="form_login" tabindex="-1" role="dialog" aria-labelledby="form_login_label" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<img src="assets/images/icons/alert.svg"></img>
-									<h5 class="modal-title" id="form_login_label">LOGIN</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<form action="<?php echo site_url('/admin'); ?>" method="post">
-									<div class="modal-body">
-										<h6 class="modal-title" id="form_login_label">ANDA HARUS LOGIN TERLEBIH DAHULU</h6>
-										
-										<div class="form-group">
-											<label for="input_username">Username</label>
-											<input class="form-control" name="input_username" placeholder="Masukkan username anda" type="text">
-										</div>
-										<div class="form-group">
-											<label for="input_password">Password</label>
-											<input class="form-control" name="input_password" placeholder="Password" type="password" >
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="submit" class="btn btn-primary">Login</button>
-									</div>
-								</form>
->>>>>>> 49bed53695bea46ef5e0c36d01d95cb88fb83d24
 							</div>
 						</div>
 					</li>

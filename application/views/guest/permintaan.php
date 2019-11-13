@@ -99,14 +99,14 @@
 										<div class="col">
 											<div class="form-group">
 												<label for="input_jumlah_bd">Jumlah Benih Dasar<b class="text-danger">*</b></label>
-												<input type="number" class="form-control" id="input_jumlah_bd" name="input_jumlah_bd" placeholder="Enter email" value="0" required>
+												<input type="number" class="form-control" id="input_jumlah_bd" name="input_jumlah_bd" placeholder="0" value="0" required>
 												<small class="form-text text-muted">Jumlah benih dasar yang diinginkan.</small>
 											</div>
 										</div>
 										<div class="col">
 											<div class="form-group">
 												<label for="input_jumlah_bp">Jumlah Benih Pokok<b class="text-danger">*</b></label>
-												<input type="number" class="form-control" id="input_jumlah_bp" name="input_jumlah_bp" placeholder="Enter email" value="0" required>
+												<input type="number" class="form-control" id="input_jumlah_bp" name="input_jumlah_bp" placeholder="0" value="0" required>
 												<small class="form-text text-muted">Jumlah benih pokok yang diinginkan.</small>
 											</div>
 										</div>

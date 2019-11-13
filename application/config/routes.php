@@ -69,6 +69,8 @@ $route['logout'] 						= 'adminController/logout';
 $route['permintaan'] 					= 'user/permintaan';
 $route['permintaan_add'] 				= 'user/permintaan_add';
 
+$route['test'] 							= 'user/test_page';
+
 $route['admin/editNews'] 	= 'admin_Konten/editNews';
 $route['admin/ourClient'] 	= 'admin_Konten/addClient';
 $route['admin/getNews'] 	= 'admin_Konten/getNews';

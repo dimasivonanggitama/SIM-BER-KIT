@@ -108,7 +108,7 @@
 								<li class="dropdown">
 									<a class="additional-navbar-profile-dropdown nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">
 										<!--<img class="user-avatar rounded-circle mr-2" src="/assets/images/avatars/0.jpg" alt="User Avatar">-->
-										<i class="mdi mdi-account"> <?php echo $this->session->userdata['admin']['username']; ?></i>
+										<i class="mdi mdi-account"> <?php echo $this->session->userdata['userdata']['username']; ?></i>
 										<span class="caret"></span>
 									</a>
 									<div class="additional-dropdown-popover-menu-profile dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

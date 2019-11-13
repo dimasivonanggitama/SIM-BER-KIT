@@ -1,5 +1,6 @@
 <?php
-	class adminModel extends CI_Model {
+	include_once(APPPATH.'core/coreModel.php');
+	class adminModel extends coreModel {
 		// public function deleteAccountModel($id) {
 			// $this->load->database();
 			// $this->db->where('id', $id);
@@ -31,6 +32,34 @@
 			$this->load->database();
 			$this->db->select('column_name');
 			return $this->db->get_where('INFORMATION_SCHEMA.COLUMNS', array('TABLE_NAME' => 'users', 'TABLE_SCHEMA' => 'antaradigitalmedia'));
+		}
+		
+		function getData($tableName, $particularColumn = NULL, $searchingType = NULL, $columnToSearch = NULL, $keyToSearch = NULL, $order = NULL, $orderDirection = NULL) {
+			$this->load->database();
+			
+			//order
+			if ($order != NULL) {
+				if ($orderDirection == NULL) {
+					$this->db->order_by($order, 'ASC');
+				} else {
+					$this->db->order_by($order, $orderDirection);
+				}
+			}
+			//particular column only
+			if ($particularColumn != NULL) {
+				$this->db->select($particularColumn);
+			}
+			
+			//where
+			if ($searchingType != NULL) {
+				if ($searchingType == 'similar') {
+					$this->db->like($columnToSearch, $keyToSearch);
+				} else if ($searchingType == 'specific') {
+					$this->db->where($columnToSearch, $keyToSearch);
+				}
+			}
+			
+			return $this->db->get($tableName);
 		}
 		
 		//public function getDataKonsumen() {
