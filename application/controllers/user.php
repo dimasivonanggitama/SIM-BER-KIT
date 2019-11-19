@@ -1,12 +1,18 @@
 <?php
-	class user extends CI_Controller {
+	include_once(APPPATH.'core/coreController.php');
+	class user extends coreController {
 		public function __construct() {
 			parent::__construct();
 			//$this->load->config('user');
-			$this->load->helper('url');
-			$this->load->library('session');
 			$this->load->model('adminModel');
 			$this->load->model('userModel');
+		}
+
+		function getInformasiVarietas() {
+			$actorName = 'Guest';
+			$pageName = 'view_informasiVarietas';
+			$tableName = 'dataVarietasBenihSumberJeruk';
+			$this->getDataTable($actorName, $pageName, $tableName);
 		}
 
   		public function index() {

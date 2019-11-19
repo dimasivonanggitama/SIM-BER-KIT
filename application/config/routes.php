@@ -67,6 +67,7 @@ $route['dataVarietasBenihSumberJeruk/(:num)'] 	= 'adminController/getDataVarieta
 $route['deleteData/(:any)/(:any)']				= 'adminController/deleteData';
 $route['editDataTable/(:any)'] 					= 'adminController/editDataTable';
 $route['filterTable/(:any)'] 					= 'adminController/filterTable';
+$route['infoVarietasBenihSumberJeruk'] 			= 'user/getInformasiVarietas';
 $route['sortTable/(:any)'] 						= 'adminController/sortTable';
 $route['postData/(:any)'] 						= 'adminController/postData';
 $route['reset_filterTable/(:any)'] 				= 'adminController/reset_filterTable';

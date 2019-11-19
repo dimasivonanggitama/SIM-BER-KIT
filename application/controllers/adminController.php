@@ -7,8 +7,6 @@
 	class adminController extends coreController {
 		function __construct() {
 			parent::__construct();
-			$this->load->helper(array('url'));
-			$this->load->library('session');
 			$this->load->model('adminModel');
 			//if ($this->session->userdata('admin') == FALSE) {
 			//redirect('admin');}
@@ -262,10 +260,10 @@ $jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL
 			return redirect($tableName);
 		}
 		
-  		public function getDataVarietasBenihSumberJeruk() {
-			//menampilkan halaman Data Varietas Benih Sumber Jeruk untuk Admin
-			$tableName = 'dataVarietasBenihSumberJeruk';
-			$this->getDataTable($tableName);
+  		public function getDataVarietasBenihSumberJeruk() {	//menampilkan halaman Data Varietas Benih Sumber Jeruk untuk Admin
+			$actorName = 'Admin';
+			$pageName = $tableName = 'dataVarietasBenihSumberJeruk';
+			$this->getDataTable($actorName, $pageName, $tableName);
   		}
 		
 		function getProfile() {

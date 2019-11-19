@@ -2,8 +2,8 @@
 	class coreController extends CI_Controller {
 		function __construct() {
 			parent::__construct();
-			// $this->load->helper(array('url'));
-			// $this->load->library('session');
+			$this->load->helper(array('url'));
+			$this->load->library('session');
 			// $this->load->model('adminModel');
 		}
 		
@@ -97,7 +97,7 @@
 			return $namaKolom;
 		}
 		
-		function getDataTable($tableName) {
+		function getDataTable($actorName, $pageName, $tableName) {
 			$data['dataTableName'] = $tableName;
 			$jumlah_data = 0;
 			$result = $this->adminModel->getData($tableName)->result();
@@ -222,7 +222,9 @@
 			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column');
 			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table');
 			$data['dataValueKolom'] = $this->getColumnValue($tableName);
-			$this->load->view('Admin/'.$tableName, $data);
+			
+			//$this->load->view('guest/tambahPesanan', $data);
+			$this->load->view($actorName.'/'.$pageName, $data);
 		}
 		
 		function postData() {
