@@ -10,9 +10,12 @@
 
 		function getInformasiVarietas() {
 			$actorName = 'Guest';
-			$pageName = 'view_informasiVarietas';
+			$pageFileName = 'view_informasiVarietas';
+			$pageTitle = 'Info Varietas Benih Sumber Jeruk';
+			$pageURL = 'infoVarietasBenihSumberJeruk';
 			$tableName = 'dataVarietasBenihSumberJeruk';
-			$this->getDataTable($actorName, $pageName, $tableName);
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+			// $this->getDataTable($actorName, $pageName, $tableName);
 		}
 
   		public function index() {

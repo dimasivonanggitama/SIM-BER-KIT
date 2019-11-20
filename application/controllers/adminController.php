@@ -262,8 +262,9 @@ $jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL
 		
   		public function getDataVarietasBenihSumberJeruk() {	//menampilkan halaman Data Varietas Benih Sumber Jeruk untuk Admin
 			$actorName = 'Admin';
-			$pageName = $tableName = 'dataVarietasBenihSumberJeruk';
-			$this->getDataTable($actorName, $pageName, $tableName);
+			$pageFileName = $pageURL = $tableName = 'dataVarietasBenihSumberJeruk';
+			$pageTitle = "Data Varietas Benih Sumber Jeruk";
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
   		}
 		
 		function getProfile() {

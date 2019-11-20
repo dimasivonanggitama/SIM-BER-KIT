@@ -8,7 +8,7 @@
 		}
 		
 		public function filterTable() {
-			$tableName = $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
 			$filterOption_data = array (
 				'filterWords' => $this->input->post('input_filter'),
 				'filteredBy' => $this->input->post('select_filter_option'),
@@ -20,7 +20,7 @@
 			// } else {
 				// echo 'false';
 			// }
-			return redirect($tableName);
+			return redirect($pageURL);
 		}
 		
   		function getNeatWriting($tableName, $somethingToNeat) {
@@ -97,7 +97,7 @@
 			return $namaKolom;
 		}
 		
-		function getDataTable($actorName, $pageName, $tableName) {
+		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName) {
 			$data['dataTableName'] = $tableName;
 			$jumlah_data = 0;
 			$result = $this->adminModel->getData($tableName)->result();
@@ -106,7 +106,7 @@
 			}
 			
 			$this->load->library('pagination');
-			$config['base_url'] = base_url().'/'.$tableName;
+			$config['base_url'] = base_url().'/'.$pageURL;
 			$config['total_rows'] = $jumlah_data;
 			$config['per_page'] = 10;
 			$from = $this->uri->segment(2);						//$from stands for 'Starts data from row number...'
@@ -220,11 +220,12 @@
 			}
 			$data['pagination'] = $this->pagination->create_links();
 			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column');
+			$data['dataPageTitle'] = $pageTitle;
 			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table');
 			$data['dataValueKolom'] = $this->getColumnValue($tableName);
 			
 			//$this->load->view('guest/tambahPesanan', $data);
-			$this->load->view($actorName.'/'.$pageName, $data);
+			$this->load->view($actorName.'/'.$pageFileName, $data);
 		}
 		
 		function postData() {
@@ -251,24 +252,24 @@
 		}
 		
 		function reset_filterTable() {
-			$tableName = $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
 			$this->session->unset_userdata('filterOption_data');
-			return redirect($tableName);
+			return redirect($pageURL);
 		}
 		
 		function reset_sortTable() {
-			$tableName = $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
 			$this->session->unset_userdata('sortOption_data');
-			return redirect($tableName);
+			return redirect($pageURL);
 		}
 		
 		function sortTable() {
-			$tableName = $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
 			$sortOption_data = array (
 				'sortedBy' => $this->input->post('select_sort_option'),
 				'backwardDirection' => $this->input->post('checkBox_sortingDirection')
 			);
 			$this->session->set_userdata('sortOption_data', $sortOption_data);
-			return redirect($tableName);
+			return redirect($pageURL);
 		}
 	}
