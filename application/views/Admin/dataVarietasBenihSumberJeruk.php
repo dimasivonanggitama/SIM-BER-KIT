@@ -207,7 +207,7 @@
 								</div>
 								<div id="collapseOne" class="collapse <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> show <?php } ?>" aria-labelledby="headingOne" data-parent="#accordionMiniForm">
 									<div class="card-body">
-										<form action="<?php echo base_url('filterTable/'.$dataTableName); ?>" method="post">
+										<form action="<?php echo base_url('filterTable/'.$dataPageURL); ?>" method="post">
 											<div class="row">
 												<div class="col">
 													<div class="form-group">
@@ -263,7 +263,7 @@
 							<div class="card">
 								<div id="collapseTwo" class="collapse <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> show <?php } ?>" aria-labelledby="headingTwo" data-parent="#accordionMiniForm">
 									<div class="card-body">
-										<form action="<?php echo base_url('sortTable/'.$dataTableName); ?>" method="post">
+										<form action="<?php echo base_url('sortTable/'.$dataPageURL); ?>" method="post">
 											<div class="row">
 												<div class="col">
 													<div class="form-group">

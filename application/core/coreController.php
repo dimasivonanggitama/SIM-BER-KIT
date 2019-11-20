@@ -221,6 +221,7 @@
 			$data['pagination'] = $this->pagination->create_links();
 			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column');
 			$data['dataPageTitle'] = $pageTitle;
+			$data['dataPageURL'] = $pageURL;
 			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table');
 			$data['dataValueKolom'] = $this->getColumnValue($tableName);
 			
