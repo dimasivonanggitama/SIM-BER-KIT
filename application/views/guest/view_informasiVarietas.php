@@ -7,7 +7,8 @@
 		<!-- (3). Deskripsi Halaman   -->
 		<!-- (4). Mini Menu and Accordion Form -->
 		<!-- (5). Tabel -->
-		<!-- (6). Footer -->
+		<!-- (6). Tabel -->
+		<!-- (7). Footer -->
 		<title>Balai Penelitian Jeruk</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -175,10 +176,71 @@
 						</div>
 					</div>
 				</div>
-				
 				<br>
 				
-				<!-- (5). Tabel -->
+				<!-- (5). Status keterangan filter / sort. -->
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<?php if ($this->session->has_userdata('filterInfo_failed')) { ?>
+								<?php $this->session->unset_userdata('filterInfo_failed'); ?>
+								<span class="form-text page-subtitle">
+									<hr>
+									<p class="text-danger mdi mdi-alert"> 
+										<b>Anda belum memilih kolom.</b> <br>Pilih salah satu kolom terlebih dahulu!
+									</p>
+								</span>
+							<?php } ?>
+							<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+								<span class="form-text page-subtitle">
+									<hr>
+									<p class="mdi mdi-magnify"> Ditemukan
+										<?php if ($countRows <= 0) { ?>
+											<b class="text-danger"> 
+										<?php } else { ?>
+											<b class="text-success">
+										<?php } ?>
+										<?php echo $countRows;?></b> 
+									hasil pencarian 
+										<?php if ($this->session->has_userdata('filterOption_data')) { 
+											if ($this->session->userdata['filterOption_data']['specificFiltering'] == 'on') { ?> 
+												<b><mark class="bg-danger text-white">spesifik</mark></b>
+											<?php } ?> 
+										<?php } ?>
+										<b class="text-danger">"<?php echo $this->session->userdata['filterOption_data']['filterWords']; ?>"</b>
+									pada kolom
+										<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+											<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
+												<b><mark class="bg-success text-white"><?php echo $dataNamaKolom[$i]; ?></mark></b>
+											<?php } ?>
+										<?php } ?>
+									.</p>
+								</span>
+							<?php } ?>
+							<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+								<span class="form-text page-subtitle">
+									<hr>
+									<p class="mdi mdi-sort"> Diurutkan berdasarkan 
+										<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+											<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
+												<b><mark class="bg-success text-white"><?php echo $dataNamaKolom[$i]; ?></mark></b>
+											<?php } ?>
+										<?php } ?>
+									dengan urutan 
+										<?php if ($this->session->userdata['sortOption_data']['backwardDirection'] == NULL) { ?>
+											<b><mark class="bg-success text-white">A->Z</mark></b>.
+										<?php } else { ?>
+											<b><mark class="bg-danger text-white">Z->A</mark></b>.
+										<?php } ?>
+									</p>
+								</span>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+				<br>
+				
+				<!-- (6). Tabel -->
 				<div class="container">
 					<div class="row">
 						<div class="col">
@@ -260,7 +322,7 @@
 				</div>
 				<br>
 			
-				<!-- (6). Footer -->
+				<!-- (7). Footer -->
 				<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
 					<small class="text-muted mx-auto">Copyright ©
 						<script type="text/javascript">
