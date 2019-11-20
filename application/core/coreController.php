@@ -7,19 +7,13 @@
 			// $this->load->model('adminModel');
 		}
 		
-		public function filterTable() {
-			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+		public function filterTable($pageURL) {
 			$filterOption_data = array (
 				'filterWords' => $this->input->post('input_filter'),
 				'filteredBy' => $this->input->post('select_filter_option'),
 				'specificFiltering' => $this->input->post('checkBox_specificFiltering')
 			);
 			$this->session->set_userdata('filterOption_data', $filterOption_data);
-			// if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-				// echo 'true';
-			// } else {
-				// echo 'false';
-			// }
 			return redirect($pageURL);
 		}
 		
@@ -203,7 +197,6 @@
 					} else {
 						$jumlah_data = $this->adminModel->getData($tableName, NULL, 'similar', $filteredBy, $filterWords)->num_rows();
 						$config['total_rows'] = $jumlah_data;
-						echo $config['total_rows'].'<br>';
 						$this->pagination->initialize($config);
 						$data[$tableName] = $this->adminModel->getData($tableName, NULL, 'similar', $filteredBy, $filterWords, NULL, NULL, $config['per_page'], $from);
 					}
@@ -252,20 +245,17 @@
 			return redirect($tableName);
 		}
 		
-		function reset_filterTable() {
-			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+		function reset_filterTable($pageURL) {
 			$this->session->unset_userdata('filterOption_data');
 			return redirect($pageURL);
 		}
 		
-		function reset_sortTable() {
-			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+		function reset_sortTable($pageURL) {
 			$this->session->unset_userdata('sortOption_data');
 			return redirect($pageURL);
 		}
 		
-		function sortTable() {
-			$pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+		function sortTable($pageURL) {
 			$sortOption_data = array (
 				'sortedBy' => $this->input->post('select_sort_option'),
 				'backwardDirection' => $this->input->post('checkBox_sortingDirection')

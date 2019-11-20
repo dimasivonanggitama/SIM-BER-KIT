@@ -17,6 +17,20 @@
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
 			// $this->getDataTable($actorName, $pageName, $tableName);
 		}
+		
+		function guestIntersection() {
+			$function = $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL = $this->uri->segment(3);	//segment(1) untuk nama method
+			if ($function == 'filterTable') {	
+				$this->filterTable($pageURL);
+			} else if ($function == 'reset_filterTable') {
+				$this->reset_filterTable($pageURL);
+			} else if ($function == 'reset_sortTable') {
+				$this->reset_sortTable($pageURL);
+			} else if ($function == 'sortTable') {
+				$this->sortTable($pageURL);
+			} 
+		}
 
   		public function index() {
 			//menampilkan landing page
@@ -156,6 +170,16 @@
 			// if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
 				// $this->load->view($this->uri->segment(3));
 			// } else redirect('/');
+		// }
+	
+		// function reset_sortTable() {
+			// $pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+			// $this->reset_sortTable($pageURL);
+		// }
+	
+		// function sortTable() {
+			// $pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+			// $this->sortTable($pageURL);
 		// }
 		
 		function test_page() {

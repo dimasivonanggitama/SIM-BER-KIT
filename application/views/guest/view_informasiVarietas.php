@@ -74,7 +74,7 @@
 									</div>
 									<div id="collapseOne" class="collapse <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> show <?php } ?>" aria-labelledby="headingOne" data-parent="#accordionMiniForm">
 										<div class="card-body">
-											<form action="<?php echo base_url('filterTable/'.$dataPageURL); ?>" method="post">
+											<form action="<?php echo base_url('guestIntersection/filterTable/'.$dataPageURL); ?>" method="post">
 												<div class="row">
 													<div class="col">
 														<div class="form-group">
@@ -108,7 +108,7 @@
 													<div class="col">
 														<button type="submit" class="btn btn-primary">Submit</button>
 														<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
-															<a class="btn btn-danger" href="<?php echo base_url('reset_filterTable/'.$dataPageURL); ?>">Reset</a>
+															<a class="btn btn-danger" href="<?php echo base_url('guestIntersection/reset_filterTable/'.$dataPageURL); ?>">Reset</a>
 														<?php } ?>
 													</div>
 												</div>
@@ -130,7 +130,7 @@
 								<div class="card">
 									<div id="collapseTwo" class="collapse <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> show <?php } ?>" aria-labelledby="headingTwo" data-parent="#accordionMiniForm">
 										<div class="card-body">
-											<form action="<?php echo base_url('sortTable/'.$dataPageURL); ?>" method="post">
+											<form action="<?php echo base_url('guestIntersection/sortTable/'.$dataPageURL); //base_url('sortTable/guest/'.$dataPageURL); ?>" method="post">
 												<div class="row">
 													<div class="col">
 														<div class="form-group">
@@ -163,7 +163,7 @@
 													<div class="col">
 														<button type="submit" class="btn btn-primary">Submit</button>
 														<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
-															<a class="btn btn-danger" href="<?php echo base_url('reset_sortTable/'.$dataPageURL); ?>">Reset</a>
+															<a class="btn btn-danger" href="<?php echo base_url('guestIntersection/reset_sortTable/'.$dataPageURL); ?>">Reset</a>
 														<?php } ?>
 													</div>
 												</div>
