@@ -28,45 +28,46 @@
 			return $this->db->get_where('users', $where);
 		}
 		
-		public function getAdminColumnNameExceptPasswordAndStatus() {
-			$this->load->database();
-			$this->db->select('column_name');
-			return $this->db->get_where('INFORMATION_SCHEMA.COLUMNS', array('TABLE_NAME' => 'users', 'TABLE_SCHEMA' => 'antaradigitalmedia'));
-		}
+		// public function getAdminColumnNameExceptPasswordAndStatus() {
+			// $this->load->database();
+			// $this->db->select('column_name');
+			// return $this->db->get_where('INFORMATION_SCHEMA.COLUMNS', array('TABLE_NAME' => 'users', 'TABLE_SCHEMA' => 'antaradigitalmedia'));
+		// }
 		
-		function getData($tableName, $particularColumn = NULL, $searchingType = NULL, $columnToSearch = NULL, $keyToSearch = NULL, $order = NULL, $orderDirection = NULL) {
-			$this->load->database();
+		// function getData($tableName, $particularColumn = NULL, $searchingType = NULL, $columnToSearch = NULL, $keyToSearch = NULL, $order = NULL, $orderDirection = NULL) {
+			// $this->load->database();
 			
-			//order
-			if ($order != NULL) {
-				if ($orderDirection == NULL) {
-					$this->db->order_by($order, 'ASC');
-				} else {
-					$this->db->order_by($order, $orderDirection);
-				}
-			}
-			//particular column only
-			if ($particularColumn != NULL) {
-				$this->db->select($particularColumn);
-			}
+			// //order
+			// if ($order != NULL) {
+				// if ($orderDirection == NULL) {
+					// $this->db->order_by($order, 'ASC');
+				// } else {
+					// $this->db->order_by($order, $orderDirection);
+				// }
+			// }
+			// //particular column only
+			// if ($particularColumn != NULL) {
+				// $this->db->select($particularColumn);
+			// }
 			
-			//where
-			if ($searchingType != NULL) {
-				if ($searchingType == 'similar') {
-					$this->db->like($columnToSearch, $keyToSearch);
-				} else if ($searchingType == 'specific') {
-					$this->db->where($columnToSearch, $keyToSearch);
-				}
-			}
+			// //where
+			// if ($searchingType != NULL) {
+				// if ($searchingType == 'similar') {
+					// $this->db->like($columnToSearch, $keyToSearch);
+				// } else if ($searchingType == 'specific') {
+					// $this->db->where($columnToSearch, $keyToSearch);
+				// }
+			// }
 			
-			return $this->db->get($tableName);
-		}
+			// return $this->db->get($tableName);
+		// }
 		
 		//public function getDataKonsumen() {
 		public function getDataKonsumen($number, $offset) {
 			$this->load->database();
 			//return $this->db->get('dataKonsumen');
 			return $this->db->get('dataKonsumen', $number, $offset);
+		 // return $this->db->get($tableName,     $number, $offset);
 		}
 		
 		// public function getDataKonsumen_ColumnNameOnly() {

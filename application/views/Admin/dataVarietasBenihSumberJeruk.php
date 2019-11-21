@@ -129,86 +129,431 @@
 						</div>
 					</nav>
 
-			<!-- #Main Conten -->
+					<!-- #Main Conten -->
 					<div class="main-content-container container-fluid px-4">
 
-						<!-- (1). Page Header -->
+						<!-- (3). Page Header -->
 						<div class="page-header row no-gutters py-4">
-							<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-								<span class="text-uppercase page-subtitle">Dashboard</span>
+							<div class="col-12 col-sm-8 text-center text-sm-left mb-0">
 								<h3 class="page-title">DATA VARIETAS BENIH SUMBER JERUK</h3>
+								<span class="text-uppercase page-subtitle">Dashboard</span>
+								<?php if ($this->session->has_userdata('filterInfo_failed')) { ?>
+									<?php $this->session->unset_userdata('filterInfo_failed'); ?>
+									<span class="form-text page-subtitle">
+										<hr>
+										<p class="text-danger mdi mdi-alert"> 
+											<b>Anda belum memilih kolom.</b> <br>Pilih salah satu kolom terlebih dahulu!
+										</p>
+									</span>
+								<?php } ?>
+								<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+									<span class="form-text page-subtitle">
+										<hr>
+										<p class="mdi mdi-magnify"> Ditemukan
+											<?php if ($countRows <= 0) { ?>
+												<b class="text-danger"> 
+											<?php } else { ?>
+												<b class="text-success">
+											<?php } ?>
+											<?php echo $countRows;?></b> 
+										hasil pencarian 
+											<?php if ($this->session->has_userdata('filterOption_data')) { 
+												if ($this->session->userdata['filterOption_data']['specificFiltering'] == 'on') { ?> 
+													<b><mark class="bg-danger text-white">spesifik</mark></b>
+												<?php } ?> 
+											<?php } ?>
+											<b class="text-danger">"<?php echo $this->session->userdata['filterOption_data']['filterWords']; ?>"</b>
+										pada kolom
+											<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+												<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
+													<b><mark class="bg-success text-white"><?php echo $dataNamaKolom[$i]; ?></mark></b>
+												<?php } ?>
+											<?php } ?>
+										.</p>
+									</span>
+								<?php } ?>
+								<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+									<span class="form-text page-subtitle">
+										<hr>
+										<p class="mdi mdi-sort"> Diurutkan berdasarkan 
+											<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+												<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
+													<b><mark class="bg-success text-white"><?php echo $dataNamaKolom[$i]; ?></mark></b>
+												<?php } ?>
+											<?php } ?>
+										dengan urutan 
+											<?php if ($this->session->userdata['sortOption_data']['backwardDirection'] == NULL) { ?>
+												<b><mark class="bg-success text-white">A->Z</mark></b>.
+											<?php } else { ?>
+												<b><mark class="bg-danger text-white">Z->A</mark></b>.
+											<?php } ?>
+										</p>
+									</span>
+								<?php } ?>
 							</div>
 						</div>
-						<!-- End Page Header -->
-
-						<div class="row">
-							<div class="card container">
-								<table class="table table-hover">
-									<thead>
+						
+						<!-- (4). Mini Menu and Accordion Form -->
+						<div class="accordion" id="accordionMiniForm">
+						
+							<!-- (4a). Search Menu -->
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h2 class="mb-0">
+										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Konsumen</a>
+										<button aria-controls="collapseOne" aria-expanded="false" class="btn" data-target="#collapseOne" data-toggle="collapse" id="button_filter_dataKonsumen" onclick="changeFilterButtonColor()" style="background-color: <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Filter Hasil</button>
+										<button aria-controls="collapseTwo" aria-expanded="false" class="btn" data-target="#collapseTwo" data-toggle="collapse" id="button_urut_dataKonsumen" onclick="changeUrutButtonColor()" style="background-color: <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Urutkan Berdasarkan</button>
+									</h2>
+								</div>
+								<div id="collapseOne" class="collapse <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> show <?php } ?>" aria-labelledby="headingOne" data-parent="#accordionMiniForm">
+									<div class="card-body">
+										<form action="<?php echo base_url('filterTable/'.$dataPageURL); ?>" method="post">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<input class="form-control" name="input_filter" placeholder="Kata kunci ..." type="text" <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> value="<?php echo $this->session->userdata['filterOption_data']['filterWords']; } ?>" required>
+													</div>
+												</div>
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control" name="select_filter_option" required>
+															<?php for ($i = 1; $i < count($dataValueKolom); $i++) {	?>
+																<?php if ($dataNamaKolom[$i] == "ID") { ?>
+																	<?php continue; ?>
+																<?php } else { ?>
+																	<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
+																		<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																		<?php for ($j = 1; $j < count($dataValueKolom); $j++) { ?>
+																			<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																				<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																			<?php } ?>
+																		<?php } ?>
+																	<?php } else { ?>
+																		<option value="not selected">-- Cari berdasarkan --</option>
+																		<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																	<?php } ?>
+																<?php }	?>
+															<?php }	?>
+														</select>
+														<small class="form-text text-muted">Cari berdasarkan kolom.</small>
+													</div>
+												</div>
+												<div class="col">
+													<button type="submit" class="btn btn-primary">Submit</button>
+													<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+														<a class="btn btn-danger" href="<?php echo base_url('reset_filterTable/'.$dataTableName); ?>">Reset</a>
+													<?php } ?>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col">
+													<div class="form-check">
+														<input type="checkbox" class="form-check-input" id="checkBox_specificFiltering" name="checkBox_specificFiltering" <?php if ($this->session->has_userdata('filterOption_data')) { if ($this->session->userdata['filterOption_data']['specificFiltering'] == 'on') { ?> checked <?php } } ?> >
+														<label class="form-check-label" for="checkBox_specificFiltering">Cari spesifik kata</label>
+														<small class="form-text text-muted">Mencari hasil persis dengan kata yang ingin dicari. <br> Jika tidak memilih opsi ini, maka akan otomatis mencari apapun yang mengandung kata yang ingin dicari.</small>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							
+							<!-- (4b). Sort Menu -->
+							<div class="card">
+								<div id="collapseTwo" class="collapse <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> show <?php } ?>" aria-labelledby="headingTwo" data-parent="#accordionMiniForm">
+									<div class="card-body">
+										<form action="<?php echo base_url('sortTable/'.$dataPageURL); ?>" method="post">
+											<div class="row">
+												<div class="col">
+													<div class="form-group">
+														<select class="form-control" name="select_sort_option" required>
+															<?php for($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																<?php if ($dataNamaKolom[$i] == "ID") { ?>
+																	<?php continue; ?>
+																<?php } else { ?>
+																	<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
+																		<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																		<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																			<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																				<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																			<?php } ?>
+																		<?php } ?>
+																	<?php } else { ?>
+																		<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																	<?php } ?>
+																<?php } ?>
+															<?php } ?>
+														</select>
+														<small class="form-text text-muted">Urutkan berdasarkan kolom.</small>
+													</div>
+													<div class="form-check">
+														<input class="form-check-input" id="checkBox_sortingDirection" name="checkBox_sortingDirection" type="checkbox" <?php if ($this->session->userdata('sortOption_data') != NULL) { if ($this->session->userdata['sortOption_data']['backwardDirection'] == 'on') { ?> checked <?php } } ?> >
+														<label class="form-check-label" for="checkBox_sortingDirection">Urutkan dari Z->A</label>
+														<small class="form-text text-muted">Diurutkan dari awalan huruf Z ke huruf A. <br> Jika tidak memilih opsi ini, maka akan otomatis mengurutkan dari A->Z.</small>
+													</div>
+												</div>
+												<div class="col">
+													<button type="submit" class="btn btn-primary">Submit</button>
+													<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+														<a class="btn btn-danger" href="<?php echo base_url('reset_sortTable/'.$dataTableName); ?>">Reset</a>
+													<?php } ?>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- (5). Tabel -->
+						<hr>
+						<div class="card container">
+							<div class="row">
+								<table class="table">
+									<thead class="table-dark">
 										<tr>
-											<?php foreach ($dataVarietasBenihSumberJeruk_Kolom->result() as $row): ?>
-												<th scope="col"><?php echo $row->column_name; 
-														// if ($row->column_name = "id_konsumen") {
-															// echo "ID";
-														// } else if ($row->column_name = "nama_konsumen") {
-															// echo "Nama Konsumen";
-														// } else if ($row->column_name = "kabupatenkota") {
-															// echo "Kabupaten / Kota";
-														// } else if ($row->column_name = "alamat") {
-															// echo "Alamat";
-														// } 
-													?>
+											<?php for($i = 0; $i < count($dataNamaKolom); $i++) { ?>
+												<th scope="col">
+													<?php echo $dataNamaKolom[$i]; ?>
 												</th>
-											<?php endforeach; ?>
+											<?php } ?>
+											<th colspan="2" scope="col">
+												Aksi
+											</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php foreach ($dataVarietasBenihSumberJeruk->result() as $row): ?>
-											<tr>
-												<th scope="row"><?php echo $row->nomor; ?></th>
-												<td><?php echo $row->varietasbenihsumberjeruk; ?></td>
-											</tr>
-										<?php endforeach; ?>
-											<tr>
-												<th scope="row">Tambah varietas:</th>
-											</tr>
+										<?php if ($countRows == "0") { ?>
+											<td colspan="4"><h6 class="text-center text-danger">Maaf, hasil pencarian tidak ditemukan.</h6></td>
+										<?php } else { ?>
+											<?php $id_varietasBenihSumberJeruk = $this->uri->segment('3') + 1; ?>
+											<?php foreach ($$dataTableName->result() as $row): ?>
+												<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+													<?php $valueKolom_i = $dataValueKolom[$i]; ?>
+													<?php if ($dataNamaKolom[$i] == "ID") { ?>
+														<tr class="border-bottom additional-selected-row" id="<?php echo $row->$valueKolom_i; ?>">
+															<th scope="row"><?php echo $row->$valueKolom_i; ?></th>
+															<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																<?php if ($dataNamaKolom[$j] != "ID") { ?>
+																	<td
+																		<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																			<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																				class="additional-selected-filter" 
+																			<?php } ?>
+																		<?php } ?>
+																		<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																			<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																				class="additional-selected-sort" 
+																			<?php } ?> 
+																		<?php } ?> 
+																	>
+																		<?php echo $row->$valueKolom_j; ?>
+																	</td>
+																<?php } ?>
+															<?php } ?>
+															<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																<?php if ($dataNamaKolom[$j] == "ID") { ?>
+																	<td>
+																		<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																			<div class="additional-table-edit-button" data-toggle="tooltip" data-placement="bottom" title="Edit">
+																			</div>
+																		</a>
+																	
+																		<!-- Modal for edit data table -->
+																		<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+																			<div class="modal-dialog modal-dialog-centered" role="document">
+																				<div class="modal-content">
+																					<div class="modal-header">
+																						<h5 class="mdi mdi-pencil modal-title" id="modalCenterTitle"> Edit <?php echo $dataTableName_neat; ?></h5>
+																						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																							<span aria-hidden="true" class="text-danger">&times;</span>
+																						</button>
+																					</div>
+																					<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																						<div class="modal-body">
+																							<?php for ($k = 0; $k < count($dataValueKolom); $k++) { ?>
+																								<?php $valueKolom_k = $dataValueKolom[$k]; ?>
+																								<?php if ($dataNamaKolom[$k] == "ID") { ?>
+																									<input type="hidden" name="hidden_input_id" value="<?php echo $row->$valueKolom_k; ?>">
+																								<?php } else { ?>
+																									<div class="form-group">
+																										<label for="input_edit_<?php echo $dataValueKolom[$k]; ?>"><?php echo $dataNamaKolom[$k]; ?><b class="text-danger">*</b></label>
+																										<input class="form-control" id="input_edit_<?php echo $dataValueKolom[$k]; ?>" name="<?php echo $dataValueKolom[$k]; ?>" type="text" value="<?php echo $row->$valueKolom_k; ?>" required>
+																									</div>
+																								<?php } ?>
+																							<?php } ?>
+																							<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+																						</div>
+																						<div class="modal-footer">
+																							<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																							<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																						</div>
+																					</form>
+																				</div>
+																			</div>
+																		</div>
+																	</td>
+																	<td>
+																		<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																			<div class="additional-table-delete-button" data-toggle="tooltip" data-placement="bottom" title="Hapus">
+																			</div>
+																		</a>
+																		
+																		<!-- Modal for Delete dataVarietasBenihSumberJeruk per row -->
+																		<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" role="dialog" tabindex="-1">
+																			<div class="modal-dialog" role="document">
+																				<div class="modal-content">
+																					<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																						<div class="modal-header">
+																							<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true" class="text-danger">&times;</span>
+																							</button>
+																						</div>
+																						<div class="modal-body">
+																							<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
+																							<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID="<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																						</div>
+																						<div class="modal-footer">
+																							<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																							<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																						</div>
+																					</form>
+																				</div>
+																			</div>
+																		</div>
+																	</td>
+																<?php } ?>
+															<?php } ?>
+														</tr>
+													<?php } ?>
+												<?php } ?>
+											<?php endforeach; ?>
+										<?php } ?>
 									</tbody>
 								</table>
+								
+								<div class="col">
+								
+									<!--Tampilkan pagination-->
+									<?php echo $pagination; ?>
+									<?php if ($countRows != NULL) { ?>
+										<?php if ($countRows <= 10) { ?>
+											<div class="pagging text-center">
+												<nav>
+													<ul class="pagination justify-content-center">
+														<li class="page-item disabled">
+															<a class="page-link" href="#" tabindex="-1">Previous</a>
+														</li>
+														<li class="page-item active">
+															<a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+														</li>
+														<li class="page-item disabled">
+															<a class="page-link" href="#">Next</a>
+														</li>
+													</ul>
+												</nav>
+											</div>
+										<?php } ?>
+									<?php } ?>
+								</div>
+							</div>
+						</div>
+						
+						<!-- (6). Form Tambah Konsumen -->
+						<hr>
+						<div class="section">
+							<div class="card container" id="tambahKonsumen">
+								<div class="row">
+									<div class="card-body">
+										<h5>Tambah Data</h5>
+										<form action="<?php echo base_url('postData/'.$dataTableName); ?>" method="post">
+											<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+												<?php if ($dataNamaKolom[$i] != "ID") { ?>
+													<div class="form-group">
+														<label for="input_add_<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?><b class="text-danger">*</b></label>
+														<input class="form-control" id="input_add_<?php echo $dataValueKolom[$i]; ?>" name="<?php echo $dataValueKolom[$i]; ?>" placeholder="Masukkan <?php echo $dataNamaKolom[$i]; ?>" type="text">
+													</div>
+												<?php } ?>
+											<?php } ?>
+											<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+											<br>
+											<button class="btn btn-primary text-center" type="submit">Submit</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- (7). Menu tambahan -->
+						<hr>
+						<div class="section">
+							<div class="card container" id="tambahKonsumen">
+								<div class="row">
+									<div class="card-body text-center">
+										<a class="mdi mdi-content-save-all text-primary" data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row"> Cadangkan (Backup)</a>
+										
+										<a>&thinsp; &bull; &thinsp; </a>
+										<a class="mdi mdi-close-circle text-danger" data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-all"> Hapus seluruh <?php echo $dataTableName_neat; ?></a>
+										
+										<!-- Modal for Delete all data table per row -->
+										<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-all" role="dialog" tabindex="-1">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<form action="<?php echo base_url('deleteData/'.$dataTableName.'/table'); ?>" method="post">
+														<div class="modal-header">
+															<h5 class="mdi mdi-alert modal-title" id="modalLabel"> Hapus Seluruh <?php echo $dataTableName_neat; ?></h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true" class="text-danger">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body text-left">
+															<p>Apakah anda yakin ingin menghapus seluruh <?php echo $dataTableName_neat; ?>?</p>
+															<small class="text-muted">Jika proses dilanjutkan, maka data yang sudah dihapus tidak dapat dikembalikan.</small>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+															<button type="submit" class="btn btn-primary">Konfirmasi</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+										
+										<a>&thinsp; &bull; &thinsp; </a>
+										<a class="mdi mdi-upload text-success" data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row"> Unggah (upload) data</a>
+									</div>
+								</div>
 							</div>
 						</div>
 						
 					</div>
+					<br>
 					
-					<!-- #Footer# -->
+					<!-- (8). Footer -->
 					<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
-						<span class="copyright ml-auto my-auto mr-2">Copyright © 2018
-							<a href="" rel="nofollow">Antara Digital</a>
-						</span>
-					
-						<small class="text-muted">Copyright ©
+						<small class="text-muted mx-auto">Copyright ©
 							<script type="text/javascript">
 								document.write(new Date().getFullYear());
 							</script>
-							All rights reserved. <a href="" rel="nofollow">SIM-BER-KIT</a>.
+							All rights reserved. <a href="<?php site_url('/'); ?>" rel="nofollow">SIM-BER-KIT</a>.
 						</small>
 					</footer>
 					
 				</main>
 			</div>
 		</div>
-		<div class="promo-popup animated">
-			<a href="http://bit.ly/shards-dashboard-pro" class="pp-cta extra-action">
-				<img src="https://dgc2qnsehk7ta.cloudfront.net/uploads/sd-blog-promo-2.jpg"> 
-			</a>
-		</div>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-		<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
-		<script src="/assets/js/extras.1.0.0.min.js"></script>
-		<script src="/assets/js/shards-dashboards.1.0.0.min.js"></script>
-		<script src="/assets/js/app/app-blog-overview.1.0.0.js"></script>
+		<script src="<?php echo base_url('assets/js/additional_dashboard.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/jquery-3.3.1.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
+		<script>
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
 	</body>
 </html>

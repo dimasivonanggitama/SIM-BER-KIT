@@ -106,7 +106,7 @@
 										<p class="card-text">Informasi mengenai konsumen (perorangan/instansi).</p>
 									</div>
 								</a>
-								<a class="card border border-secondary text-dark" href="#">
+								<a class="card border border-secondary text-dark" href="<?php echo site_url('infoVarietasBenihSumberJeruk'); ?>">
 									<div class="card-body">
 										<h5 class="card-title text-center">INFORMASI VARIETAS</h5>
 										<p class="card-text text-justify">Informasi mengenai jenis varietas harga benih sumber (Benih Dasar dan Benih Pokok).</p>

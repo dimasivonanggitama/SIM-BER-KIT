@@ -1,12 +1,35 @@
 <?php
-	class user extends CI_Controller {
+	include_once(APPPATH.'core/coreController.php');
+	class user extends coreController {
 		public function __construct() {
 			parent::__construct();
 			//$this->load->config('user');
-			$this->load->helper('url');
-			$this->load->library('session');
 			$this->load->model('adminModel');
 			$this->load->model('userModel');
+		}
+
+		function getInformasiVarietas() {
+			$actorName = 'Guest';
+			$pageFileName = 'view_informasiVarietas';
+			$pageTitle = 'Info Varietas Benih Sumber Jeruk';
+			$pageURL = 'infoVarietasBenihSumberJeruk';
+			$tableName = 'dataVarietasBenihSumberJeruk';
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+			// $this->getDataTable($actorName, $pageName, $tableName);
+		}
+		
+		function guestIntersection() {
+			$function = $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL = $this->uri->segment(3);	//segment(1) untuk nama method
+			if ($function == 'filterTable') {	
+				$this->filterTable($pageURL);
+			} else if ($function == 'reset_filterTable') {
+				$this->reset_filterTable($pageURL);
+			} else if ($function == 'reset_sortTable') {
+				$this->reset_sortTable($pageURL);
+			} else if ($function == 'sortTable') {
+				$this->sortTable($pageURL);
+			} 
 		}
 
   		public function index() {
@@ -147,6 +170,16 @@
 			// if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
 				// $this->load->view($this->uri->segment(3));
 			// } else redirect('/');
+		// }
+	
+		// function reset_sortTable() {
+			// $pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+			// $this->reset_sortTable($pageURL);
+		// }
+	
+		// function sortTable() {
+			// $pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
+			// $this->sortTable($pageURL);
 		// }
 		
 		function test_page() {
