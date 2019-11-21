@@ -17,6 +17,23 @@
 			}
 		}
 		
+		function adminIntersection() {
+			$function 	= $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL 	= $this->uri->segment(3);	//segment(1) untuk nama method
+			$tableName 	= $this->uri->segment(4);	//segment(1) untuk nama method
+			if ($function == 'filterTable') {
+				$this->filterTable($pageURL);
+			} else if ($function == 'postData') {
+				$this->postData($pageURL, $tableName); 
+			} else if ($function == 'reset_filterTable') {
+				$this->reset_filterTable($pageURL);
+			} else if ($function == 'reset_sortTable') {
+				$this->reset_sortTable($pageURL);
+			} else if ($function == 'sortTable') {
+				$this->sortTable($pageURL);
+			} 
+		}
+		
   		public function dataKonsumen() {
 			//menampilkan halaman Data Konsumen untuk Admin
 			$jumlah_data = $this->adminModel->getDataKonsumen_CountRows();

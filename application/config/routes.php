@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'user';
 
 $route['admin'] 								= 'adminController/index';
+$route['adminIntersection/(:any)/(:any)'] 		= 'adminController/adminIntersection';
 $route['dataKonsumen'] 							= 'adminController/dataKonsumen';
 $route['dataKonsumen/(:num)'] 					= 'adminController/dataKonsumen';
 $route['dataKonsumen_add'] 						= 'adminController/dataKonsumen_add';
