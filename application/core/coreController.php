@@ -92,6 +92,11 @@
 		}
 		
 		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName) {
+			if ($actorName == 'Admin') {
+				$modelClass = 'adminModel';
+			} else if ($actorName == 'Guest') {
+				$modelClass = 'userModel';
+			}
 			$data['dataTableName'] = $tableName;
 			$jumlah_data = 0;
 			$result = $this->adminModel->getData($tableName)->result();

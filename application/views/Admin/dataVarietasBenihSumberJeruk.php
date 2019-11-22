@@ -470,7 +470,7 @@
 								<div class="row">
 									<div class="card-body">
 										<h5>Tambah Data</h5>
-										<form action="<?php echo base_url('adminIntersection/postData/'.$dataPageURL); ?>" method="post">
+										<form action="<?php echo base_url('adminIntersection/postData/'.$dataPageURL.'/'.$dataTableName); ?>" method="post">
 											<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
 												<?php if ($dataNamaKolom[$i] != "ID") { ?>
 													<div class="form-group">

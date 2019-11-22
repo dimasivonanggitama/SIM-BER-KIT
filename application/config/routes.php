@@ -51,39 +51,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'user';
 
-$route['admin'] 								= 'adminController/index';
-$route['adminIntersection/(:any)/(:any)'] 		= 'adminController/adminIntersection';
-$route['dataKonsumen'] 							= 'adminController/dataKonsumen';
-$route['dataKonsumen/(:num)'] 					= 'adminController/dataKonsumen';
-$route['dataKonsumen_add'] 						= 'adminController/dataKonsumen_add';
-$route['dataKonsumen_delete'] 					= 'adminController/dataKonsumen_delete';
-$route['dataKonsumen_delete_all'] 				= 'adminController/dataKonsumen_delete_all';
-$route['dataKonsumen_filter'] 					= 'adminController/dataKonsumen_filter';
-$route['dataKonsumen_filter_reset'] 			= 'adminController/dataKonsumen_filter_reset';
-$route['dataKonsumen_sort'] 					= 'adminController/dataKonsumen_sort';
-$route['dataKonsumen_sort_reset'] 				= 'adminController/dataKonsumen_sort_reset';
-$route['dataKonsumen_update'] 					= 'adminController/dataKonsumen_update';
-$route['dataVarietasBenihSumberJeruk'] 			= 'adminController/getDataVarietasBenihSumberJeruk';
-$route['dataVarietasBenihSumberJeruk/(:num)'] 	= 'adminController/getDataVarietasBenihSumberJeruk';
-$route['deleteData/(:any)/(:any)']				= 'adminController/deleteData';
-$route['editDataTable/(:any)'] 					= 'adminController/editDataTable';
-$route['filterTable/(:any)'] 					= 'user/filterTable';
-$route['guestIntersection/(:any)/(:any)'] 		= 'user/guestIntersection';
-$route['infoVarietasBenihSumberJeruk'] 			= 'user/getInformasiVarietas';
-$route['infoVarietasBenihSumberJeruk/(:num)'] 	= 'user/getInformasiVarietas';
-$route['postData/(:any)'] 						= 'adminController/postData';
-$route['reset_filterTable/(:any)'] 				= 'user/reset_filterTable';
-$route['reset_sortTable/admin/(:any)'] 			= 'adminController/reset_sortTable';
-$route['reset_sortTable/guest/(:any)'] 			= 'user/reset_sortTable';
-$route['sortTable/admin/(:any)'] 				= 'adminController/sortTable';
-$route['sortTable/guest/(:any)'] 				= 'user/sortTable';
-$route['home'] 									= 'user/index';
-$route['login'] 								= 'user/login';
-$route['logout'] 								= 'adminController/logout';
-$route['permintaan'] 							= 'user/permintaan';
-$route['permintaan_add'] 						= 'user/permintaan_add';
+$route['admin'] 									= 'adminController/index';
+$route['adminIntersection/(:any)/(:any)']			= 'adminController/adminIntersection';	//(1) = adminIntersection (2) = (:any) function name, (3) = (:any) page URL
+$route['adminIntersection/(:any)/(:any)/(:any)']	= 'adminController/adminIntersection';	//(1) = adminIntersection (2) = (:any) function name, (3) = (:any) page URL, (4) = (:any) table name
+$route['dataKonsumen'] 								= 'adminController/dataKonsumen';
+$route['dataKonsumen/(:num)'] 						= 'adminController/dataKonsumen';
+$route['dataKonsumen_add'] 							= 'adminController/dataKonsumen_add';
+$route['dataKonsumen_delete'] 						= 'adminController/dataKonsumen_delete';
+$route['dataKonsumen_delete_all'] 					= 'adminController/dataKonsumen_delete_all';
+$route['dataKonsumen_filter'] 						= 'adminController/dataKonsumen_filter';
+$route['dataKonsumen_filter_reset'] 				= 'adminController/dataKonsumen_filter_reset';
+$route['dataKonsumen_sort'] 						= 'adminController/dataKonsumen_sort';
+$route['dataKonsumen_sort_reset'] 					= 'adminController/dataKonsumen_sort_reset';
+$route['dataKonsumen_update'] 						= 'adminController/dataKonsumen_update';
+$route['dataVarietasBenihSumberJeruk'] 				= 'adminController/getDataVarietasBenihSumberJeruk';
+$route['dataVarietasBenihSumberJeruk/(:num)'] 		= 'adminController/getDataVarietasBenihSumberJeruk';
+$route['deleteData/(:any)/(:any)']					= 'adminController/deleteData';
+$route['editDataTable/(:any)'] 						= 'adminController/editDataTable';
+$route['filterTable/(:any)'] 						= 'user/filterTable';
+$route['guestIntersection/(:any)/(:any)'] 			= 'user/guestIntersection';	//(1) = guestIntersection (2) = (:any) function name, (3) = (:any) page URL
+$route['infoVarietasBenihSumberJeruk'] 				= 'user/getInformasiVarietas';
+$route['infoVarietasBenihSumberJeruk/(:num)'] 		= 'user/getInformasiVarietas';
+$route['postData/(:any)'] 							= 'adminController/postData';
+$route['reset_filterTable/(:any)'] 					= 'user/reset_filterTable';
+$route['reset_sortTable/admin/(:any)'] 				= 'adminController/reset_sortTable';
+$route['reset_sortTable/guest/(:any)'] 				= 'user/reset_sortTable';
+$route['sortTable/admin/(:any)'] 					= 'adminController/sortTable';
+$route['sortTable/guest/(:any)'] 					= 'user/sortTable';
+$route['home'] 										= 'user/index';
+$route['login'] 									= 'user/login';
+$route['logout'] 									= 'adminController/logout';
+$route['permintaan'] 								= 'user/permintaan';
+$route['permintaan_add'] 							= 'user/permintaan_add';
 
-$route['test'] 									= 'user/test_page';
+$route['test'] 										= 'user/test_page';
 
 // $route['admin/editNews'] 	= 'admin_Konten/editNews';
 // $route['admin/ourClient'] 	= 'admin_Konten/addClient';
