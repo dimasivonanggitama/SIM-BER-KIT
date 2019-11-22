@@ -92,6 +92,11 @@
 		}
 		
 		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName) {
+			if ($actorName == 'Admin') {
+				$modelClass = 'adminModel';
+			} else if ($actorName == 'Guest') {
+				$modelClass = 'userModel';
+			}
 			$data['dataTableName'] = $tableName;
 			$jumlah_data = 0;
 			$result = $this->adminModel->getData($tableName)->result();
@@ -222,8 +227,7 @@
 			$this->load->view($actorName.'/'.$pageFileName, $data);
 		}
 		
-		function postData() {
-			$tableName = $this->uri->segment(2);	//segment(1) untuk nama method
+		function postData($pageURL, $tableName) {
 			$data = 0;
 			$dataValueKolom = $this->getColumnValue($tableName);
 			$dataNamaKolom = $this->getNeatWriting($tableName, 'column');
@@ -242,7 +246,7 @@
 			}
 			//echo '<pre>'.print_r($data, true).'</pre>';
 			$this->adminModel->postData($tableName, $data);
-			return redirect($tableName);
+			return redirect($pageURL);
 		}
 		
 		function reset_filterTable($pageURL) {
