@@ -1,5 +1,6 @@
 <?php
-	class userModel extends CI_Model {
+	include_once(APPPATH.'core/coreModel.php');
+	class userModel extends coreModel {
 		public function postDataPermintaan($add_data) {
 			$this->load->database();
 			return $this->db->insert('permintaan', $add_data);
