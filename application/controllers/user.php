@@ -1,6 +1,7 @@
 <?php
 	include_once(APPPATH.'core/coreController.php');
 	class user extends coreController {
+		protected $constantModelClass = 'userModel';
 		public function __construct() {
 			parent::__construct();
 			//$this->load->config('user');
