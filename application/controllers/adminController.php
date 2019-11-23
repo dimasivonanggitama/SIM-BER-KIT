@@ -5,11 +5,10 @@
 	// class adminController extends CI_Controller {
 	include_once(APPPATH.'core/coreController.php');
 	class adminController extends coreController {
+		protected $constantModelClass = 'adminModel';
 		function __construct() {
 			parent::__construct();
 			$this->load->model('adminModel');
-			//if ($this->session->userdata('admin') == FALSE) {
-			//redirect('admin');}
 			if ($this->session->has_userdata('userdata') == NULL) {
 				$this->session->set_userdata('announcementText', 'Anda harus <strong><i>Login</i></strong> terlebih dahulu!');
 				$this->session->set_userdata('announcementColor', 'danger');
