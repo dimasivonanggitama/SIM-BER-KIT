@@ -70,6 +70,8 @@ $route['deleteData/(:any)/(:any)']					= 'adminController/deleteData';
 $route['editDataTable/(:any)'] 						= 'adminController/editDataTable';
 $route['filterTable/(:any)'] 						= 'guestController/filterTable';
 $route['guestIntersection/(:any)/(:any)'] 			= 'guestController/guestIntersection';	//(1) = guestIntersection (2) = (:any) function name, (3) = (:any) page URL
+$route['infoDistribusi'] 							= 'guestController/getInfoDistribusi';
+$route['infoDistribusi/(:num)'] 					= 'guestController/getInfoDistribusi';
 $route['infoKonsumen'] 								= 'guestController/getInfoKonsumen';
 $route['infoKonsumen/(:num)'] 						= 'guestController/getInfoKonsumen';
 $route['infoVarietasBenihSumberJeruk'] 				= 'guestController/getInfoVarietasBenihSumberJeruk';
