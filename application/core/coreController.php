@@ -92,7 +92,7 @@
 			return $namaKolom;
 		}
 		
-		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName) {
+		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn = NULL) {
 			$data['dataTableName'] = $tableName;
 			$jumlah_data = 0;
 			$modelClass = $this->constantModelClass;
@@ -133,7 +133,7 @@
 				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
 					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
-					$data[$tableName] = $this->$modelClass->getData($tableName, NULL, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
 					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
 					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
@@ -143,24 +143,24 @@
 					$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
 					
 					if ($specificFiltering == 'on') {
-						$jumlah_data = $this->$modelClass->getData($tableName, NULL, 'specific', $filteredBy, $filterWords)->num_rows();
+						$jumlah_data = $this->$modelClass->getData($tableName, $particularColumn, 'specific', $filteredBy, $filterWords)->num_rows();
 						$config['total_rows'] = $jumlah_data;
 						$this->pagination->initialize($config);
 						
 						if ($backwardDirection == 'on') {
-							$data[$tableName] = $this->$modelClass->getData($tableName, NULL, 'specific', $filteredBy, $filterWords, $sortedBy, 'desc', $config['per_page'], $from);
+							$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, 'specific', $filteredBy, $filterWords, $sortedBy, 'desc', $config['per_page'], $from);
 						} else {
-							$data[$tableName] = $this->$modelClass->getData($tableName, NULL, 'specific', $filteredBy, $filterWords, $sortedBy, 'asc', $config['per_page'], $from);
+							$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, 'specific', $filteredBy, $filterWords, $sortedBy, 'asc', $config['per_page'], $from);
 						}
 					} else {
-						$jumlah_data = $this->$modelClass->getData($tableName, NULL, 'similar', $filteredBy, $filterWords)->num_rows();
+						$jumlah_data = $this->$modelClass->getData($tableName, $particularColumn, 'similar', $filteredBy, $filterWords)->num_rows();
 						$config['total_rows'] = $jumlah_data;
 						$this->pagination->initialize($config);
 						
 						if ($backwardDirection == 'on') {
-							$data[$tableName] = $this->$modelClass->getData($tableName, NULL, 'similar', $filteredBy, $filterWords, $sortedBy, 'desc', $config['per_page'], $from);
+							$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, 'similar', $filteredBy, $filterWords, $sortedBy, 'desc', $config['per_page'], $from);
 						} else {
-							$data[$tableName] = $this->$modelClass->getData($tableName, NULL, 'similar', $filteredBy, $filterWords, $sortedBy, 'asc', $config['per_page'], $from);
+							$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, 'similar', $filteredBy, $filterWords, $sortedBy, 'asc', $config['per_page'], $from);
 						}
 					}
 					
@@ -176,15 +176,15 @@
 				$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
 				
 				if ($backwardDirection == 'on') {
-					$data[$tableName] = $this->$modelClass->getData($tableName, NULL, NULL, NULL, NULL, $sortedBy, 'desc', $config['per_page'], $from);
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'desc', $config['per_page'], $from);
 				} else {
-					$data[$tableName] = $this->$modelClass->getData($tableName, NULL, NULL, NULL, NULL, $sortedBy, 'asc', $config['per_page'], $from);
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'asc', $config['per_page'], $from);
 				}
 			} else if ($this->session->has_userdata('filterOption_data')) {			
 				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
 					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
-					$data[$tableName] = $this->$modelClass->getData($tableName, NULL, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
 					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
 					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
@@ -192,15 +192,15 @@
 					
 					//
 					if ($specificFiltering == 'on') {
-						$jumlah_data = $this->$modelClass->getData($tableName, NULL, 'specific', $filteredBy, $filterWords)->num_rows();
+						$jumlah_data = $this->$modelClass->getData($tableName, $particularColumn, 'specific', $filteredBy, $filterWords)->num_rows();
 						$config['total_rows'] = $jumlah_data;
 						$this->pagination->initialize($config);
-						$data[$tableName] = $this->$modelClass->getData($tableName, NULL, 'specific', $filteredBy, $filterWords, NULL, NULL, $config['per_page'], $from);
+						$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, 'specific', $filteredBy, $filterWords, NULL, NULL, $config['per_page'], $from);
 					} else {
-						$jumlah_data = $this->$modelClass->getData($tableName, NULL, 'similar', $filteredBy, $filterWords)->num_rows();
+						$jumlah_data = $this->$modelClass->getData($tableName, $particularColumn, 'similar', $filteredBy, $filterWords)->num_rows();
 						$config['total_rows'] = $jumlah_data;
 						$this->pagination->initialize($config);
-						$data[$tableName] = $this->$modelClass->getData($tableName, NULL, 'similar', $filteredBy, $filterWords, NULL, NULL, $config['per_page'], $from);
+						$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, 'similar', $filteredBy, $filterWords, NULL, NULL, $config['per_page'], $from);
 					}
 					
 					//
@@ -211,7 +211,7 @@
 					}
 				}
 			} else {
-				$data[$tableName] = $this->$modelClass->getData($tableName, NULL, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
+				$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 			}
 			$data['pagination'] = $this->pagination->create_links();
 			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column');
