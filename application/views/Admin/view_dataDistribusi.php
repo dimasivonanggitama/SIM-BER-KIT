@@ -277,28 +277,28 @@
 												<div class="col">
 													<div class="form-group">
 														<select class="form-control" name="select_sort_option" required>
-																<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == NULL) { ?>
-																	<option value="not selected">-- Urutkan berdasarkan --</option>
-																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
-																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
-																			<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																		<?php } ?>
+															<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == NULL) { ?>
+																<option value="not selected">-- Urutkan berdasarkan --</option>
+																<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																	<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																		<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
 																	<?php } ?>
-																<?php } else { ?>
-																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
-																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
-																			<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
-																				<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																				<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
-																					<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
-																						<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
-																					<?php } ?>
+																<?php } ?>
+															<?php } else { ?>
+																<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
+																	<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																		<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
+																			<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																			<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																				<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																					<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
 																				<?php } ?>
-																			<?php }	?>
+																			<?php } ?>
 																		<?php }	?>
 																	<?php }	?>
 																<?php }	?>
-															</select>
+															<?php }	?>
+														</select>
 														<small class="form-text text-muted">Urutkan berdasarkan kolom.</small>
 													</div>
 													<div class="form-check">
@@ -368,7 +368,12 @@
 																				<?php } ?> 
 																			<?php } ?> 
 																		>
-																			<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php if ($dataValueKolom[$j] == "tanggalDistribusi") { ?>
+																				<?php $date = date_create($row->$valueKolom_j); ?>
+																				<?php echo date_format($date, "d/m/Y"); ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php } else { ?>
+																				<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php } ?>
 																		</td>
 																	<?php } ?>
 																<?php } ?>
@@ -464,7 +469,7 @@
 																				<?php } ?> 
 																			<?php } ?> 
 																		>
-																			
+																			<!-- //nothing to show -->
 																		</td>
 																	<?php } else { ?>
 																		<td
