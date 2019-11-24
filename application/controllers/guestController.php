@@ -9,14 +9,27 @@
 			$this->load->model('guestModel');
 		}
 
+		function getInfoKonsumen() {
+			$actorName 	  = 'Guest';
+			$pageFileName = 'view_infoKonsumen';
+			$pageTitle 	  = 'Info Konsumen';
+			$pageURL 	  = 'infoKonsumen';
+			$tableName 	  = 'dataKonsumen';
+			$particularColumn = array(
+				'id_konsumen',
+				'nama_konsumen',
+				'kabupatenkota'
+			);
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);
+		}
+
 		function getInformasiVarietas() {
-			$actorName = 'Guest';
+			$actorName 	  = 'Guest';
 			$pageFileName = 'view_informasiVarietas';
-			$pageTitle = 'Info Varietas Benih Sumber Jeruk';
-			$pageURL = 'infoVarietasBenihSumberJeruk';
-			$tableName = 'dataVarietasBenihSumberJeruk';
+			$pageTitle 	  = 'Info Varietas Benih Sumber Jeruk';
+			$pageURL 	  = 'infoVarietasBenihSumberJeruk';
+			$tableName 	  = 'dataVarietasBenihSumberJeruk';
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
-			// $this->getDataTable($actorName, $pageName, $tableName);
 		}
 		
 		function guestIntersection() {

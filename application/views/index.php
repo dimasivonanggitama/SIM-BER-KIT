@@ -100,7 +100,7 @@
 					<div class="mx-auto">
 						<div class="card bg-light" style="width: 85rem;">
 							<div class="card-deck">
-								<a class="card border border-secondary text-dark" href="#">
+								<a class="card border border-secondary text-dark" href="<?php echo site_url('infoKonsumen'); ?>">
 									<div class="card-body">
 										<h5 class="card-title text-center">INFORMASI KONSUMEN</h5>
 										<p class="card-text">Informasi mengenai konsumen (perorangan/instansi).</p>

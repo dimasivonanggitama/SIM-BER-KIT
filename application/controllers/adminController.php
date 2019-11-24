@@ -30,7 +30,7 @@
 				$this->reset_sortTable($pageURL);
 			} else if ($function == 'sortTable') {
 				$this->sortTable($pageURL);
-			} 
+			}
 		}
 		
   		public function dataKonsumen() {
