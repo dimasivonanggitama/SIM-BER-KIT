@@ -1,6 +1,6 @@
 <?php
 	include_once(APPPATH.'core/coreController.php');
-	class user extends coreController {
+	class guestController extends coreController {
 		protected $constantModelClass = 'guestModel';
 		public function __construct() {
 			parent::__construct();

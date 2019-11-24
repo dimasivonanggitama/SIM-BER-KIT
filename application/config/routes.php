@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'user';
+$route['default_controller'] = 'guestController';
 
 $route['admin'] 									= 'adminController/index';
 $route['adminIntersection/(:any)/(:any)']			= 'adminController/adminIntersection';	//(1) = adminIntersection (2) = (:any) function name, (3) = (:any) page URL
@@ -68,29 +68,23 @@ $route['dataVarietasBenihSumberJeruk'] 				= 'adminController/getDataVarietasBen
 $route['dataVarietasBenihSumberJeruk/(:num)'] 		= 'adminController/getDataVarietasBenihSumberJeruk';
 $route['deleteData/(:any)/(:any)']					= 'adminController/deleteData';
 $route['editDataTable/(:any)'] 						= 'adminController/editDataTable';
-$route['filterTable/(:any)'] 						= 'user/filterTable';
-$route['guestIntersection/(:any)/(:any)'] 			= 'user/guestIntersection';	//(1) = guestIntersection (2) = (:any) function name, (3) = (:any) page URL
-$route['infoVarietasBenihSumberJeruk'] 				= 'user/getInformasiVarietas';
-$route['infoVarietasBenihSumberJeruk/(:num)'] 		= 'user/getInformasiVarietas';
+$route['filterTable/(:any)'] 						= 'guestController/filterTable';
+$route['guestIntersection/(:any)/(:any)'] 			= 'guestController/guestIntersection';	//(1) = guestIntersection (2) = (:any) function name, (3) = (:any) page URL
+$route['infoVarietasBenihSumberJeruk'] 				= 'guestController/getInformasiVarietas';
+$route['infoVarietasBenihSumberJeruk/(:num)'] 		= 'guestController/getInformasiVarietas';
 $route['postData/(:any)'] 							= 'adminController/postData';
-$route['reset_filterTable/(:any)'] 					= 'user/reset_filterTable';
+$route['reset_filterTable/(:any)'] 					= 'guestController/reset_filterTable';
 $route['reset_sortTable/admin/(:any)'] 				= 'adminController/reset_sortTable';
-$route['reset_sortTable/guest/(:any)'] 				= 'user/reset_sortTable';
+$route['reset_sortTable/guest/(:any)'] 				= 'guestController/reset_sortTable';
 $route['sortTable/admin/(:any)'] 					= 'adminController/sortTable';
-$route['sortTable/guest/(:any)'] 					= 'user/sortTable';
-$route['home'] 										= 'user/index';
-$route['login'] 									= 'user/login';
+$route['sortTable/guest/(:any)'] 					= 'guestController/sortTable';
+$route['home'] 										= 'guestController/index';
+$route['login'] 									= 'guestController/login';
 $route['logout'] 									= 'adminController/logout';
-$route['permintaan'] 								= 'user/permintaan';
-$route['permintaan_add'] 							= 'user/permintaan_add';
+$route['permintaan'] 								= 'guestController/permintaan';
+$route['permintaan_add'] 							= 'guestController/permintaan_add';
 
-$route['test'] 										= 'user/test_page';
-
-// $route['admin/editNews'] 	= 'admin_Konten/editNews';
-// $route['admin/ourClient'] 	= 'admin_Konten/addClient';
-// $route['admin/getNews'] 	= 'admin_Konten/getNews';
-// $route['admin/manageAccount'] 	= 'admin_Sistem/addAccount';
-//$route['admin_Sistem/addNews'] = '/user/login';
+$route['test'] 										= 'guestController/test_page';
 
 //$route['default_controller'] = '';
 $route['404_override'] = '';
