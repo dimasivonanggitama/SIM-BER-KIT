@@ -191,8 +191,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="col">
-							<?php if ($this->session->has_userdata('filterInfo_failed')) { ?>
-								<?php $this->session->unset_userdata('filterInfo_failed'); ?>
+							<?php if ($this->session->has_userdata('failedInfo')) { ?>
+								<?php $this->session->unset_userdata('failedInfo'); ?>
 								<span class="form-text page-subtitle">
 									<hr>
 									<p class="text-danger mdi mdi-alert"> 
