@@ -85,21 +85,25 @@
 													<div class="col">
 														<div class="form-group">
 															<select class="form-control" name="select_filter_option" required>
-																<?php for ($i = 1; $i < count($dataValueKolom); $i++) {	?>
-																	<?php if ($dataNamaKolom[$i] == "ID") { ?>
-																		<?php continue; ?>
-																	<?php } else { ?>
-																		<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
-																			<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																			<?php for ($j = 1; $j < count($dataValueKolom); $j++) { ?>
-																				<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
-																					<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
-																				<?php } ?>
-																			<?php } ?>
-																		<?php } else { ?>
-																			<option value="not selected">-- Cari berdasarkan --</option>
+																<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == NULL) { ?>
+																	<option value="not selected">-- Cari berdasarkan --</option>
+																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
 																			<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
 																		<?php } ?>
+																	<?php } ?>
+																<?php } else { ?>
+																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
+																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																			<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
+																				<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																				<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																					<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																						<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																					<?php } ?>
+																				<?php } ?>
+																			<?php }	?>
+																		<?php }	?>
 																	<?php }	?>
 																<?php }	?>
 															</select>
@@ -136,22 +140,27 @@
 													<div class="col">
 														<div class="form-group">
 															<select class="form-control" name="select_sort_option" required>
-																<?php for($i = 0; $i < count($dataValueKolom); $i++) { ?>
-																	<?php if ($dataNamaKolom[$i] == "ID") { ?>
-																		<?php continue; ?>
-																	<?php } else { ?>
-																		<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
-																			<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																			<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
-																				<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
-																					<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
-																				<?php } ?>
-																			<?php } ?>
-																		<?php } else { ?>
+																<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == NULL) { ?>
+																	<option value="not selected">-- Urutkan berdasarkan --</option>
+																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
 																			<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
 																		<?php } ?>
 																	<?php } ?>
-																<?php } ?>
+																<?php } else { ?>
+																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
+																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																			<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
+																				<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																				<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																					<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																						<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																					<?php } ?>
+																				<?php } ?>
+																			<?php }	?>
+																		<?php }	?>
+																	<?php }	?>
+																<?php }	?>
 															</select>
 															<small class="form-text text-muted">Urutkan berdasarkan kolom.</small>
 														</div>
@@ -182,8 +191,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="col">
-							<?php if ($this->session->has_userdata('filterInfo_failed')) { ?>
-								<?php $this->session->unset_userdata('filterInfo_failed'); ?>
+							<?php if ($this->session->has_userdata('failedInfo')) { ?>
+								<?php $this->session->unset_userdata('failedInfo'); ?>
 								<span class="form-text page-subtitle">
 									<hr>
 									<p class="text-danger mdi mdi-alert"> 
