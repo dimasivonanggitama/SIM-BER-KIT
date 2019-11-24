@@ -140,6 +140,10 @@
 					$this->session->set_userdata('failedInfo', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
+				} else if ($this->session->userdata['sortOption_data']['sortedBy'] == 'not selected') {
+					$this->session->set_userdata('failedInfo', $this->session->userdata['sortOption_data']['sortedBy']);
+					$this->session->unset_userdata('sortOption_data');
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
 					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
 					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
