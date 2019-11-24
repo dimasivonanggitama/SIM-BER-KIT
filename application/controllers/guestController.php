@@ -1,12 +1,12 @@
 <?php
 	include_once(APPPATH.'core/coreController.php');
-	class user extends coreController {
-		protected $constantModelClass = 'userModel';
+	class guestController extends coreController {
+		protected $constantModelClass = 'guestModel';
 		public function __construct() {
 			parent::__construct();
 			//$this->load->config('user');
 			$this->load->model('adminModel');
-			$this->load->model('userModel');
+			$this->load->model('guestModel');
 		}
 
 		function getInformasiVarietas() {
@@ -135,7 +135,7 @@
 				'jumlah_BP' 		=> $this->input->post('input_jumlah_bp')
 			);
 		
-			$this->userModel->postDataPermintaan($add_data);
+			$this->guestModel->postDataPermintaan($add_data);
 			return redirect('permintaan');
 			
 			//$time = new DateTime('Asia/Jakarta');

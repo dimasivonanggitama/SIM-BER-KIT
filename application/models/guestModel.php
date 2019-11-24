@@ -1,6 +1,6 @@
 <?php
 	include_once(APPPATH.'core/coreModel.php');
-	class userModel extends coreModel {
+	class guestModel extends coreModel {
 		public function postDataPermintaan($add_data) {
 			$this->load->database();
 			return $this->db->insert('permintaan', $add_data);
