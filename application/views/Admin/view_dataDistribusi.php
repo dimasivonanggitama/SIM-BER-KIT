@@ -205,7 +205,7 @@
 							<div class="card">
 								<div class="card-header" id="headingOne">
 									<h2 class="mb-0">
-										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Konsumen</a>
+										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Data</a>
 										<button aria-controls="collapseOne" aria-expanded="false" class="btn" data-target="#collapseOne" data-toggle="collapse" id="button_filter_dataKonsumen" onclick="changeFilterButtonColor()" style="background-color: <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Filter Hasil</button>
 										<button aria-controls="collapseTwo" aria-expanded="false" class="btn" data-target="#collapseTwo" data-toggle="collapse" id="button_urut_dataKonsumen" onclick="changeUrutButtonColor()" style="background-color: <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Urutkan Berdasarkan</button>
 									</h2>
