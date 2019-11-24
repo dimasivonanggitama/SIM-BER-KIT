@@ -81,12 +81,21 @@
 			return $sentence;
 		}
 		
-		function getColumnValue($tableName) {
+		function getColumnValue($tableName, $particularColumn = NULL) {
 			$i = 0;
 			$modelClass = $this->constantModelClass;
 			$result = $this->$modelClass->getData($tableName, "column_name")->result();
 			foreach ($result as $res) {
-				$namaKolom[$i] = $res->column_name;
+				if ($particularColumn != NULL) {
+					for ($j = 0; $j < count($particularColumn); $j++) {
+						if ($res->column_name == $particularColumn[$j]) {
+							$namaKolom[$i] = $res->column_name;
+							break;
+						}
+					}
+				} else {
+					$namaKolom[$i] = $res->column_name;
+				}
 				$i++;
 			}
 			return $namaKolom;
@@ -218,7 +227,7 @@
 			$data['dataPageTitle'] = $pageTitle;
 			$data['dataPageURL'] = $pageURL;
 			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table');
-			$data['dataValueKolom'] = $this->getColumnValue($tableName);
+			$data['dataValueKolom'] = $this->getColumnValue($tableName, $particularColumn);
 			
 			//$this->load->view('guest/tambahPesanan', $data);
 			$this->load->view($actorName.'/'.$pageFileName, $data);
