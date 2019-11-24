@@ -44,7 +44,7 @@
 						$tempSplit[$j] = NULL;
 					}
 				}
-				if ($tempSplit == "ID") {	
+				if (in_array("ID", $tempSplit)) {	
 					$sentence = implode("", $tempSplit);	//tidak perlu pemisah karena string hanya 1 kata berupa "ID".
 				} else {
 					$sentence = implode(" ", $tempSplit);	//perlu pakai pemisah karena string terdiri dari banyak kata.
@@ -68,16 +68,13 @@
 							$tempSplit[$j] = NULL;
 						}
 					}
-					if ($tempSplit[$i] == "ID") {	
+					if (in_array("ID", $tempSplit)) {	
 						$sentence[$i] = implode("", $tempSplit);	//tidak perlu pemisah karena string hanya 1 kata berupa "ID".
 					} else {
 						$sentence[$i] = implode(" ", $tempSplit);	//perlu pakai pemisah karena string terdiri dari banyak kata.
 					}
 				}
 			}
-			
-			//echo '<pre>'.print_r($sentence, true).'</pre>';
-			
 			return $sentence;
 		}
 		
