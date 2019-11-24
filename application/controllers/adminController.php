@@ -276,10 +276,18 @@ $jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL
 			return redirect($tableName);
 		}
 		
+  		public function getDataDistribusi() {	//menampilkan halaman Data Varietas Benih Sumber Jeruk untuk Admin
+			$actorName 				= 'Admin';
+			$pageFileName 			= 'view_dataDistribusi';
+			$pageURL = $tableName 	= 'dataDistribusi';
+			$pageTitle 				= "DATA DISTRIBUSI";
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+  		}
+		
   		public function getDataVarietasBenihSumberJeruk() {	//menampilkan halaman Data Varietas Benih Sumber Jeruk untuk Admin
-			$actorName = 'Admin';
-			$pageFileName = $pageURL = $tableName = 'dataVarietasBenihSumberJeruk';
-			$pageTitle = "Data Varietas Benih Sumber Jeruk";
+			$actorName 				 	= 'Admin';
+			$pageFileName = $pageURL 	= $tableName = 'dataVarietasBenihSumberJeruk';
+			$pageTitle 					= "Data Varietas Benih Sumber Jeruk";
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
   		}
 		
