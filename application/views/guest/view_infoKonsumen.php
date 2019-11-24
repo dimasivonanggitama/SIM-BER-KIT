@@ -85,21 +85,25 @@
 													<div class="col">
 														<div class="form-group">
 															<select class="form-control" name="select_filter_option" required>
-																<?php for ($i = 1; $i < count($dataValueKolom); $i++) {	?>
-																	<?php if ($dataNamaKolom[$i] == "ID") { ?>
-																		<?php continue; ?>
-																	<?php } else { ?>
-																		<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
-																			<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																			<?php for ($j = 1; $j < count($dataValueKolom); $j++) { ?>
-																				<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
-																					<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
-																				<?php } ?>
-																			<?php } ?>
-																		<?php } else { ?>
-																			<option value="not selected">-- Cari berdasarkan --</option>
+																<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == NULL) { ?>
+																	<option value="not selected">-- Cari berdasarkan --</option>
+																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
 																			<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
 																		<?php } ?>
+																	<?php } ?>
+																<?php } else { ?>
+																	<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
+																		<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																			<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
+																				<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																				<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																					<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																						<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																					<?php } ?>
+																				<?php } ?>
+																			<?php }	?>
+																		<?php }	?>
 																	<?php }	?>
 																<?php }	?>
 															</select>
