@@ -61,6 +61,12 @@
 									<span>Data Varietas Benih Sumber Jeruk</span>
 								</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo site_url('dataDistribusi'); ?>">
+									<i class="material-icons">note_add</i>
+									<span>Data Distribusi</span>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</aside>
