@@ -23,9 +23,9 @@
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);
 		}
 
-		function getInformasiVarietas() {
+		function getInfoVarietasBenihSumberJeruk() {
 			$actorName 	  = 'Guest';
-			$pageFileName = 'view_informasiVarietas';
+			$pageFileName = 'view_infoVarietasBenihSumberJeruk';
 			$pageTitle 	  = 'Info Varietas Benih Sumber Jeruk';
 			$pageURL 	  = 'infoVarietasBenihSumberJeruk';
 			$tableName 	  = 'dataVarietasBenihSumberJeruk';
