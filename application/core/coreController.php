@@ -137,7 +137,7 @@
 			$data['countRows'] = NULL;
 			if ($this->session->has_userdata('sortOption_data') && $this->session->has_userdata('filterOption_data')) {
 				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
+					$this->session->set_userdata('failedInfo', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
@@ -178,17 +178,23 @@
 					}
 				}
 			} else if ($this->session->has_userdata('sortOption_data')) {
-				$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
-				$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
-				
-				if ($backwardDirection == 'on') {
-					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'desc', $config['per_page'], $from);
+				if ($this->session->userdata['sortOption_data']['sortedBy'] == 'not selected') {
+					$this->session->set_userdata('failedInfo', $this->session->userdata['sortOption_data']['sortedBy']);
+					$this->session->unset_userdata('sortOption_data');
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
-					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'asc', $config['per_page'], $from);
+					$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
+					$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
+					
+					if ($backwardDirection == 'on') {
+						$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'desc', $config['per_page'], $from);
+					} else {
+						$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'asc', $config['per_page'], $from);
+					}
 				}
 			} else if ($this->session->has_userdata('filterOption_data')) {			
 				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
+					$this->session->set_userdata('failedInfo', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
