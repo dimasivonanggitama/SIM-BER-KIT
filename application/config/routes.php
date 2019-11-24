@@ -72,8 +72,8 @@ $route['filterTable/(:any)'] 						= 'guestController/filterTable';
 $route['guestIntersection/(:any)/(:any)'] 			= 'guestController/guestIntersection';	//(1) = guestIntersection (2) = (:any) function name, (3) = (:any) page URL
 $route['infoKonsumen'] 								= 'guestController/getInfoKonsumen';
 $route['infoKonsumen/(:num)'] 						= 'guestController/getInfoKonsumen';
-$route['infoVarietasBenihSumberJeruk'] 				= 'guestController/getInformasiVarietas';
-$route['infoVarietasBenihSumberJeruk/(:num)'] 		= 'guestController/getInformasiVarietas';
+$route['infoVarietasBenihSumberJeruk'] 				= 'guestController/getInfoVarietasBenihSumberJeruk';
+$route['infoVarietasBenihSumberJeruk/(:num)'] 		= 'guestController/getInfoVarietasBenihSumberJeruk';
 $route['postData/(:any)'] 							= 'adminController/postData';
 $route['reset_filterTable/(:any)'] 					= 'guestController/reset_filterTable';
 $route['reset_sortTable/admin/(:any)'] 				= 'adminController/reset_sortTable';
