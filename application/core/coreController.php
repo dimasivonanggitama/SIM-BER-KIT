@@ -17,9 +17,9 @@
 			return redirect($pageURL);
 		}
 		
-  		function getNeatWriting($tableName, $somethingToNeat) {
+  		function getNeatWriting($tableName, $somethingToNeat, $particularColumn = NULL) {
 			if ($somethingToNeat == "column") {
-				$sentence = $this->getColumnValue($tableName);
+				$sentence = $this->getColumnValue($tableName, $particularColumn);
 			} else if ($somethingToNeat == "table") {
 				$sentence = $tableName;
 			} else {
@@ -44,7 +44,7 @@
 						$tempSplit[$j] = NULL;
 					}
 				}
-				if ($tempSplit == "ID") {	
+				if (in_array("ID", $tempSplit)) {	
 					$sentence = implode("", $tempSplit);	//tidak perlu pemisah karena string hanya 1 kata berupa "ID".
 				} else {
 					$sentence = implode(" ", $tempSplit);	//perlu pakai pemisah karena string terdiri dari banyak kata.
@@ -68,16 +68,13 @@
 							$tempSplit[$j] = NULL;
 						}
 					}
-					if ($tempSplit[$i] == "ID") {	
+					if (in_array("ID", $tempSplit)) {	
 						$sentence[$i] = implode("", $tempSplit);	//tidak perlu pemisah karena string hanya 1 kata berupa "ID".
 					} else {
 						$sentence[$i] = implode(" ", $tempSplit);	//perlu pakai pemisah karena string terdiri dari banyak kata.
 					}
 				}
 			}
-			
-			//echo '<pre>'.print_r($sentence, true).'</pre>';
-			
 			return $sentence;
 		}
 		
@@ -140,8 +137,12 @@
 			$data['countRows'] = NULL;
 			if ($this->session->has_userdata('sortOption_data') && $this->session->has_userdata('filterOption_data')) {
 				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
+					$this->session->set_userdata('failedInfo', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
+				} else if ($this->session->userdata['sortOption_data']['sortedBy'] == 'not selected') {
+					$this->session->set_userdata('failedInfo', $this->session->userdata['sortOption_data']['sortedBy']);
+					$this->session->unset_userdata('sortOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
 					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
@@ -181,17 +182,23 @@
 					}
 				}
 			} else if ($this->session->has_userdata('sortOption_data')) {
-				$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
-				$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
-				
-				if ($backwardDirection == 'on') {
-					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'desc', $config['per_page'], $from);
+				if ($this->session->userdata['sortOption_data']['sortedBy'] == 'not selected') {
+					$this->session->set_userdata('failedInfo', $this->session->userdata['sortOption_data']['sortedBy']);
+					$this->session->unset_userdata('sortOption_data');
+					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
-					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'asc', $config['per_page'], $from);
+					$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
+					$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
+					
+					if ($backwardDirection == 'on') {
+						$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'desc', $config['per_page'], $from);
+					} else {
+						$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, $sortedBy, 'asc', $config['per_page'], $from);
+					}
 				}
 			} else if ($this->session->has_userdata('filterOption_data')) {			
 				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
+					$this->session->set_userdata('failedInfo', $this->session->userdata['filterOption_data']['filteredBy']);
 					$this->session->unset_userdata('filterOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
@@ -223,10 +230,10 @@
 				$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 			}
 			$data['pagination'] = $this->pagination->create_links();
-			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column');
+			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column', $particularColumn);
 			$data['dataPageTitle'] = $pageTitle;
 			$data['dataPageURL'] = $pageURL;
-			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table');
+			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table', $particularColumn);
 			$data['dataValueKolom'] = $this->getColumnValue($tableName, $particularColumn);
 			
 			//$this->load->view('guest/tambahPesanan', $data);
