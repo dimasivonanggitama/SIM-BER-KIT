@@ -17,9 +17,9 @@
 			return redirect($pageURL);
 		}
 		
-  		function getNeatWriting($tableName, $somethingToNeat) {
+  		function getNeatWriting($tableName, $somethingToNeat, $particularColumn = NULL) {
 			if ($somethingToNeat == "column") {
-				$sentence = $this->getColumnValue($tableName);
+				$sentence = $this->getColumnValue($tableName, $particularColumn);
 			} else if ($somethingToNeat == "table") {
 				$sentence = $tableName;
 			} else {
@@ -223,10 +223,10 @@
 				$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 			}
 			$data['pagination'] = $this->pagination->create_links();
-			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column');
+			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column', $particularColumn);
 			$data['dataPageTitle'] = $pageTitle;
 			$data['dataPageURL'] = $pageURL;
-			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table');
+			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table', $particularColumn);
 			$data['dataValueKolom'] = $this->getColumnValue($tableName, $particularColumn);
 			
 			//$this->load->view('guest/tambahPesanan', $data);
