@@ -297,7 +297,7 @@
 																		>
 																			<?php if ($dataValueKolom[$j] == "tanggalDistribusi") { ?>
 																				<?php $date = date_create($row->$valueKolom_j); ?>
-																				<?php echo date_format($date, "d/m/Y"); ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																				<?php echo date_format($date, "d-m-Y"); ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
 																			<?php } else { ?>
 																				<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
 																			<?php } ?>
