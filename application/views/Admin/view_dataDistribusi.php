@@ -50,13 +50,13 @@
 								</a>
 							</li>
 							<li>
-								<a class="sidebar-menu-active border-bottom" href="<?php echo site_url('dataVarietasBenihSumberJeruk'); ?>">
-									<h6 class="font-weight-bold mdi mdi-pokeball"> Data Varietas Benih Sumber Jeruk</h6>
+								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataVarietasBenihSumberJeruk'); ?>">
+									<h6 class="font-weight-normal mdi mdi-pokeball"> Data Varietas Benih Sumber Jeruk</h6>
 								</a>
 							</li>
 							<li>
-								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataDistribusi'); ?>">
-									<h6 class="font-weight-normal mdi mdi-dropbox"> Data Distribusi</h6>
+								<a class="sidebar-menu-active border-bottom" href="<?php echo site_url('dataDistribusi'); ?>">
+									<h6 class="font-weight-bold mdi mdi-dropbox"> Data Distribusi</h6>
 								</a>
 							</li>
 						</ul>
@@ -140,10 +140,10 @@
 						<!-- (3). Page Header -->
 						<div class="page-header row no-gutters py-4">
 							<div class="col-12 col-sm-8 text-center text-sm-left mb-0">
-								<h3 class="page-title">DATA VARIETAS BENIH SUMBER JERUK</h3>
+								<h3 class="page-title"><?php echo $dataPageTitle; ?></h3>
 								<span class="text-uppercase page-subtitle">Dashboard</span>
-								<?php if ($this->session->has_userdata('filterInfo_failed')) { ?>
-									<?php $this->session->unset_userdata('filterInfo_failed'); ?>
+								<?php if ($this->session->has_userdata('failedInfo')) { ?>
+									<?php $this->session->unset_userdata('failedInfo'); ?>
 									<span class="form-text page-subtitle">
 										<hr>
 										<p class="text-danger mdi mdi-alert"> 
@@ -205,7 +205,7 @@
 							<div class="card">
 								<div class="card-header" id="headingOne">
 									<h2 class="mb-0">
-										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Konsumen</a>
+										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Data</a>
 										<button aria-controls="collapseOne" aria-expanded="false" class="btn" data-target="#collapseOne" data-toggle="collapse" id="button_filter_dataKonsumen" onclick="changeFilterButtonColor()" style="background-color: <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Filter Hasil</button>
 										<button aria-controls="collapseTwo" aria-expanded="false" class="btn" data-target="#collapseTwo" data-toggle="collapse" id="button_urut_dataKonsumen" onclick="changeUrutButtonColor()" style="background-color: <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Urutkan Berdasarkan</button>
 									</h2>
@@ -222,21 +222,25 @@
 												<div class="col">
 													<div class="form-group">
 														<select class="form-control" name="select_filter_option" required>
-															<?php for ($i = 1; $i < count($dataValueKolom); $i++) {	?>
-																<?php if ($dataNamaKolom[$i] == "ID") { ?>
-																	<?php continue; ?>
-																<?php } else { ?>
-																	<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
-																		<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																		<?php for ($j = 1; $j < count($dataValueKolom); $j++) { ?>
-																			<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
-																				<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
-																			<?php } ?>
-																		<?php } ?>
-																	<?php } else { ?>
-																		<option value="not selected">-- Cari berdasarkan --</option>
+															<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == NULL) { ?>
+																<option value="not selected">-- Cari berdasarkan --</option>
+																<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																	<?php if ($dataNamaKolom[$i] != "ID") { ?>
 																		<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
 																	<?php } ?>
+																<?php } ?>
+															<?php } else { ?>
+																<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
+																	<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																		<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $dataValueKolom[$i]) { ?>
+																			<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																			<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																				<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																					<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																				<?php } ?>
+																			<?php } ?>
+																		<?php }	?>
+																	<?php }	?>
 																<?php }	?>
 															<?php }	?>
 														</select>
@@ -273,22 +277,27 @@
 												<div class="col">
 													<div class="form-group">
 														<select class="form-control" name="select_sort_option" required>
-															<?php for($i = 0; $i < count($dataValueKolom); $i++) { ?>
-																<?php if ($dataNamaKolom[$i] == "ID") { ?>
-																	<?php continue; ?>
-																<?php } else { ?>
-																	<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
-																		<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
-																		<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
-																			<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
-																				<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
-																			<?php } ?>
-																		<?php } ?>
-																	<?php } else { ?>
+															<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == NULL) { ?>
+																<option value="not selected">-- Urutkan berdasarkan --</option>
+																<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
+																	<?php if ($dataNamaKolom[$i] != "ID") { ?>
 																		<option value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
 																	<?php } ?>
 																<?php } ?>
-															<?php } ?>
+															<?php } else { ?>
+																<?php for ($i = 0; $i < count($dataValueKolom); $i++) {	?>
+																	<?php if ($dataNamaKolom[$i] != "ID") { ?>
+																		<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $dataValueKolom[$i]) { ?>
+																			<option class="bg-success text-white" value="<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?></option>
+																			<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																				<?php if ($dataValueKolom[$i] != $dataValueKolom[$j] && $dataNamaKolom[$j] != "ID") { ?>
+																					<option value="<?php echo $dataValueKolom[$j]; ?>"><?php echo $dataNamaKolom[$j]; ?></option>
+																				<?php } ?>
+																			<?php } ?>
+																		<?php }	?>
+																	<?php }	?>
+																<?php }	?>
+															<?php }	?>
 														</select>
 														<small class="form-text text-muted">Urutkan berdasarkan kolom.</small>
 													</div>
@@ -332,105 +341,227 @@
 										<?php if ($countRows == "0") { ?>
 											<td colspan="4"><h6 class="text-center text-danger">Maaf, hasil pencarian tidak ditemukan.</h6></td>
 										<?php } else { ?>
-											<?php $id_varietasBenihSumberJeruk = $this->uri->segment('3') + 1; ?>
+											<?php //$id_varietasBenihSumberJeruk = $this->uri->segment('3') + 1; ?>
+											<?php $temp = ''; ?>
 											<?php foreach ($$dataTableName->result() as $row): ?>
 												<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
 													<?php $valueKolom_i = $dataValueKolom[$i]; ?>
 													<?php if ($dataNamaKolom[$i] == "ID") { ?>
 														<tr class="border-bottom additional-selected-row" id="<?php echo $row->$valueKolom_i; ?>">
-															<th scope="row"><?php echo $row->$valueKolom_i; ?></th>
-															<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
-																<?php $valueKolom_j = $dataValueKolom[$j]; ?>
-																<?php if ($dataNamaKolom[$j] != "ID") { ?>
-																	<td
-																		<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
-																			<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
-																				class="additional-selected-filter" 
+														
+															<?php if ($temp != $row->$valueKolom_i) { ?>
+																<?php $temp = $row->$valueKolom_i; ?>
+															
+																<th scope="row"><?php echo $row->$valueKolom_i; ?></th>
+																<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																	<?php if ($dataNamaKolom[$j] != "ID") { ?>
+																		<td
+																			<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-filter" 
+																				<?php } ?>
 																			<?php } ?>
-																		<?php } ?>
-																		<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
-																			<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
-																				class="additional-selected-sort" 
+																			<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-sort" 
+																				<?php } ?> 
 																			<?php } ?> 
-																		<?php } ?> 
-																	>
-																		<?php echo $row->$valueKolom_j; ?>
-																	</td>
+																		>
+																			<?php if ($dataValueKolom[$j] == "tanggalDistribusi") { ?>
+																				<?php $date = date_create($row->$valueKolom_j); ?>
+																				<?php echo date_format($date, "d/m/Y"); ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php } else { ?>
+																				<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php } ?>
+																		</td>
+																	<?php } ?>
 																<?php } ?>
-															<?php } ?>
-															<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
-																<?php $valueKolom_j = $dataValueKolom[$j]; ?>
-																<?php if ($dataNamaKolom[$j] == "ID") { ?>
-																	<td>
-																		<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
-																			<div class="additional-table-edit-button" data-toggle="tooltip" data-placement="bottom" title="Edit">
-																			</div>
-																		</a>
-																	
-																		<!-- Modal for edit data table -->
-																		<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
-																			<div class="modal-dialog modal-dialog-centered" role="document">
-																				<div class="modal-content">
-																					<div class="modal-header">
-																						<h5 class="mdi mdi-pencil modal-title" id="modalCenterTitle"> Edit <?php echo $dataTableName_neat; ?></h5>
-																						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																							<span aria-hidden="true" class="text-danger">&times;</span>
-																						</button>
-																					</div>
-																					<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
-																						<div class="modal-body">
-																							<?php for ($k = 0; $k < count($dataValueKolom); $k++) { ?>
-																								<?php $valueKolom_k = $dataValueKolom[$k]; ?>
-																								<?php if ($dataNamaKolom[$k] == "ID") { ?>
-																									<input type="hidden" name="hidden_input_id" value="<?php echo $row->$valueKolom_k; ?>">
-																								<?php } else { ?>
-																									<div class="form-group">
-																										<label for="input_edit_<?php echo $dataValueKolom[$k]; ?>"><?php echo $dataNamaKolom[$k]; ?><b class="text-danger">*</b></label>
-																										<input class="form-control" id="input_edit_<?php echo $dataValueKolom[$k]; ?>" name="<?php echo $dataValueKolom[$k]; ?>" type="text" value="<?php echo $row->$valueKolom_k; ?>" required>
-																									</div>
-																								<?php } ?>
-																							<?php } ?>
-																							<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
-																						</div>
-																						<div class="modal-footer">
-																							<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-																							<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-																						</div>
-																					</form>
+																<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																	<?php if ($dataNamaKolom[$j] == "ID") { ?>
+																		<td>
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																				<div class="additional-table-edit-button" data-toggle="tooltip" data-placement="bottom" title="Edit">
 																				</div>
-																			</div>
-																		</div>
-																	</td>
-																	<td>
-																		<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
-																			<div class="additional-table-delete-button" data-toggle="tooltip" data-placement="bottom" title="Hapus">
-																			</div>
-																		</a>
+																			</a>
 																		
-																		<!-- Modal for Delete dataVarietasBenihSumberJeruk per row -->
-																		<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" role="dialog" tabindex="-1">
-																			<div class="modal-dialog" role="document">
-																				<div class="modal-content">
-																					<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																			<!-- Modal for edit data table -->
+																			<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+																				<div class="modal-dialog modal-dialog-centered" role="document">
+																					<div class="modal-content">
 																						<div class="modal-header">
-																							<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
+																							<h5 class="mdi mdi-pencil modal-title" id="modalCenterTitle"> Edit <?php echo $dataTableName_neat; ?></h5>
 																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																								<span aria-hidden="true" class="text-danger">&times;</span>
 																							</button>
 																						</div>
-																						<div class="modal-body">
-																							<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
-																							<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID="<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
-																						</div>
-																						<div class="modal-footer">
-																							<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-																							<button type="submit" class="btn btn-primary">Konfirmasi</button>
-																						</div>
-																					</form>
+																						<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																							<div class="modal-body">
+																								<?php for ($k = 0; $k < count($dataValueKolom); $k++) { ?>
+																									<?php $valueKolom_k = $dataValueKolom[$k]; ?>
+																									<?php if ($dataNamaKolom[$k] == "ID") { ?>
+																										<input type="hidden" name="hidden_input_id" value="<?php echo $row->$valueKolom_k; ?>">
+																									<?php } else { ?>
+																										<div class="form-group">
+																											<label for="input_edit_<?php echo $dataValueKolom[$k]; ?>"><?php echo $dataNamaKolom[$k]; ?><b class="text-danger">*</b></label>
+																											<input class="form-control" id="input_edit_<?php echo $dataValueKolom[$k]; ?>" name="<?php echo $dataValueKolom[$k]; ?>" type="text" value="<?php echo $row->$valueKolom_k; ?>" required>
+																										</div>
+																									<?php } ?>
+																								<?php } ?>
+																								<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+																							</div>
+																							<div class="modal-footer">
+																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																								<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																							</div>
+																						</form>
+																					</div>
 																				</div>
 																			</div>
-																		</div>
-																	</td>
+																		</td>
+																		<td>
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																				<div class="additional-table-delete-button" data-toggle="tooltip" data-placement="bottom" title="Hapus">
+																				</div>
+																			</a>
+																			
+																			<!-- Modal for Delete dataVarietasBenihSumberJeruk per row -->
+																			<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" role="dialog" tabindex="-1">
+																				<div class="modal-dialog" role="document">
+																					<div class="modal-content">
+																						<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																							<div class="modal-header">
+																								<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
+																								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																									<span aria-hidden="true" class="text-danger">&times;</span>
+																								</button>
+																							</div>
+																							<div class="modal-body">
+																								<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
+																								<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID="<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																							</div>
+																							<div class="modal-footer">
+																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																								<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																							</div>
+																						</form>
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+																	<?php } ?>
+																<?php } ?>
+															<?php } else if ($temp == $row->$valueKolom_i) { ?>
+																<!--<th scope="row"><?php //echo $row->$valueKolom_i; ?></th>-->
+																<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																	<?php if ($dataNamaKolom[$j] == "ID" || $dataValueKolom[$j] == "dataPelanggan" || $dataValueKolom[$j] == "tanggalDistribusi") { ?>
+																		<td
+																			<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-filter" 
+																				<?php } ?>
+																			<?php } ?>
+																			<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-sort" 
+																				<?php } ?> 
+																			<?php } ?> 
+																		>
+																			<!-- //nothing to show -->
+																		</td>
+																	<?php } else { ?>
+																		<td
+																			<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-filter" 
+																				<?php } ?>
+																			<?php } ?>
+																			<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-sort" 
+																				<?php } ?> 
+																			<?php } ?> 
+																		>
+																			<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																		</td>
+																	<?php } ?>
+																<?php } ?>
+																<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																	<?php if ($dataNamaKolom[$j] == "ID") { ?>
+																		<td>
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																				<div class="additional-table-edit-button" data-toggle="tooltip" data-placement="bottom" title="Edit">
+																				</div>
+																			</a>
+																		
+																			<!-- Modal for edit data table -->
+																			<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+																				<div class="modal-dialog modal-dialog-centered" role="document">
+																					<div class="modal-content">
+																						<div class="modal-header">
+																							<h5 class="mdi mdi-pencil modal-title" id="modalCenterTitle"> Edit <?php echo $dataTableName_neat; ?></h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true" class="text-danger">&times;</span>
+																							</button>
+																						</div>
+																						<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																							<div class="modal-body">
+																								<?php for ($k = 0; $k < count($dataValueKolom); $k++) { ?>
+																									<?php $valueKolom_k = $dataValueKolom[$k]; ?>
+																									<?php if ($dataNamaKolom[$k] == "ID") { ?>
+																										<input type="hidden" name="hidden_input_id" value="<?php echo $row->$valueKolom_k; ?>">
+																									<?php } else { ?>
+																										<div class="form-group">
+																											<label for="input_edit_<?php echo $dataValueKolom[$k]; ?>"><?php echo $dataNamaKolom[$k]; ?><b class="text-danger">*</b></label>
+																											<input class="form-control" id="input_edit_<?php echo $dataValueKolom[$k]; ?>" name="<?php echo $dataValueKolom[$k]; ?>" type="text" value="<?php echo $row->$valueKolom_k; ?>" required>
+																										</div>
+																									<?php } ?>
+																								<?php } ?>
+																								<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+																							</div>
+																							<div class="modal-footer">
+																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																								<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																							</div>
+																						</form>
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+																		<td>
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																				<div class="additional-table-delete-button" data-toggle="tooltip" data-placement="bottom" title="Hapus">
+																				</div>
+																			</a>
+																			
+																			<!-- Modal for Delete dataVarietasBenihSumberJeruk per row -->
+																			<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" role="dialog" tabindex="-1">
+																				<div class="modal-dialog" role="document">
+																					<div class="modal-content">
+																						<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																							<div class="modal-header">
+																								<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
+																								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																									<span aria-hidden="true" class="text-danger">&times;</span>
+																								</button>
+																							</div>
+																							<div class="modal-body">
+																								<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
+																								<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID="<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																							</div>
+																							<div class="modal-footer">
+																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																								<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																							</div>
+																						</form>
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+																	<?php } ?>
 																<?php } ?>
 															<?php } ?>
 														</tr>

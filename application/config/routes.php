@@ -54,6 +54,8 @@ $route['default_controller'] = 'guestController';
 $route['admin'] 									= 'adminController/index';
 $route['adminIntersection/(:any)/(:any)']			= 'adminController/adminIntersection';	//(1) = adminIntersection (2) = (:any) function name, (3) = (:any) page URL
 $route['adminIntersection/(:any)/(:any)/(:any)']	= 'adminController/adminIntersection';	//(1) = adminIntersection (2) = (:any) function name, (3) = (:any) page URL, (4) = (:any) table name
+$route['dataDistribusi'] 							= 'adminController/getDataDistribusi';
+$route['dataDistribusi/(:num)'] 					= 'adminController/getDataDistribusi';
 $route['dataKonsumen'] 								= 'adminController/dataKonsumen';
 $route['dataKonsumen/(:num)'] 						= 'adminController/dataKonsumen';
 $route['dataKonsumen_add'] 							= 'adminController/dataKonsumen_add';
