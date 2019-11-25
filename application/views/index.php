@@ -118,7 +118,7 @@
 										<p class="card-text text-justify">Informasi permintaan tahunan setiap varietas dan menampilkan form pendaftaran pemesanan benih.</p>
 									</div>
 								</a>
-								<a class="card border border-secondary text-dark" href="#">
+								<a class="card border border-secondary text-dark" href="<?php echo site_url('infoDistribusi'); ?>">
 									<div class="card-body">
 										<h5 class="card-title text-center">INFORMASI DISTRIBUSI BENIH</h5>
 										<p class="card-text text-justify">Informasi mengenai pendistribusian benih tahunan.</p>

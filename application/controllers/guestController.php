@@ -9,6 +9,15 @@
 			$this->load->model('guestModel');
 		}
 
+		function getInfoDistribusi() {
+			$actorName 	  = 'Guest';
+			$pageFileName = 'view_infoDistribusi';
+			$pageTitle 	  = 'Info Distribusi';
+			$pageURL 	  = 'infoDistribusi';
+			$tableName 	  = 'dataDistribusi';
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+		}
+
 		function getInfoKonsumen() {
 			$actorName 	  = 'Guest';
 			$pageFileName = 'view_infoKonsumen';
