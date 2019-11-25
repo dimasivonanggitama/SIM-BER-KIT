@@ -268,30 +268,77 @@
 										<?php if ($countRows == "0") { ?>
 											<td colspan="4"><h6 class="text-center text-danger">Maaf, hasil pencarian tidak ditemukan.</h6></td>
 										<?php } else { ?>
-											<?php $id_varietasBenihSumberJeruk = $this->uri->segment('3') + 1; ?>
+											<?php //$id_varietasBenihSumberJeruk = $this->uri->segment('3') + 1; ?>
+											<?php $temp = ''; ?>
 											<?php foreach ($$dataTableName->result() as $row): ?>
 												<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
 													<?php $valueKolom_i = $dataValueKolom[$i]; ?>
 													<?php if ($dataNamaKolom[$i] == "ID") { ?>
 														<tr class="border-bottom additional-selected-row" id="<?php echo $row->$valueKolom_i; ?>">
-															<th scope="row"><?php echo $row->$valueKolom_i; ?></th>
-															<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
-																<?php $valueKolom_j = $dataValueKolom[$j]; ?>
-																<?php if ($dataNamaKolom[$j] != "ID") { ?>
-																	<td
-																		<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
-																			<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
-																				class="additional-selected-filter" 
+														
+															<?php if ($temp != $row->$valueKolom_i) { ?>
+																<?php $temp = $row->$valueKolom_i; ?>
+															
+																<th scope="row"><?php echo $row->$valueKolom_i; ?></th>
+																<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																	<?php if ($dataNamaKolom[$j] != "ID") { ?>
+																		<td
+																			<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-filter" 
+																				<?php } ?>
 																			<?php } ?>
-																		<?php } ?>
-																		<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
-																			<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
-																				class="additional-selected-sort" 
+																			<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-sort" 
+																				<?php } ?> 
 																			<?php } ?> 
-																		<?php } ?> 
-																	>
-																		<?php echo $row->$valueKolom_j; ?>
-																	</td>
+																		>
+																			<?php if ($dataValueKolom[$j] == "tanggalDistribusi") { ?>
+																				<?php $date = date_create($row->$valueKolom_j); ?>
+																				<?php echo date_format($date, "d/m/Y"); ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php } else { ?>
+																				<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																			<?php } ?>
+																		</td>
+																	<?php } ?>
+																<?php } ?>
+															<?php } else if ($temp == $row->$valueKolom_i) { ?>
+																<!--<th scope="row"><?php //echo $row->$valueKolom_i; ?></th>-->
+																<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
+																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
+																	<?php if ($dataNamaKolom[$j] == "ID" || $dataValueKolom[$j] == "dataPelanggan" || $dataValueKolom[$j] == "tanggalDistribusi") { ?>
+																		<td
+																			<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-filter" 
+																				<?php } ?>
+																			<?php } ?>
+																			<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-sort" 
+																				<?php } ?> 
+																			<?php } ?> 
+																		>
+																			<!-- //nothing to show -->
+																		</td>
+																	<?php } else { ?>
+																		<td
+																			<?php if ($this->session->userdata('filterOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['filterOption_data']['filteredBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-filter" 
+																				<?php } ?>
+																			<?php } ?>
+																			<?php if ($this->session->userdata('sortOption_data') != NULL) { ?>
+																				<?php if ($this->session->userdata['sortOption_data']['sortedBy'] == $valueKolom_j) { ?> 
+																					class="additional-selected-sort" 
+																				<?php } ?> 
+																			<?php } ?> 
+																		>
+																			<?php echo $row->$valueKolom_j; ?> <!-- //tidak bisa menggunakan variabel array walaupun pakai indeks ($dataValueKolom[$i]). sehingga penggantinya pakai $valueKolom_j. -->
+																		</td>
+																	<?php } ?>
 																<?php } ?>
 															<?php } ?>
 														</tr>
