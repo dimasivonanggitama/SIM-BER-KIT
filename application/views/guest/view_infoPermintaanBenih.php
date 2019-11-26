@@ -15,7 +15,7 @@
 			</ul>
 			<ul class="nav nav-pills nav-fill">
 				<li class="nav-item">
-					<a class="nav-link active" href="">Home</a>
+					<a class="nav-link active" href="<?php echo base_url(); ?>">Home</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Search</a>
