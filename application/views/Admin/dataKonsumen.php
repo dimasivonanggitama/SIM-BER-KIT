@@ -55,6 +55,11 @@
 								</a>
 							</li>
 							<li>
+								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataPermintaan'); ?>">
+									<h6 class="font-weight-normal mdi mdi-cart"> Data Permintaan</h6>
+								</a>
+							</li>
+							<li>
 								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataDistribusi'); ?>">
 									<h6 class="font-weight-normal mdi mdi-dropbox"> Data Distribusi</h6>
 								</a>
