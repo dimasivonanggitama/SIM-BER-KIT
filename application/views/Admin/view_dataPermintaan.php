@@ -49,13 +49,13 @@
 								</a>
 							</li>
 							<li>
-								<a class="sidebar-menu-active border-bottom" href="<?php echo site_url('dataVarietasBenihSumberJeruk'); ?>">
-									<h6 class="font-weight-bold mdi mdi-pokeball"> Data Varietas Benih Sumber Jeruk</h6>
+								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataVarietasBenihSumberJeruk'); ?>">
+									<h6 class="font-weight-normal mdi mdi-pokeball"> Data Varietas Benih Sumber Jeruk</h6>
 								</a>
 							</li>
 							<li>
-								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataPermintaan'); ?>">
-									<h6 class="font-weight-normal mdi mdi-cart"> Data Permintaan</h6>
+								<a class="sidebar-menu-active border-bottom" href="<?php echo site_url('dataPermintaan'); ?>">
+									<h6 class="font-weight-bold mdi mdi-cart"> Data Permintaan</h6>
 								</a>
 							</li>
 							<li>
@@ -144,10 +144,10 @@
 						<!-- (3). Page Header -->
 						<div class="page-header row no-gutters py-4">
 							<div class="col-12 col-sm-8 text-center text-sm-left mb-0">
-								<h3 class="page-title">DATA VARIETAS BENIH SUMBER JERUK</h3>
+								<h3 class="page-title"><?php echo $dataPageTitle; ?></h3>
 								<span class="text-uppercase page-subtitle">Dashboard</span>
-								<?php if ($this->session->has_userdata('filterInfo_failed')) { ?>
-									<?php $this->session->unset_userdata('filterInfo_failed'); ?>
+								<?php if ($this->session->has_userdata('failedInfo')) { ?>
+									<?php $this->session->unset_userdata('failedInfo'); ?>
 									<span class="form-text page-subtitle">
 										<hr>
 										<p class="text-danger mdi mdi-alert"> 
@@ -209,7 +209,7 @@
 							<div class="card">
 								<div class="card-header" id="headingOne">
 									<h2 class="mb-0">
-										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Konsumen</a>
+										<a class="btn btn-secondary" href="#tambahKonsumen" onclick="additional_focusTambahKonsumen()">Tambah Data</a>
 										<button aria-controls="collapseOne" aria-expanded="false" class="btn" data-target="#collapseOne" data-toggle="collapse" id="button_filter_dataKonsumen" onclick="changeFilterButtonColor()" style="background-color: <?php if ($this->session->userdata('filterOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Filter Hasil</button>
 										<button aria-controls="collapseTwo" aria-expanded="false" class="btn" data-target="#collapseTwo" data-toggle="collapse" id="button_urut_dataKonsumen" onclick="changeUrutButtonColor()" style="background-color: <?php if ($this->session->userdata('sortOption_data') != NULL) { ?> dodgerblue; <?php } else { ?> #666D73; <?php } ?> color: white;">Urutkan Berdasarkan</button>
 									</h2>
@@ -319,7 +319,7 @@
 						<hr>
 						<div class="card container">
 							<div class="row">
-								<table class="table">
+								<table class="table table-responsive">
 									<thead class="table-dark">
 										<tr>
 											<?php for($i = 0; $i < count($dataNamaKolom); $i++) { ?>

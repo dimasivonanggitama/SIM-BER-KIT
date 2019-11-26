@@ -56,6 +56,12 @@
 								</a>
 							</li>
 							<li class="nav-item">
+								<a class="nav-link " href="<?php echo site_url('dataPermintaan'); ?>">
+									<i class="material-icons">note_add</i>
+									<span>Data Permintaan</span>
+								</a>
+							</li>
+							<li class="nav-item">
 								<a class="nav-link" href="<?php echo site_url('dataVarietasBenihSumberJeruk'); ?>">
 									<i class="material-icons">note_add</i>
 									<span>Data Varietas Benih Sumber Jeruk</span>
