@@ -78,6 +78,7 @@ $route['infoDistribusi'] 							= 'guestController/getInfoDistribusi';
 $route['infoDistribusi/(:num)'] 					= 'guestController/getInfoDistribusi';
 $route['infoKonsumen'] 								= 'guestController/getInfoKonsumen';
 $route['infoKonsumen/(:num)'] 						= 'guestController/getInfoKonsumen';
+$route['infoPermintaan'] 							= 'guestController/getInfoPermintaan';
 $route['infoVarietasBenihSumberJeruk'] 				= 'guestController/getInfoVarietasBenihSumberJeruk';
 $route['infoVarietasBenihSumberJeruk/(:num)'] 		= 'guestController/getInfoVarietasBenihSumberJeruk';
 $route['postData/(:any)'] 							= 'adminController/postData';
