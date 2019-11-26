@@ -12,7 +12,7 @@
 		function getInfoDistribusi() {
 			$actorName 	  = 'Guest';
 			$pageFileName = 'view_infoDistribusi';
-			$pageTitle 	  = 'Info Distribusi';
+			$pageTitle 	  = 'Informasi Distribusi';
 			$pageURL 	  = 'infoDistribusi';
 			$tableName 	  = 'dataDistribusi';
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
@@ -21,7 +21,7 @@
 		function getInfoKonsumen() {
 			$actorName 	  = 'Guest';
 			$pageFileName = 'view_infoKonsumen';
-			$pageTitle 	  = 'Info Konsumen';
+			$pageTitle 	  = 'Informasi Konsumen';
 			$pageURL 	  = 'infoKonsumen';
 			$tableName 	  = 'dataKonsumen';
 			$particularColumn = array(
@@ -32,20 +32,32 @@
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);
 		}
 
+		function getInfoPermintaan() {
+			$actorName 	  = 'Guest';
+			$pageFileName = 'view_infoPermintaanBenih';
+			$pageTitle 	  = 'Informasi Permintaan Benih';
+			$pageURL 	  = 'infoPermintaan';
+			$tableName 	  = 'dataPermintaan';
+			$this->load->view($actorName.'/'.$pageFileName);
+		}
+
 		function getInfoVarietasBenihSumberJeruk() {
 			$actorName 	  = 'Guest';
 			$pageFileName = 'view_infoVarietasBenihSumberJeruk';
-			$pageTitle 	  = 'Info Varietas Benih Sumber Jeruk';
+			$pageTitle 	  = 'Informasi Varietas Benih Sumber Jeruk';
 			$pageURL 	  = 'infoVarietasBenihSumberJeruk';
 			$tableName 	  = 'dataVarietasBenihSumberJeruk';
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
 		}
 		
 		function guestIntersection() {
-			$function = $this->uri->segment(2);	//segment(1) untuk nama method
-			$pageURL = $this->uri->segment(3);	//segment(1) untuk nama method
+			$function 	= $this->uri->segment(2);	//segment(1) untuk nama method
+			$pageURL 	= $this->uri->segment(3);	//segment(1) untuk nama method
+			$tableName	= $this->uri->segment(4);	//segment(1) untuk nama method
 			if ($function == 'filterTable') {	
 				$this->filterTable($pageURL);
+			} else if ($function == 'postDataPermintaan') {
+				$this->postDataPermintaan($pageURL, $tableName); 
 			} else if ($function == 'reset_filterTable') {
 				$this->reset_filterTable($pageURL);
 			} else if ($function == 'reset_sortTable') {
@@ -133,77 +145,35 @@
 		}
 		
 		function permintaan() {
-			//$this->load->view('guest/UTC_test');
 			$this->load->view('guest/permintaan');
 		}
 		
-		function permintaan_add() {			
-			include_once('simple_html_dom.php');
-			$scrap_currentDate							= file_get_html('http://free.timeanddate.com/clock/i6t96jdh/n631/tlid38/tt1/tw0/tm3/td2')->plaintext;
-			$scrap_currentDate_removeStringsExceptDate 	= str_replace("Time in Surabaya", "", $scrap_currentDate);
-			
-			echo $scrap_currentDate_removeStringsExceptDate;
-			
-			$add_data = array (
-				'data_konsumen' 	=> $this->input->post('input_nama_pemesan'),
-				'kabupatenkota' 	=> $this->input->post('input_kabupatenkota_pemesan'),
-				'alamat' 			=> $this->input->post('input_alamat_pemesan'),
-				'alamat_email' 		=> $this->input->post('input_alamat_email_pemesan'),
-				'contactPerson' 	=> $this->input->post('input_nomor_telepon'),			// contactPerson harus string/varchar, karena nomor telepon tidak akan pernah digunakan untuk operasi matematika (+-*:).
-				'tanggal_pemesanan'	=> $scrap_currentDate_removeStringsExceptDate,
-				'tanggal_selesai'	=> $this->input->post('input_tanggal_selesai'),
-				'nama_varietas' 	=> $this->input->post('select_varietas'),
-				'jumlah_BD' 		=> $this->input->post('input_jumlah_bd'),
-				'jumlah_BP' 		=> $this->input->post('input_jumlah_bp')
-			);
-		
-			$this->guestModel->postDataPermintaan($add_data);
-			return redirect('permintaan');
-			
-			//$time = new DateTime('Asia/Jakarta');
-			//echo $time->format('Y-m-d H:i:s');
-			
-			//#Not work as expected:
-			//#--> echo $this->input->post('hidden_timestamp'); --> not work as expected
-			//#--> $html = '<iframe src="http://free.timeanddate.com/clock/i6t7omfd/n555/tlid38/th1" frameborder="0" width="57" height="18"><iframe src="http://free.timeanddate.com/clock/i6t7omfd/n555/tlid38/th1" frameborder="0" width="57" height="18"></iframe>
-			// </iframe>
-			// ';
-
-			// Instantiate a new instance of the class. Passing the string
-			// variable automatically loads the HTML for you.
-			// $h2t = new DOMDocument();
-			// $h2t->loadHTML($html);
-
-			// $contents = $h2t->getElementsByTagName('div');
-			// $text = '';
-			// foreach ( $contents[0]->childNodes as $content )   {
-				// $nodeType = $content->nodeName;
-				// if ( strtolower($nodeType[0]) == 'h' ){
-					// $text .= $content->textContent.PHP_EOL;
-				// }
-				// else    {
-					// $text .= $content->textContent;
-				// }
-			// }
-			// echo $text;
+		function postDataPermintaan($pageURL, $tableName) {	
+			if ($this->input->post('input_tanggal_selesai') <= date("Y-m-d")) {
+				$this->session->set_userdata('failedMessage') = "Tanggal selesai tidak boleh kurang atau sama dengan hari ini!";
+				return redirect($pageURL);
+			} else {
+				$data = array (
+					'namaPemesan' 		=> $this->input->post('input_nama_pemesan'),
+					'kabupatenAtauKota' => $this->input->post('input_kabupatenkota_pemesan'),
+					'alamatDistribusi' 	=> $this->input->post('input_alamat_pemesan'),
+					'alamatEmail' 		=> $this->input->post('input_alamat_email_pemesan'),
+					'nomorTelepon' 		=> $this->input->post('input_nomor_telepon'),			// contactPerson harus string/varchar, karena nomor telepon tidak akan pernah digunakan untuk operasi matematika (+-*:).
+					//'tanggalPemesanan'	=> $scrap_currentDate_removeStringsExceptDate,
+					'tanggalPemesanan'	=> date("Y-m-d"),
+					'tanggalSelesai'	=> $this->input->post('input_tanggal_selesai'),
+					'varietas' 			=> $this->input->post('select_varietas'),
+					'jumlah_BD' 		=> $this->input->post('input_jumlah_bd'),
+					'jumlah_BP' 		=> $this->input->post('input_jumlah_bp'),
+					'total'				=> $this->input->post('input_jumlah_bd') + $this->input->post('input_jumlah_bp'),
+					'statusPemrintaan' 	=> 'Belum diproses'
+				);
+				$this->session->set_userdata('successMessage') = "Permintaan anda telah masuk ke sistem. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.";
+				//$this->guestModel->postDataPermintaan($data);
+				$this->guestModel->postData($pageURL, $tableName);
+				// $this->session->set_userdata('success_message') = "Permintaan anda telah masuk ke sistem. Kode permintaan anda adalah <b>".$aaa."</b>. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.";
+			}
 		}
-
-		// function ourServices() {
-			// $this->load->library('session');
-			// if ($this->uri->segment(3) == 'indoor' || $this->uri->segment(3) == 'outdoor' || $this->uri->segment(3) == 'home') {
-				// $this->load->view($this->uri->segment(3));
-			// } else redirect('/');
-		// }
-	
-		// function reset_sortTable() {
-			// $pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
-			// $this->reset_sortTable($pageURL);
-		// }
-	
-		// function sortTable() {
-			// $pageURL = $this->uri->segment(2);	//segment(1) untuk nama method
-			// $this->sortTable($pageURL);
-		// }
 		
 		function test_page() {
 			//$this->load->view('guest/test_tracking');
