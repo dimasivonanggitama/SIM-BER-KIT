@@ -33,12 +33,12 @@
 		}
 
 		function getInfoPermintaan() {
-			$actorName 	  = 'Guest';
-			$pageFileName = 'view_infoPermintaanBenih';
-			$pageTitle 	  = 'Informasi Permintaan Benih';
-			$pageURL 	  = 'infoPermintaan';
-			$tableName 	  = 'dataPermintaan';
-			$this->load->view($actorName.'/'.$pageFileName);
+			$data['dataActorName'] 		= $actorName	= 'Guest';
+			$data['dataPageFileName'] 	= $pageFileName	= 'view_infoPermintaanBenih';
+			$data['dataPageTitle'] 		= $pageTitle	= 'Informasi Permintaan Benih';
+			$data['dataPageURL'] 		= $pageURL 	  	= 'infoPermintaan';
+			$data['dataTableName'] 		= $tableName	= 'dataPermintaan';
+			$this->load->view($actorName.'/'.$pageFileName, $data);
 		}
 
 		function getInfoVarietasBenihSumberJeruk() {
@@ -150,7 +150,7 @@
 		
 		function postDataPermintaan($pageURL, $tableName) {	
 			if ($this->input->post('input_tanggal_selesai') <= date("Y-m-d")) {
-				$this->session->set_userdata('failedMessage') = "Tanggal selesai tidak boleh kurang atau sama dengan hari ini!";
+				$this->session->set_userdata('failedMessage', "Tanggal selesai tidak boleh kurang atau sama dengan hari ini!");
 				return redirect($pageURL);
 			} else {
 				$data = array (
@@ -168,7 +168,7 @@
 					'total'				=> $this->input->post('input_jumlah_bd') + $this->input->post('input_jumlah_bp'),
 					'statusPemrintaan' 	=> 'Belum diproses'
 				);
-				$this->session->set_userdata('successMessage') = "Permintaan anda telah masuk ke sistem. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.";
+				$this->session->set_userdata('successMessage', "Permintaan anda telah masuk ke sistem. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.");
 				//$this->guestModel->postDataPermintaan($data);
 				$this->guestModel->postData($pageURL, $tableName);
 				// $this->session->set_userdata('success_message') = "Permintaan anda telah masuk ke sistem. Kode permintaan anda adalah <b>".$aaa."</b>. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.";
