@@ -112,7 +112,7 @@
 										<p class="card-text text-justify">Informasi mengenai jenis varietas harga benih sumber (Benih Dasar dan Benih Pokok).</p>
 									</div>
 								</a>
-								<a class="card border border-secondary text-dark" href="<?php echo site_url('permintaan'); ?>">
+								<a class="card border border-secondary text-dark" href="<?php echo site_url('infoPermintaan'); ?>">
 									<div class="card-body">
 										<h5 class="card-title text-center">INFORMASI PERMINTAAN BENIH</h5>
 										<p class="card-text text-justify">Informasi permintaan tahunan setiap varietas dan menampilkan form pendaftaran pemesanan benih.</p>
