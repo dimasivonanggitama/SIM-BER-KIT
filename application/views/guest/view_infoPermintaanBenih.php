@@ -32,7 +32,7 @@
 				<!-- (1). Judul halaman -->
 				<div class="row">
 					<div class="mx-auto">
-						<h1 class="bd-title" id="permintaan">Formulir Permintaan</h1>
+						<h1 class="bd-title"><?php echo $dataPageTitle; ?></h1>
 					</div>
 				</div>
 				
