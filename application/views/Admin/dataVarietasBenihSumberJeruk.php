@@ -44,7 +44,6 @@
 								</a>
 							</li>
 							<li>
-								<div class=""></div>
 								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataKonsumen'); ?>">
 									<h6 class="font-weight-normal mdi mdi-account"> Data Konsumen</h6>
 								</a>
@@ -52,6 +51,11 @@
 							<li>
 								<a class="sidebar-menu-active border-bottom" href="<?php echo site_url('dataVarietasBenihSumberJeruk'); ?>">
 									<h6 class="font-weight-bold mdi mdi-pokeball"> Data Varietas Benih Sumber Jeruk</h6>
+								</a>
+							</li>
+							<li>
+								<a class="sidebar-menu border-bottom" href="<?php echo site_url('dataPermintaan'); ?>">
+									<h6 class="font-weight-normal mdi mdi-cart"> Data Permintaan</h6>
 								</a>
 							</li>
 							<li>
