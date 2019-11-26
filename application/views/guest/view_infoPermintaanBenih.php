@@ -52,7 +52,7 @@
 					<div class="mx-auto">
 						<div class="card bg-light" style="width: 50rem;">
 							<div class="card-body">
-								<form action="<?php echo base_url('permintaan_add'); ?>" method="post" aria-describedby="help_form_permintaan">
+								<form action="<?php echo base_url('postDataPermintaan'); ?>" method="post" aria-describedby="help_form_permintaan">
 									<div class="form-group">
 										<label for="input_nama_pemesan">Nama Pemesan<b class="text-danger">*</b></label>
 										<input type="text" class="form-control" id="input_nama_pemesan" name="input_nama_pemesan" placeholder="Masukkan nama pemesan" required>
