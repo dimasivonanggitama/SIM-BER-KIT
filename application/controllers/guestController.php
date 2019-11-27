@@ -33,11 +33,18 @@
 		}
 
 		function getInfoPermintaan() {
-			$data['dataActorName'] 		= $actorName	= 'Guest';
-			$data['dataPageFileName'] 	= $pageFileName	= 'view_infoPermintaanBenih';
-			$data['dataPageTitle'] 		= $pageTitle	= 'Informasi Permintaan Benih';
-			$data['dataPageURL'] 		= $pageURL 	  	= 'infoPermintaan';
-			$data['dataTableName'] 		= $tableName	= 'dataPermintaan';
+			$data['dataActorName'] 			= $actorName	= 'Guest';
+			$data['dataPageFileName'] 		= $pageFileName	= 'view_infoPermintaanBenih';
+			$data['dataPageTitle'] 			= $pageTitle	= 'Informasi Permintaan Benih';
+			$data['dataPageURL'] 			= $pageURL 	  	= 'infoPermintaan';
+			$data['dataTableName'] 			= $tableName	= 'dataPermintaan';
+			
+			$result							= $this->guestModel->getData('dataVarietasBenihSumberJeruk', 'namaVarietasBenihSumberJeruk', NULL, NULL, NULL, 'namaVarietasBenihSumberJeruk', 'asc')->result();
+			$i = 0;
+			foreach ($result as $res) {
+				$data['dataNamaMenuVarietas'][$i] = $res->namaVarietasBenihSumberJeruk;
+				$i++;
+			}
 			$this->load->view($actorName.'/'.$pageFileName, $data);
 		}
 
@@ -150,7 +157,7 @@
 		
 		function postDataPermintaan($pageURL, $tableName) {	
 			if ($this->input->post('input_tanggal_selesai') <= date("Y-m-d")) {
-				$this->session->set_userdata('failedMessage', "Tanggal selesai tidak boleh kurang atau sama dengan hari ini!");
+				$this->session->set_userdata('failedMessage', "<center>Tanggal selesai tidak boleh kurang atau sama dengan hari ini!</center>");
 				return redirect($pageURL);
 			} else {
 				$data = array (
@@ -163,14 +170,15 @@
 					'tanggalPemesanan'	=> date("Y-m-d"),
 					'tanggalSelesai'	=> $this->input->post('input_tanggal_selesai'),
 					'varietas' 			=> $this->input->post('select_varietas'),
-					'jumlah_BD' 		=> $this->input->post('input_jumlah_bd'),
-					'jumlah_BP' 		=> $this->input->post('input_jumlah_bp'),
+					'benihDasar' 		=> $this->input->post('input_jumlah_bd'),
+					'benihPokok' 		=> $this->input->post('input_jumlah_bp'),
 					'total'				=> $this->input->post('input_jumlah_bd') + $this->input->post('input_jumlah_bp'),
-					'statusPemrintaan' 	=> 'Belum diproses'
+					'statusPermintaan' 	=> 'Belum diproses'
 				);
-				$this->session->set_userdata('successMessage', "Permintaan anda telah masuk ke sistem. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.");
+				$this->session->set_userdata('successMessage', "<center><b>Permintaan anda telah masuk ke sistem.</b></center> <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.");
 				//$this->guestModel->postDataPermintaan($data);
-				$this->guestModel->postData($pageURL, $tableName);
+				$this->guestModel->postData($tableName, $data);
+				return redirect($pageURL);
 				// $this->session->set_userdata('success_message') = "Permintaan anda telah masuk ke sistem. Kode permintaan anda adalah <b>".$aaa."</b>. <br>Untuk melihat perkembangan status permintaan anda, silahkan periksa pesan <i>email</i> dan/atau SMS yang telah kami kirimkan kepada anda.";
 			}
 		}
