@@ -70,9 +70,7 @@
 				<!-- Content Centre-->
 				<main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
 
-						<!-- (2). Navigation Bar (Navbar) -->
-					
-					
+					<!-- (2). Navigation Bar (Navbar) -->
 					<nav class="navbar navbar-expand-lg navbar-light bg-white">
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav mr-auto">

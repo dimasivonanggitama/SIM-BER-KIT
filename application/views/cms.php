@@ -23,7 +23,7 @@
 						<nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
 							<a class="navbar-brand w-100 mr-0" href="<?php echo site_url('/'); ?>" style="line-height: 27px;">
 								<div class="d-table m-auto">
-									<img id="main-logo" class="d-inline-block align-top mr-6" style="max-width: 150px;" src="/assets/images/Antara.png" alt="Logo SIM-BER-KIT">
+									<img id="main-logo" class="d-inline-block align-top mr-6" style="max-width: 150px;" src="(?)" alt="Logo SIM-BER-KIT">
 								</div>
 							</a>
 							<a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
