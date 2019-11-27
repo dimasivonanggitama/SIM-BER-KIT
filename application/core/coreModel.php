@@ -58,7 +58,7 @@
 			}
 		}
 	
-		function postData($table, $data, $batch = FALSE) {
+		function postData($table, $data, $batch = FALSE) {	//batch -> melakukan post data dengan banyak row sekaligus
 			if ($batch == FALSE) {
 				$this->db->insert($table, $data);
 			} else {
