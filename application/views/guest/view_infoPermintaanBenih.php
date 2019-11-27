@@ -1,8 +1,12 @@
 <html>
 	<head>
-		<title>Balai Penelitian Jeruk</title>
-		<link rel="stylesheet" href="assets/css/additional.css">
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<title>Informasi Permintaan Benih | SIM-BER-KIT</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/additional_dashboard.css'); ?>">
+		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 	<body>
 		<!-- Navigation Bar -->
@@ -25,6 +29,54 @@
 				</li>
 			</ul>
 		</nav>
+		
+		<?php if ($this->session->has_userdata('successMessage')) { ?>
+			<div class="modal fade" id="successMessageModal" tabindex="-1" role="dialog" aria-labelledby="form_failedMessage_label" aria-hidden="true"1>
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title mdi mdi-email text-success" id="form_failedMessage_label"> PEMBERITAHUAN</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="modal-title" id="form_failedMessage_label">
+								<h6><?php echo $this->session->userdata('successMessage'); ?></h6>
+								<?php $this->session->unset_userdata('successMessage'); ?>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Tutup</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php } ?>
+		
+		<?php if ($this->session->has_userdata('failedMessage')) { ?>
+			<div class="modal fade" id="failedMessageModal" tabindex="-1" role="dialog" aria-labelledby="form_failedMessage_label" aria-hidden="true"1>
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title mdi mdi-alert text-danger" id="form_failedMessage_label"> PERINGATAN</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="modal-title" id="form_failedMessage_label">
+								<h6><?php echo $this->session->userdata('failedMessage'); ?></h6>
+								<?php $this->session->unset_userdata('failedMessage'); ?>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Tutup</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php } ?>
 		
 		<div class="container-fluid">
 			<main class="" role="main">
@@ -52,7 +104,7 @@
 					<div class="mx-auto">
 						<div class="card bg-light" style="width: 50rem;">
 							<div class="card-body">
-								<form action="<?php echo base_url('postDataPermintaan'); ?>" method="post" aria-describedby="help_form_permintaan">
+								<form action="<?php echo base_url('guestIntersection/postDataPermintaan/'.$dataPageURL.'/'.$dataTableName); ?>" method="post" aria-describedby="help_form_permintaan">
 									<div class="form-group">
 										<label for="input_nama_pemesan">Nama Pemesan<b class="text-danger">*</b></label>
 										<input type="text" class="form-control" id="input_nama_pemesan" name="input_nama_pemesan" placeholder="Masukkan nama pemesan" required>
@@ -88,10 +140,11 @@
 										<div class="col">
 											<div class="form-group">
 												<label for="select_varietas">Varietas<b class="text-danger">*</b></label>
-												<select class="form-control" id="select_varietas" name="select_varietas" required>
+												<select class="form-control selectpicker" data-live-search="true" id="select_varietas" name="select_varietas" required>
 													<option>-- Pilih varietas --</option>
-													<option>varietas 1</option>
-													<option>varietas 2</option>
+													<?php for ($i = 0; $i < count($dataNamaMenuVarietas); $i++) { ?>
+														<option value="<?php echo $dataNamaMenuVarietas[$i]; ?>"><?php echo $dataNamaMenuVarietas[$i]; ?></option>
+													<?php } ?>
 												</select>
 												<small class="form-text text-muted">Pilih varietas dari benih yang diinginkan.</small>
 											</div>
@@ -120,9 +173,38 @@
 						</div>
 					</div>
 				</div>
+				<br>
+				
+				<!-- (8). Footer -->
+				<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
+					<small class="text-muted mx-auto">Copyright ©
+						<script type="text/javascript">
+							document.write(new Date().getFullYear());
+						</script>
+						All rights reserved. <a href="<?php site_url('/'); ?>" rel="nofollow">SIM-BER-KIT</a>.
+					</small>
+				</footer>
 			</main>
 		</div>
-		<script src="assets/js/jquery-3.3.1.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="<?php echo base_url('assets/js/additional_dashboard.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/jquery-3.3.1.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
+		<script>
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
+			
+			$(document).ready (function showAlert() {
+				$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+					$("#success-alert").slideUp(500);
+				});  
+			});
+			
+			$(window).on('load',function(){
+				$('#failedMessageModal').modal('show');
+				$('#successMessageModal').modal('show');
+			});
+		</script>
 	</body>
 </html>
