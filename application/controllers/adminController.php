@@ -322,10 +322,11 @@ $jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL
 			//echo '<pre>'.print_r ($this->session->userdata(), true).'</pre>';	//cek keberadaan session apapun.
 			
 			$this->session->unset_userdata('admin');
+			$this->session->unset_userdata('currentURL');
 			$this->session->unset_userdata('filterOption_data');
 			$this->session->unset_userdata('sortOption_data');
 			$this->session->unset_userdata('userdata');
-			//session_destroy();	//tidak bisa menggunakan session pada method yang sama yang telah menjalankan session_destroy().
+			//session_destroy();	//efeknya menjadi tidak bisa menggunakan session pada method yang sama setelah menjalankan session_destroy().
 			
 			$this->session->set_userdata('announcementText', 'Anda telah melakukan <strong>Logout</strong>.');
 			$this->session->set_userdata('announcementColor', 'success');
