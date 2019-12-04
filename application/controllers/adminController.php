@@ -336,17 +336,7 @@ $jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL
 
 		function test() {
 			//echo '<pre>'.print_r($result, true).'</pre>';
-			//echo "nothing to do in here!";
-			$table = "";
-			$tableName = 'dataVarietasBenihSumberJeruk';
-			$dataValueKolom = $this->getColumnValue($tableName);
-			$data = $this->adminModel->getData($tableName, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL);
-			for ($i = 0; $i < count($dataValueKolom); $i++) {
-				$valueKolom = $dataValueKolom[$i];
-				foreach ($data->result() as $row) :
-					echo $row->$dataValueKolom[$i];
-				endforeach;
-			}
+			echo "nothing to do in here!";
 		}
 	}
 	//$adminController = new adminController();
