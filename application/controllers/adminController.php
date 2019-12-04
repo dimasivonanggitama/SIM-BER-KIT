@@ -33,11 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_sort_reset() {
-			$this->session->unset_userdata('sortOption_data');
-			return redirect('dataKonsumen');
-		}
-		
 		public function deleteData() {
 			$tableName = $this->uri->segment(2);	//segment(1) untuk nama method
 			$deletingType = $this->uri->segment(3);	//segment(1) untuk nama method
