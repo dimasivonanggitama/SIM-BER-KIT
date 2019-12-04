@@ -33,11 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_delete_all() {
-			$this->adminModel->deleteDataKonsumen_all();
-			return redirect('dataKonsumen');
-		}
-		
 		public function dataKonsumen_update() {
 			$id = $this->input->post('hidden_input_id');
 			$update_data = array (
