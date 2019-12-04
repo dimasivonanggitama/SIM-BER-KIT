@@ -326,7 +326,7 @@
 						<hr>
 						<div class="card container">
 							<div class="row">
-								<table class="table table-responsive">
+								<table class="table">
 									<thead class="table-dark">
 										<tr>
 											<?php for($i = 0; $i < count($dataNamaKolom); $i++) { ?>
