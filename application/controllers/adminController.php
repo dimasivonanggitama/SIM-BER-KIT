@@ -96,9 +96,10 @@
   		}
 		
   		public function getDataVarietasBenihSumberJeruk() {	//menampilkan halaman Data Varietas Benih Sumber Jeruk untuk Admin
-			$actorName 				 	= 'Admin';
-			$pageFileName = $pageURL 	= $tableName = 'dataVarietasBenihSumberJeruk';
-			$pageTitle 					= "Data Varietas Benih Sumber Jeruk";
+			$actorName				= 'Admin';
+			$pageFileName			= 'view_dataVarietasBenihSumberJeruk';
+			$pageURL = $tableName 	= 'dataVarietasBenihSumberJeruk';
+			$pageTitle				= "DATA VARIETAS BENIH SUMBER JERUK";
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
   		}
 		
