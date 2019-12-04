@@ -50,7 +50,6 @@
 						<h1 class="bd-title" id="permintaan">Informasi Konsumen</h1>
 					</div>
 				</div>
-				
 				<!-- (3). Deskripsi halaman -->
 				<div class="container">
 					<div class="row">
