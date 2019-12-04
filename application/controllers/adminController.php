@@ -33,17 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_update() {
-			$id = $this->input->post('hidden_input_id');
-			$update_data = array (
-				'nama_konsumen' => $this->input->post('input_konsumen'),
-				'kabupatenkota' => $this->input->post('input_kabupatenkota'),
-				'alamat' => $this->input->post('textarea_alamat')
-			);
-			$this->adminModel->updateDataKonsumen($id, $update_data);
-			return redirect('dataKonsumen');
-		}
-		
 		public function dataKonsumen_filter() {
 			$filterOption_data = array (
 				'filterWords' => $this->input->post('input_filter'),
