@@ -33,139 +33,6 @@
 			}
 		}
 		
-  		public function dataKonsumen() {
-			//menampilkan halaman Data Konsumen untuk Admin
-			$jumlah_data = $this->adminModel->getDataKonsumen_CountRows();
-			$this->load->library('pagination');
-			$config['base_url'] = base_url().'/dataKonsumen';
-			$config['total_rows'] = $jumlah_data;
-			$config['per_page'] = 10;
-			$from = $this->uri->segment(2);						//$from stands for 'Starts data from row number...'
-			
-			$config['first_link']       = 'First';
-			$config['last_link']        = 'Last';
-			$config['next_link']        = 'Next';
-			$config['prev_link']        = 'Prev';
-			$config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-			$config['full_tag_close']   = '</ul></nav></div>';
-			$config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-			$config['num_tag_close']    = '</span></li>';
-			$config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-			$config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-			$config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-			$config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-			$config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-			$config['prev_tagl_close']  = '</span>Next</li>';
-			$config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-			$config['first_tagl_close'] = '</span></li>';
-			$config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-			$config['last_tagl_close']  = '</span></li>';
-			
-			$this->pagination->initialize($config);
-			
-			$data['countRows'] = NULL;
-			//$data['dataKonsumen'] = $this->adminModel->getDataKonsumen();
-			if ($this->session->has_userdata('sortOption_data') && $this->session->has_userdata('filterOption_data')) {
-				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
-					$this->session->unset_userdata('filterOption_data');
-					$data['dataKonsumen'] = $this->adminModel->getDataKonsumen($config['per_page'], $from);
-				} else {
-					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
-					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
-					$specificFiltering = $this->session->userdata['filterOption_data']['specificFiltering'];
-						
-					$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
-					$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
-					
-					if ($specificFiltering == 'on') {
-						$jumlah_data = $this->adminModel->getDataKonsumen_filter_specific_countRows($filterWords, $filteredBy);
-						$config['total_rows'] = $jumlah_data;
-						$this->pagination->initialize($config);
-						
-						if ($backwardDirection == 'on') {
-							$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_filterAndSort_specific($filterWords, $filteredBy, $sortedBy, 'desc', $config['per_page'], $from);
-						} else {
-							$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_filterAndSort_specific($filterWords, $filteredBy, $sortedBy, 'asc', $config['per_page'], $from);
-						}
-					} else {
-						$jumlah_data = $this->adminModel->getDataKonsumen_filter_countRows($filterWords, $filteredBy);
-						$config['total_rows'] = $jumlah_data;
-						$this->pagination->initialize($config);
-						
-						if ($backwardDirection == 'on') {
-							$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_filterAndSort($filterWords, $filteredBy, $sortedBy, 'desc', $config['per_page'], $from);
-						} else {
-							$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_filterAndSort($filterWords, $filteredBy, $sortedBy, 'asc', $config['per_page'], $from);
-						}
-					}
-					
-					//
-					if ($jumlah_data == 0) {
-						$data['countRows'] = "0"; //Note: (numeric) 0 == NULL, but (varchar) '0' != NULL.
-					} else {
-						$data['countRows'] = $jumlah_data;
-					}
-				}
-				//sorting
-				// $sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
-				// $backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
-				
-				// if ($backwardDirection == 'on') {
-					// $data['dataKonsumen'] = $this->adminModel->getDataKonsumen_sort($sortedBy, 'desc', $config['per_page'], $from);
-				// } else {
-					// $data['dataKonsumen'] = $this->adminModel->getDataKonsumen_sort($sortedBy, 'asc', $config['per_page'], $from);
-				// }
-			}
-			else if ($this->session->has_userdata('sortOption_data')) {
-				$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
-				$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
-				
-				if ($backwardDirection == 'on') {
-					$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_sort($sortedBy, 'desc', $config['per_page'], $from);
-				} else {
-					$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_sort($sortedBy, 'asc', $config['per_page'], $from);
-				}
-			} else if ($this->session->has_userdata('filterOption_data')) {
-				if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-					$this->session->set_userdata('filterInfo_failed', $this->session->userdata['filterOption_data']['filteredBy']);
-					$this->session->unset_userdata('filterOption_data');
-					$data['dataKonsumen'] = $this->adminModel->getDataKonsumen($config['per_page'], $from);
-				} else {
-					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
-					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
-					$specificFiltering = $this->session->userdata['filterOption_data']['specificFiltering'];
-					
-					//
-					if ($specificFiltering == 'on') {
-						$jumlah_data = $this->adminModel->getDataKonsumen_filter_specific_countRows($filterWords, $filteredBy);
-						$config['total_rows'] = $jumlah_data;
-						$this->pagination->initialize($config);
-						$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_filter_specific($filterWords, $filteredBy, $config['per_page'], $from);
-					} else {
-						$jumlah_data = $this->adminModel->getDataKonsumen_filter_countRows($filterWords, $filteredBy);
-						$config['total_rows'] = $jumlah_data;
-						$this->pagination->initialize($config);
-						$data['dataKonsumen'] = $this->adminModel->getDataKonsumen_filter($filterWords, $filteredBy, $config['per_page'], $from);
-					}
-					
-					//
-					if ($jumlah_data == 0) {
-						$data['countRows'] = "0"; //Note: (numeric) 0 == NULL, but (varchar) '0' != NULL.
-					} else {
-						$data['countRows'] = $jumlah_data;
-					}
-				}
-			} else {
-				$data['dataKonsumen'] = $this->adminModel->getDataKonsumen($config['per_page'], $from);
-
-$jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from)->num_rows();
-//$jumlah_data = $this->adminModel->getDataKonsumen($config['per_page'], $from)->num_rows();			
-			}
-			$data['pagination'] = $this->pagination->create_links();
-			$this->load->view('Admin/dataKonsumen', $data);
-  		}
-		
 		public function dataKonsumen_add() {
 			$add_data = array (
 				'nama_konsumen' => $this->input->post('input_konsumen'),
@@ -281,6 +148,14 @@ $jumlah_data = $this->adminModel->getData('datakonsumen', NULL, NULL, NULL, NULL
 			$pageFileName 			= 'view_dataDistribusi';
 			$pageURL = $tableName 	= 'dataDistribusi';
 			$pageTitle 				= "DATA DISTRIBUSI";
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+  		}
+		
+  		public function getDataKonsumen() {	//menampilkan halaman Data Konsumen untuk Admin
+			$actorName 				= 'Admin';
+			$pageFileName 			= 'view_dataKonsumen';
+			$pageURL = $tableName 	= 'dataKonsumen';
+			$pageTitle 				= "DATA KONSUMEN";
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
   		}
 		
