@@ -33,11 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_filter_reset() {
-			$this->session->unset_userdata('filterOption_data');
-			return redirect('dataKonsumen');
-		}
-		
 		public function dataKonsumen_sort() {
 			$sortOption_data = array (
 				'sortedBy' => $this->input->post('select_sort_option'),
