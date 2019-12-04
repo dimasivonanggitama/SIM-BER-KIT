@@ -1,8 +1,4 @@
 <?php
-	//defined('BASEPATH') OR exit('No direct script access allowed');
-	//require_once APPPATH . 'core/admin.php';
-	//class adminController extends admin {
-	// class adminController extends CI_Controller {
 	include_once(APPPATH.'core/coreController.php');
 	class adminController extends coreController {
 		protected $constantModelClass = 'adminModel';
@@ -146,4 +142,3 @@
 			echo "nothing to do in here!";
 		}
 	}
-	//$adminController = new adminController();
