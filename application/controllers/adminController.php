@@ -33,21 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_filter() {
-			$filterOption_data = array (
-				'filterWords' => $this->input->post('input_filter'),
-				'filteredBy' => $this->input->post('select_filter_option'),
-				'specificFiltering' => $this->input->post('checkBox_specificFiltering')
-			);
-			$this->session->set_userdata('filterOption_data', $filterOption_data);
-			// if ($this->session->userdata['filterOption_data']['filteredBy'] == 'not selected') {
-				// echo 'true';
-			// } else {
-				// echo 'false';
-			// }
-			return redirect('dataKonsumen');
-		}
-		
 		public function dataKonsumen_filter_reset() {
 			$this->session->unset_userdata('filterOption_data');
 			return redirect('dataKonsumen');
