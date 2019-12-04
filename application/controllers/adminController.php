@@ -33,16 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_add() {
-			$add_data = array (
-				'nama_konsumen' => $this->input->post('input_konsumen'),
-				'kabupatenkota' => $this->input->post('input_kabupatenkota'),
-				'alamat' => $this->input->post('input_alamat')
-			);
-			$this->adminModel->postDataKonsumen($add_data);
-			return redirect('dataKonsumen');
-		}
-		
 		public function dataKonsumen_delete() {
 			$delete_data = array (
 				'id_konsumen' => $this->input->post('input_hidden_id')
