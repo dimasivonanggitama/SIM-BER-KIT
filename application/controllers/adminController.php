@@ -33,15 +33,6 @@
 			}
 		}
 		
-		public function dataKonsumen_sort() {
-			$sortOption_data = array (
-				'sortedBy' => $this->input->post('select_sort_option'),
-				'backwardDirection' => $this->input->post('checkBox_sortingDirection')
-			);
-			$this->session->set_userdata('sortOption_data', $sortOption_data);
-			return redirect('dataKonsumen');
-		}
-		
 		public function dataKonsumen_sort_reset() {
 			$this->session->unset_userdata('sortOption_data');
 			return redirect('dataKonsumen');
