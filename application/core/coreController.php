@@ -99,7 +99,21 @@
 		}
 		
 		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn = NULL) {
+			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column', $particularColumn);
+			$data['dataPageTitle'] = $pageTitle;
+			$data['dataPageURL'] = $pageURL;
 			$data['dataTableName'] = $tableName;
+			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table', $particularColumn);
+			$data['dataValueKolom'] = $this->getColumnValue($tableName, $particularColumn);
+			
+			if ($this->session->has_userdata('currentURL')) {
+				if (stripos($this->session->userdata('currentURL'), $pageURL) != true) {
+					$this->session->unset_userdata('currentURL');
+					$this->session->unset_userdata('filterOption_data');
+					$this->session->unset_userdata('sortOption_data');
+				}
+			}
+			
 			$jumlah_data = 0;
 			$modelClass = $this->constantModelClass;
 			$result = $this->$modelClass->getData($tableName)->result();
@@ -145,6 +159,7 @@
 					$this->session->unset_userdata('sortOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
+					$this->session->set_userdata('currentURL', $this->getCurrentURL());
 					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
 					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
 					$specificFiltering = $this->session->userdata['filterOption_data']['specificFiltering'];
@@ -187,6 +202,7 @@
 					$this->session->unset_userdata('sortOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
+					$this->session->set_userdata('currentURL', $this->getCurrentURL());
 					$sortedBy = $this->session->userdata['sortOption_data']['sortedBy'];
 					$backwardDirection = $this->session->userdata['sortOption_data']['backwardDirection'];
 					
@@ -202,6 +218,7 @@
 					$this->session->unset_userdata('filterOption_data');
 					$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 				} else {
+					$this->session->set_userdata('currentURL', $this->getCurrentURL());
 					$filterWords = $this->session->userdata['filterOption_data']['filterWords'];
 					$filteredBy = $this->session->userdata['filterOption_data']['filteredBy'];
 					$specificFiltering = $this->session->userdata['filterOption_data']['specificFiltering'];
@@ -230,11 +247,6 @@
 				$data[$tableName] = $this->$modelClass->getData($tableName, $particularColumn, NULL, NULL, NULL, NULL, NULL, $config['per_page'], $from);
 			}
 			$data['pagination'] = $this->pagination->create_links();
-			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column', $particularColumn);
-			$data['dataPageTitle'] = $pageTitle;
-			$data['dataPageURL'] = $pageURL;
-			$data['dataTableName_neat'] = $this->getNeatWriting($tableName, 'table', $particularColumn);
-			$data['dataValueKolom'] = $this->getColumnValue($tableName, $particularColumn);
 			
 			//$this->load->view('guest/tambahPesanan', $data);
 			$this->load->view($actorName.'/'.$pageFileName, $data);
@@ -264,11 +276,17 @@
 		}
 		
 		function reset_filterTable($pageURL) {
+			if ($this->session->has_userdata('sortOption_data') == NULL) {
+				$this->session->unset_userdata('currentURL');
+			}
 			$this->session->unset_userdata('filterOption_data');
 			return redirect($pageURL);
 		}
 		
 		function reset_sortTable($pageURL) {
+			if ($this->session->has_userdata('filterOption_data') == NULL) {
+				$this->session->unset_userdata('currentURL');
+			}
 			$this->session->unset_userdata('sortOption_data');
 			return redirect($pageURL);
 		}
@@ -280,5 +298,20 @@
 			);
 			$this->session->set_userdata('sortOption_data', $sortOption_data);
 			return redirect($pageURL);
+		}
+		
+		function getCurrentURL() {
+			$s = &$_SERVER;
+			$ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;
+			$sp = strtolower($s['SERVER_PROTOCOL']);
+			$protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+			$port = $s['SERVER_PORT'];
+			$port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
+			$host = isset($s['HTTP_X_FORWARDED_HOST']) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
+			$host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+			$uri = $protocol . '://' . $host . $s['REQUEST_URI'];
+			$segments = explode('?', $uri, 2);
+			$url = $segments[0];
+			return $url;
 		}
 	}
