@@ -24,12 +24,31 @@
 			$pageTitle 	  = 'Informasi Konsumen';
 			$pageURL 	  = 'infoKonsumen';
 			$tableName 	  = 'dataKonsumen';
-			$particularColumn = array(
-				'id_konsumen',
-				'nama_konsumen',
-				'kabupatenkota'
-			);
-			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);
+			$particularColumn = NULL;
+			// $particularColumn = array(
+				// 'id_konsumen',
+				// 'nama_konsumen',
+				// 'kabupatenkota'
+			// );
+			
+			$i = 0;
+			$result = $this->guestModel->getData($tableName, 'nama_konsumen')->result();	//unfortunately, '$this->getDataTable' oly can shows data on view file and it's parent class. it cannot pass the data from another function to manage it in this function. That's why we call getData from coreModel (in this function, we calls it via guestModel) which could manage the data in this function.
+			foreach ($result as $res) {
+				$additionalData['dataNamaKonsumen'][$i] = $namaKonsumen[$i] = $res->nama_konsumen;
+				$i++;
+			}
+
+			for ($i = 0; $i < count($namaKonsumen); $i++) {	//untuk setiap nama konsumen
+				$j = 0;
+				$result = $this->guestModel->getData('dataDistribusi', 'varietas', 'specific', 'dataPelanggan', $namaKonsumen[$i], 'varietas')->result();
+				foreach ($result as $res) {
+					$additionalData['dataDistribusi_varietas'][$namaKonsumen[$i]][$j] = $res->varietas;	//untuk setiap varietas yang tersedia oleh masing-masing konsumen.
+					$j++;
+				}
+			}
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn, $additionalData);	//
+			// $this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);	//
+			
 		}
 
 		function getInfoPermintaan() {
