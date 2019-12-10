@@ -98,7 +98,14 @@
 			return $namaKolom;
 		}
 		
-		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn = NULL) {
+		function getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn = NULL, $additionalData = NULL) {
+			if ($additionalData != NULL) {
+				for ($i = 0; $i < count($additionalData); $i++) {
+					$currentDataArrayKeys = array_keys($additionalData)[$i];
+					$data[$currentDataArrayKeys] = $additionalData[$currentDataArrayKeys];
+				}
+// echo '<pre>'.print_r($data, true).'</pre>';
+			}
 			$data['dataNamaKolom'] = $this->getNeatWriting($tableName, 'column', $particularColumn);
 			$data['dataPageTitle'] = $pageTitle;
 			$data['dataPageURL'] = $pageURL;
