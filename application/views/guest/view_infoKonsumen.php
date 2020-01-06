@@ -50,7 +50,6 @@
 						<h1 class="bd-title" id="permintaan">Informasi Konsumen</h1>
 					</div>
 				</div>
-				
 				<!-- (3). Deskripsi halaman -->
 				<div class="container">
 					<div class="row">
@@ -273,7 +272,37 @@
 												<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
 													<?php $valueKolom_i = $dataValueKolom[$i]; ?>
 													<?php if ($dataNamaKolom[$i] == "ID") { ?>
-														<tr class="border-bottom additional-selected-row" id="<?php echo $row->$valueKolom_i; ?>">
+														<tr class="border-bottom additional-selected-row" data-toggle="modal" data-target="#modal_row_<?php echo $row->$valueKolom_i; ?>" id="<?php echo $row->$valueKolom_i; ?>">
+														
+															<!-- //Menampilkan Modal/Pop Up ketika melakukan klik pada baris. -->
+															<div class="modal fade" id="modal_row_<?php echo $row->$valueKolom_i; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+																<div class="modal-dialog modal-dialog-centered" role="document">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="mdi mdi-information-outline modal-title" id="modalCenterTitle"> Ketersediaan Varietas Benih</h5>
+																			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																				<span aria-hidden="true" class="text-danger">&times;</span>
+																			</button>
+																		</div>
+																		<div class="modal-body">
+																			<?php $currentDataNamaKonsumen = $dataNamaKonsumen[$row->$valueKolom_i - 1] ?>
+																			<?php echo '<p align="center"><b><u>'.$currentDataNamaKonsumen.'</u></b></p>'; ?>
+																			<ol>
+																			<?php for ($j = 0; $j < count($dataDistribusi_varietas[$currentDataNamaKonsumen]); $j++) { ?>
+																				<?php //echo count($dataDistribusi_varietas).'<br>'; ?>
+																				<?php ?>
+																				<li><?php echo $dataDistribusi_varietas[$currentDataNamaKonsumen][$j]; //Karena '$row->$valueKolom_i' (ID di database) dimulai dari nomor 1, sedangkan indeks array dimulai dari nomor 0, maka untuk mengambil nilai yang diinginkan, indeks array-nya berupa '$row->$valueKolom_i - 1'. ?></li>
+																			<?php } ?>
+																			</ol>
+																			<!--ID = <?php //echo $row->$valueKolom_i; ?>-->
+																		</div>
+																		<div class="modal-footer">
+																			<button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+																			
 															<th scope="row"><?php echo $row->$valueKolom_i; ?></th>
 															<?php for ($j = 0; $j < count($dataValueKolom); $j++) { ?>
 																<?php $valueKolom_j = $dataValueKolom[$j]; ?>
