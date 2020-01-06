@@ -42,12 +42,26 @@
 				$j = 0;
 				$result = $this->guestModel->getData('dataDistribusi', 'varietas', 'specific', 'dataPelanggan', $namaKonsumen[$i], 'varietas')->result();
 				foreach ($result as $res) {
-					$additionalData['dataDistribusi_varietas'][$namaKonsumen[$i]][$j] = $res->varietas;	//untuk setiap varietas yang tersedia oleh masing-masing konsumen.
-					$j++;
+					if ($j == 0) {
+						$additionalData['dataDistribusi_varietas'][$namaKonsumen[$i]][$j] = $res->varietas;	//untuk setiap varietas yang tersedia oleh masing-masing konsumen.
+						$j++;
+					} else {
+						for ($k = 0; $k < $j; $k++) {	//untuk setiap varietas yang telah tersimpan
+							if ($additionalData['dataDistribusi_varietas'][$namaKonsumen[$i]][$k] == $res->varietas) {
+								break;
+							} else {
+								if ($k == $j - 1) {
+									$additionalData['dataDistribusi_varietas'][$namaKonsumen[$i]][$j] = $res->varietas;	//untuk setiap varietas yang tersedia oleh masing-masing konsumen.
+									$j++;
+								}
+							}
+						}
+					}
+					//$j++;
 				}
 			}
 			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn, $additionalData);	//
-			// $this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);	//
+			// $this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn);	//default
 			
 		}
 
@@ -73,7 +87,39 @@
 			$pageTitle 	  = 'Informasi Varietas Benih Sumber Jeruk';
 			$pageURL 	  = 'infoVarietasBenihSumberJeruk';
 			$tableName 	  = 'dataVarietasBenihSumberJeruk';
-			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+			$particularColumn = NULL;
+			
+			$i = 0;
+			$result = $this->guestModel->getData($tableName, 'namaVarietasBenihSumberJeruk')->result();	//unfortunately, '$this->getDataTable' oly can shows data on view file and it's parent class. it cannot pass the data from another function to manage it in this function. That's why we call getData from coreModel (in this function, we calls it via guestModel) which could manage the data in this function.
+			foreach ($result as $res) {
+				$additionalData['dataNamaVarietasBenihSumberJeruk'][$i] = $namaVarietasBenihSumberJeruk[$i] = $res->namaVarietasBenihSumberJeruk;
+				$i++;
+			}
+
+			for ($i = 0; $i < count($namaVarietasBenihSumberJeruk); $i++) {	//untuk setiap nama konsumen
+				$j = 0;
+				$result = $this->guestModel->getData('dataDistribusi', 'dataPelanggan', 'specific', 'varietas', $namaVarietasBenihSumberJeruk[$i], 'dataPelanggan')->result();
+				foreach ($result as $res) {
+					if ($j == 0) {
+						$additionalData['dataDistribusi_dataPelanggan'][$namaVarietasBenihSumberJeruk[$i]][$j] = $res->dataPelanggan;	//untuk setiap dataPelanggan yang tersedia oleh masing-masing konsumen.
+						$j++;
+					} else {
+						for ($k = 0; $k < $j; $k++) {	//untuk setiap dataPelanggan yang telah tersimpan
+							if ($additionalData['dataDistribusi_dataPelanggan'][$namaVarietasBenihSumberJeruk[$i]][$k] == $res->dataPelanggan) {
+								break;
+							} else {
+								if ($k == $j - 1) {
+									$additionalData['dataDistribusi_dataPelanggan'][$namaVarietasBenihSumberJeruk[$i]][$j] = $res->dataPelanggan;	//untuk setiap dataPelanggan yang tersedia oleh masing-masing konsumen.
+									$j++;
+								}
+							}
+						}
+					}
+					//$j++;
+				}
+			}
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn, $additionalData);	//
+			// $this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);	//default
 		}
 		
 		function guestIntersection() {

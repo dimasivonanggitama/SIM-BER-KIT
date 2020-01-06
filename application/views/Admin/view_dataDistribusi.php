@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE HTML>
 <html class="no-js h-100" lang="en">
 	<head>
+		<script src="<?php echo base_url('assets/js/jquery-3.3.1.min.js'); ?>"></script>
 		<!-- Daftar isi:  -->
 		<!-- (1). Sidebar -->
 		<!-- (2). Navbar  -->
@@ -385,14 +386,15 @@
 																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
 																	<?php if ($dataNamaKolom[$j] == "ID") { ?>
 																		<td>
-																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																			<?php $findChar = array(" " , "(", ")"); ?>
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" href="#" onclick="additional_onModalEditOpened_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)"> 
 																				<div class="additional-table-edit-button" data-toggle="tooltip" data-placement="bottom" title="Edit">
 																				</div>
 																			</a>
 																		
 																			<!-- Modal for edit data table -->
-																			<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
-																				<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+																				<div class="modal-dialog" role="document">
 																					<div class="modal-content">
 																						<div class="modal-header">
 																							<h5 class="mdi mdi-pencil modal-title" id="modalCenterTitle"> Edit <?php echo $dataTableName_neat; ?></h5>
@@ -400,59 +402,158 @@
 																								<span aria-hidden="true" class="text-danger">&times;</span>
 																							</button>
 																						</div>
-																						<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
-																							<div class="modal-body">
-																								<?php for ($k = 0; $k < count($dataValueKolom); $k++) { ?>
-																									<?php $valueKolom_k = $dataValueKolom[$k]; ?>
-																									<?php if ($dataNamaKolom[$k] == "ID") { ?>
-																										<input type="hidden" name="hidden_input_id" value="<?php echo $row->$valueKolom_k; ?>">
-																									<?php } else { ?>
+																						<br>
+																						<ul class="nav nav-tabs" id="myTab" role="tablist">
+																							<li class="nav-item">
+																								<a class="border nav-link text-white active" id="varietasTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#varietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeVarietasTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="home" aria-selected="true">Varietas</a>
+																							</li>
+																							<li class="nav-item">
+																								<a class="border nav-link text-white" id="namaKonsumenAndTanggalDistribusiTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#namaKonsumenAndTanggalDistribusiTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeNamaKonsumenAndTanggalDistribusiTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="profile" aria-selected="false">Nama Konsumen & Tanggal Distribusi</a>
+																							</li>
+																						</ul>
+																						<div class="tab-content" id="myTabContent">
+																							<div class="tab-pane fade show active" id="varietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="home-tab">
+																								<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																									<div class="modal-body">
+																										<input name="hidden_input_id" type="hidden" value="<?php echo $row->$valueKolom_j; ?>">
+																										<input name="hidden_input_varietas" type="hidden" value="<?php echo $row->varietas; ?>">
+																										<input name="hidden_input_benihDasar" type="hidden" value="<?php echo $row->benihDasar; ?>">
+																										<input name="hidden_input_benihPokok" type="hidden" value="<?php echo $row->benihPokok; ?>">
 																										<div class="form-group">
-																											<label for="input_edit_<?php echo $dataValueKolom[$k]; ?>"><?php echo $dataNamaKolom[$k]; ?><b class="text-danger">*</b></label>
-																											<input class="form-control" id="input_edit_<?php echo $dataValueKolom[$k]; ?>" name="<?php echo $dataValueKolom[$k]; ?>" type="text" value="<?php echo $row->$valueKolom_k; ?>" required>
+																											<label for="select_edit_varietas-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Varietas</label>
+																											<select class="form-control selectpicker" data-live-search="true" id="select_edit_varietas-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="varietas" required>
+																												<option class="bg-success border border-dark text-white" value="<?php echo $row->varietas; ?>"><?php echo $row->varietas; ?></option>
+																												<option disabled>- - -</option>
+																												<?php for ($i = 0; $i < count($dataNamaMenuVarietas); $i++) { ?>
+																													<option <?php if ($row->varietas == $dataNamaMenuVarietas[$i]) { ?> class="bg-success text-white" <?php } ?> value="<?php echo $dataNamaMenuVarietas[$i]; ?>"><?php echo $dataNamaMenuVarietas[$i]; ?></option>
+																												<?php } ?>
+																											</select>
 																										</div>
-																									<?php } ?>
-																								<?php } ?>
-																								<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+																										<div class="form-group">
+																											<label for="input_edit_benihDasar-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Benih Dasar</label>
+																											<input class="form-control" id="input_edit_benihDasar-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="benihDasar" onkeyup="additional_countTotalBenih_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" type="number" value="<?php echo $row->benihDasar; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_edit_benihPokok-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Benih Pokok</label>
+																											<input class="form-control" id="input_edit_benihPokok-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="benihPokok" onkeyup="additional_countTotalBenih_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" type="number" value="<?php echo $row->benihPokok; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_disabled_totalBenih-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Total Benih</label>
+																											<input class="form-control" id="input_disabled_totalBenih-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="totalBenih" type="text" value="<?php echo ($row->benihDasar + $row->benihPokok); ?>" readonly>
+																										</div>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																									</div>
+																								</form>
 																							</div>
-																							<div class="modal-footer">
-																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-																								<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																							<div class="tab-pane fade" id="namaKonsumenAndTanggalDistribusiTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="profile-tab">
+																								<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																									<div class="modal-body">
+																										<input name="hidden_input_id" type="hidden" value="<?php echo $row->$valueKolom_j; ?>">
+																										<input name="hidden_input_dataPelanggan" type="hidden" value="<?php echo $row->dataPelanggan; ?>">
+																										<input name="hidden_input_tanggalDistribusi" type="hidden" value="<?php echo $row->tanggalDistribusi; ?>">
+																										<div class="form-group">
+																											<label for="input_edit_dataPelanggan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Data Pelanggan</label>
+																											<input class="form-control" id="input_edit_dataPelanggan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="dataPelanggan" type="text" value="<?php echo $row->dataPelanggan; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_edit_tanggalDistribusi-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Tanggal Distribusi</label>
+																											<input class="form-control" id="input_edit_tanggalDistribusi-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="tanggalDistribusi" type="date" value="<?php echo $row->tanggalDistribusi; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_edit_keterangan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Keterangan</label>
+																											<textarea class="form-control" id="input_edit_keterangan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="keterangan" rows="3" value="<?php echo $row->keterangan; ?>"></textarea>
+																										</div>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																									</div>
+																								</form>
 																							</div>
-																						</form>
+																						</div>
 																					</div>
 																				</div>
 																			</div>
 																		</td>
 																		<td>
-																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" href="#" onclick="additional_onModalDeleteOpened_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)">  
 																				<div class="additional-table-delete-button" data-toggle="tooltip" data-placement="bottom" title="Hapus">
 																				</div>
 																			</a>
 																			
 																			<!-- Modal for Delete dataVarietasBenihSumberJeruk per row -->
-																			<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" role="dialog" tabindex="-1">
+																			<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="dialog" tabindex="-1">
 																				<div class="modal-dialog" role="document">
 																					<div class="modal-content">
-																						<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
-																							<div class="modal-header">
-																								<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
-																								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																									<span aria-hidden="true" class="text-danger">&times;</span>
-																								</button>
+																						<div class="modal-header">
+																							<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true" class="text-danger">&times;</span>
+																							</button>
+																						</div>
+																						<br>
+																						<ul class="nav nav-tabs" id="myTab" role="tablist">
+																							<li class="nav-item">
+																								<a class="border nav-link text-white active" id="deleteVarietasTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#deleteVarietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeDeleteVarietasTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="profile" aria-selected="false">Hapus Varietas</a>
+																							</li>
+																							<li class="nav-item">
+																								<a class="border nav-link text-white" id="deleteIDTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#deleteIDTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeDeleteIDTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="home" aria-selected="true">Hapus ID</a>
+																							</li>
+																						</ul>
+																						<div class="tab-content" id="myTabContent">
+																							<div class="tab-pane fade show active" id="deleteVarietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="home-tab">
+																								<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																									<div class="modal-body">
+																										<input name="input_hidden_id" type="hidden" value="<?php echo $row->$valueKolom_j ?>">
+																										<input name="hidden_input_varietas" type="hidden" value="<?php echo $row->varietas; ?>">
+																										<p>Apakah anda yakin ingin menghapus varietas "<b class="text-danger"><?php echo $row->varietas; ?></b>" dari Data Pelanggan "<b><?php echo $row->dataPelanggan; ?></b>"?</p>
+																										<small class="mdi mdi-alert"> Data yang telah dihapus tidak dapat dikembalikan.</small>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																									</div>
+																								</form>
 																							</div>
-																							<div class="modal-body">
-																								<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
-																								<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID="<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																							<div class="tab-pane fade" id="deleteIDTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="profile-tab">
+																								<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																									<div class="modal-body">
+																										<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
+																										<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID = "<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																										<small class="mdi mdi-alert"> Data yang telah dihapus tidak dapat dikembalikan.</small>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																									</div>
+																								</form>
 																							</div>
-																							<div class="modal-footer">
-																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-																								<button type="submit" class="btn btn-primary">Konfirmasi</button>
-																							</div>
-																						</form>
+																						</div>
 																					</div>
 																				</div>
 																			</div>
+																			
+																			<!-- Reset input form value when modal is hidden. -->
+																			<script>
+																				$('#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>').on('hidden.bs.modal', function() {
+																					var defaultTab = '#varietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>';
+																					$('.nav-tabs a[href="'+defaultTab+'"]').tab('show');
+																					
+																					document.getElementById("select_edit_varietas-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo '"'.$row->varietas.'"'; ?>;
+																					document.getElementById("input_edit_benihDasar-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo $row->benihDasar; ?>;
+																					document.getElementById("input_edit_benihPokok-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo $row->benihPokok; ?>;
+																					document.getElementById("input_disabled_totalBenih-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo ($row->benihDasar + $row->benihPokok); ?>;
+																					document.getElementById("input_edit_dataPelanggan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo '"'.$row->dataPelanggan.'"'; ?>;
+																					document.getElementById("input_edit_tanggalDistribusi-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo '"'.$row->tanggalDistribusi.'"'; ?>;
+																				});
+																				$('#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>').on('hidden.bs.modal', function() {
+																					var defaultTab = '#deleteVarietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>';
+																					$('.nav-tabs a[href="'+defaultTab+'"]').tab('show');
+																				});
+																			</script>
 																		</td>
 																	<?php } ?>
 																<?php } ?>
@@ -496,14 +597,15 @@
 																	<?php $valueKolom_j = $dataValueKolom[$j]; ?>
 																	<?php if ($dataNamaKolom[$j] == "ID") { ?>
 																		<td>
-																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																			<?php $findChar = array(" " , "(", ")"); ?>
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" href="#" onclick="additional_onModalEditOpened_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)"> 
 																				<div class="additional-table-edit-button" data-toggle="tooltip" data-placement="bottom" title="Edit">
 																				</div>
 																			</a>
 																		
 																			<!-- Modal for edit data table -->
-																			<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
-																				<div class="modal-dialog modal-dialog-centered" role="document">
+																			<div class="modal fade" id="modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+																				<div class="modal-dialog" role="document">
 																					<div class="modal-content">
 																						<div class="modal-header">
 																							<h5 class="mdi mdi-pencil modal-title" id="modalCenterTitle"> Edit <?php echo $dataTableName_neat; ?></h5>
@@ -511,59 +613,158 @@
 																								<span aria-hidden="true" class="text-danger">&times;</span>
 																							</button>
 																						</div>
-																						<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
-																							<div class="modal-body">
-																								<?php for ($k = 0; $k < count($dataValueKolom); $k++) { ?>
-																									<?php $valueKolom_k = $dataValueKolom[$k]; ?>
-																									<?php if ($dataNamaKolom[$k] == "ID") { ?>
-																										<input type="hidden" name="hidden_input_id" value="<?php echo $row->$valueKolom_k; ?>">
-																									<?php } else { ?>
+																						<br>
+																						<ul class="nav nav-tabs" id="myTab" role="tablist">
+																							<li class="nav-item">
+																								<a class="border nav-link text-white active" id="varietasTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#varietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeVarietasTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="home" aria-selected="true">Varietas</a>
+																							</li>
+																							<li class="nav-item">
+																								<a class="border nav-link text-white" id="namaKonsumenAndTanggalDistribusiTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#namaKonsumenAndTanggalDistribusiTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeNamaKonsumenAndTanggalDistribusiTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="profile" aria-selected="false">Nama Konsumen & Tanggal Distribusi</a>
+																							</li>
+																						</ul>
+																						<div class="tab-content" id="myTabContent">
+																							<div class="tab-pane fade show active" id="varietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="home-tab">
+																								<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																									<div class="modal-body">
+																										<input name="hidden_input_id" type="hidden" value="<?php echo $row->$valueKolom_j; ?>">
+																										<input name="hidden_input_varietas" type="hidden" value="<?php echo $row->varietas; ?>">
+																										<input name="hidden_input_benihDasar" type="hidden" value="<?php echo $row->benihDasar; ?>">
+																										<input name="hidden_input_benihPokok" type="hidden" value="<?php echo $row->benihPokok; ?>">
 																										<div class="form-group">
-																											<label for="input_edit_<?php echo $dataValueKolom[$k]; ?>"><?php echo $dataNamaKolom[$k]; ?><b class="text-danger">*</b></label>
-																											<input class="form-control" id="input_edit_<?php echo $dataValueKolom[$k]; ?>" name="<?php echo $dataValueKolom[$k]; ?>" type="text" value="<?php echo $row->$valueKolom_k; ?>" required>
+																											<label for="select_edit_varietas-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Varietas</label>
+																											<select class="form-control selectpicker" data-live-search="true" id="select_edit_varietas-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="varietas" required>
+																												<option class="bg-success border border-dark text-white" value="<?php echo $row->varietas; ?>"><?php echo $row->varietas; ?></option>
+																												<option disabled>- - -</option>
+																												<?php for ($i = 0; $i < count($dataNamaMenuVarietas); $i++) { ?>
+																													<option <?php if ($row->varietas == $dataNamaMenuVarietas[$i]) { ?> class="bg-success text-white" <?php } ?> value="<?php echo $dataNamaMenuVarietas[$i]; ?>"><?php echo $dataNamaMenuVarietas[$i]; ?></option>
+																												<?php } ?>
+																											</select>
 																										</div>
-																									<?php } ?>
-																								<?php } ?>
-																								<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+																										<div class="form-group">
+																											<label for="input_edit_benihDasar-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Benih Dasar</label>
+																											<input class="form-control" id="input_edit_benihDasar-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="benihDasar" onkeyup="additional_countTotalBenih_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" type="number" value="<?php echo $row->benihDasar; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_edit_benihPokok-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Benih Pokok</label>
+																											<input class="form-control" id="input_edit_benihPokok-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="benihPokok" onkeyup="additional_countTotalBenih_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" type="number" value="<?php echo $row->benihPokok; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_disabled_totalBenih-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Total Benih</label>
+																											<input class="form-control" id="input_disabled_totalBenih-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="totalBenih" type="text" value="<?php echo ($row->benihDasar + $row->benihPokok); ?>" readonly>
+																										</div>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																									</div>
+																								</form>
 																							</div>
-																							<div class="modal-footer">
-																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-																								<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																							<div class="tab-pane fade" id="namaKonsumenAndTanggalDistribusiTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="profile-tab">
+																								<form action="<?php echo base_url('editDataTable/'.$dataTableName); ?>" method="post">
+																									<div class="modal-body">
+																										<input name="hidden_input_id" type="hidden" value="<?php echo $row->$valueKolom_j; ?>">
+																										<input name="hidden_input_dataPelanggan" type="hidden" value="<?php echo $row->dataPelanggan; ?>">
+																										<input name="hidden_input_tanggalDistribusi" type="hidden" value="<?php echo $row->tanggalDistribusi; ?>">
+																										<div class="form-group">
+																											<label for="input_edit_dataPelanggan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Data Pelanggan</label>
+																											<input class="form-control" id="input_edit_dataPelanggan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="dataPelanggan" type="text" value="<?php echo $row->dataPelanggan; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_edit_tanggalDistribusi-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Tanggal Distribusi</label>
+																											<input class="form-control" id="input_edit_tanggalDistribusi-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="tanggalDistribusi" type="date" value="<?php echo $row->tanggalDistribusi; ?>" required>
+																										</div>
+																										<div class="form-group">
+																											<label for="input_edit_keterangan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>">Keterangan</label>
+																											<textarea class="form-control" id="input_edit_keterangan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" name="keterangan" rows="3" value="<?php echo $row->keterangan; ?>"></textarea>
+																										</div>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+																									</div>
+																								</form>
 																							</div>
-																						</form>
+																						</div>
 																					</div>
 																				</div>
 																			</div>
 																		</td>
 																		<td>
-																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" href="#"> 
+																			<a data-toggle="modal" data-target="#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" href="#" onclick="additional_onModalDeleteOpened_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)">  
 																				<div class="additional-table-delete-button" data-toggle="tooltip" data-placement="bottom" title="Hapus">
 																				</div>
 																			</a>
 																			
 																			<!-- Modal for Delete dataVarietasBenihSumberJeruk per row -->
-																			<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>" role="dialog" tabindex="-1">
+																			<div aria-labelledby="modalLabel" aria-hidden="true" class="modal fade" id="modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="dialog" tabindex="-1">
 																				<div class="modal-dialog" role="document">
 																					<div class="modal-content">
-																						<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
-																							<div class="modal-header">
-																								<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
-																								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																									<span aria-hidden="true" class="text-danger">&times;</span>
-																								</button>
+																						<div class="modal-header">
+																							<h5 class="mdi mdi-delete modal-title" id="modalLabel"> Hapus <?php echo $dataTableName_neat; ?></h5>
+																							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																								<span aria-hidden="true" class="text-danger">&times;</span>
+																							</button>
+																						</div>
+																						<br>
+																						<ul class="nav nav-tabs" id="myTab" role="tablist">
+																							<li class="nav-item">
+																								<a class="border nav-link text-white active" id="deleteVarietasTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#deleteVarietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeDeleteVarietasTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="profile" aria-selected="false">Hapus Varietas</a>
+																							</li>
+																							<li class="nav-item">
+																								<a class="border nav-link text-white" id="deleteIDTab-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" data-toggle="tab" href="#deleteIDTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" onclick="additional_changeDeleteIDTabButtonColor_dataDistribusi(<?php echo $row->$valueKolom_j; ?>, <?php echo "'".str_replace($findChar, "", $row->varietas)."'"; ?>)" role="tab" aria-controls="home" aria-selected="true">Hapus ID</a>
+																							</li>
+																						</ul>
+																						<div class="tab-content" id="myTabContent">
+																							<div class="tab-pane fade show active" id="deleteVarietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="home-tab">
+																								<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																									<div class="modal-body">
+																										<input name="input_hidden_id" type="hidden" value="<?php echo $row->$valueKolom_j ?>">
+																										<input name="hidden_input_varietas" type="hidden" value="<?php echo $row->varietas; ?>">
+																										<p>Apakah anda yakin ingin menghapus varietas "<b class="text-danger"><?php echo $row->varietas; ?></b>" dari Data Pelanggan "<b><?php echo $row->dataPelanggan; ?></b>"?</p>
+																										<small class="mdi mdi-alert"> Data yang telah dihapus tidak dapat dikembalikan.</small>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																									</div>
+																								</form>
 																							</div>
-																							<div class="modal-body">
-																								<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
-																								<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID="<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																							<div class="tab-pane fade" id="deleteIDTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>" role="tabpanel" aria-labelledby="profile-tab">
+																								<form action="<?php echo base_url('deleteData/'.$dataTableName.'/row'); ?>" method="post">
+																									<div class="modal-body">
+																										<input type="hidden" name="input_hidden_id" value="<?php echo $row->$valueKolom_j ?>">
+																										<p>Apakah anda yakin ingin menghapus <?php echo $dataTableName_neat; ?> dengan ID = "<b class="text-danger"><?php echo $row->$valueKolom_j; ?></b>"?</p>
+																										<small class="mdi mdi-alert"> Data yang telah dihapus tidak dapat dikembalikan.</small>
+																									</div>
+																									<div class="modal-footer">
+																										<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+																										<button type="submit" class="btn btn-primary">Konfirmasi</button>
+																									</div>
+																								</form>
 																							</div>
-																							<div class="modal-footer">
-																								<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-																								<button type="submit" class="btn btn-primary">Konfirmasi</button>
-																							</div>
-																						</form>
+																						</div>
 																					</div>
 																				</div>
 																			</div>
+																			
+																			<!-- Reset input form value when modal is hidden. -->
+																			<script>
+																				$('#modal_<?php echo $dataTableName; ?>-edit-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>').on('hidden.bs.modal', function() {
+																					var defaultTab = '#varietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>';
+																					$('.nav-tabs a[href="'+defaultTab+'"]').tab('show');
+																					
+																					document.getElementById("select_edit_varietas-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo '"'.$row->varietas.'"'; ?>;
+																					document.getElementById("input_edit_benihDasar-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo $row->benihDasar; ?>;
+																					document.getElementById("input_edit_benihPokok-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo $row->benihPokok; ?>;
+																					document.getElementById("input_disabled_totalBenih-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo ($row->benihDasar + $row->benihPokok); ?>;
+																					document.getElementById("input_edit_dataPelanggan-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo '"'.$row->dataPelanggan.'"'; ?>;
+																					document.getElementById("input_edit_tanggalDistribusi-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>").value = <?php echo '"'.$row->tanggalDistribusi.'"'; ?>;
+																				});
+																				$('#modal_<?php echo $dataTableName; ?>-delete-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>').on('hidden.bs.modal', function() {
+																					var defaultTab = '#deleteVarietasTabPanel-row-<?php echo $row->$valueKolom_j; ?>-varietas-<?php echo str_replace($findChar, "", $row->varietas); ?>';
+																					$('.nav-tabs a[href="'+defaultTab+'"]').tab('show');
+																				});
+																			</script>
 																		</td>
 																	<?php } ?>
 																<?php } ?>
@@ -611,14 +812,48 @@
 									<div class="card-body">
 										<h5>Tambah Data</h5>
 										<form action="<?php echo base_url('adminIntersection/postData/'.$dataPageURL.'/'.$dataTableName); ?>" method="post">
-											<?php for ($i = 0; $i < count($dataValueKolom); $i++) { ?>
-												<?php if ($dataNamaKolom[$i] != "ID") { ?>
+											<input id="input_hidden_count" name="input_hidden_count" type="hidden" value="1">
+											<div class="form-group">
+												<label for="input_add_dataPelanggan">Data Pelanggan<b class="text-danger">*</b></label>
+												<input class="form-control" id="input_add_dataPelanggan" name="input_add_dataPelanggan" placeholder="Masukkan Data Pelanggan" type="text" required>
+											</div>
+											<div class="form-group">
+												<label for="input_add_tanggalDistribusi">Tanggal Distribusi<b class="text-danger">*</b></label>
+												<input class="form-control" id="input_add_tanggalDistribusi" name="input_add_tanggalDistribusi" placeholder="Masukkan Tanggal Distribusi" type="date" required>
+											</div>
+											<ul class="nav nav-tabs" id="addDataTab" role="tablist">
+												<li class="active">
+													<a class="border nav-link text-white active" id="varietas-tab-1" data-toggle="tab" href="#varietas-tab-content-1" onclick="additional_changeAddVarietasTabButtonColor(1, document.getElementById('input_hidden_count').value)" role="tab" aria-controls="home" aria-selected="true">Varietas 1</a>
+												</li>
+												<li>
+													<a value="test" class="border bg-success nav-link text-white text-white" href="#" id="btnAdd" onclick="additional_addVarietas(document.getElementById('input_hidden_count').value, dataNamaMenuVarietas)" style="line-height:0.8;"><small>Tambah<br>Varietas</small></a>
+												</li>
+											</ul>
+											<div class="tab-content" id="addTabContent">
+												<div class="tab-pane fade show active" id="varietas-tab-content-1" role="tabpanel"> 
 													<div class="form-group">
-														<label for="input_add_<?php echo $dataValueKolom[$i]; ?>"><?php echo $dataNamaKolom[$i]; ?><b class="text-danger">*</b></label>
-														<input class="form-control" id="input_add_<?php echo $dataValueKolom[$i]; ?>" name="<?php echo $dataValueKolom[$i]; ?>" placeholder="Masukkan <?php echo $dataNamaKolom[$i]; ?>" type="text">
+														<label for="select_add_varietas-1">Nama Varietas<b class="text-danger">*</b></label>
+														<select class="form-control selectpicker" data-live-search="true" id="select_add_varietas-1" name="select_add_varietas-1" required>
+															<option disabled selected>- - Pilih Varietas - -</option>
+															<?php for ($i = 0; $i < count($dataNamaMenuVarietas); $i++) { ?>
+																<option value="<?php echo $dataNamaMenuVarietas[$i]; ?>"><?php echo $dataNamaMenuVarietas[$i]; ?></option>
+															<?php } ?>
+														</select>
 													</div>
-												<?php } ?>
-											<?php } ?>
+													<div class="form-group">
+														<label for="input_add_benihDasar-1">Benih Dasar<b class="text-danger">*</b></label>
+														<input class="form-control" id="input_add_benihDasar-1" name="input_add_benihDasar-1" placeholder="Masukkan Benih Dasar" type="number" required>
+													</div>
+													<div class="form-group">
+														<label for="input_add_benihPokok-1">Benih Pokok<b class="text-danger">*</b></label>
+														<input class="form-control" id="input_add_benihPokok-1" name="input_add_benihPokok-1" placeholder="Masukkan Benih Pokok" type="number" required>
+													</div>
+													<div class="form-group">
+														<label for="input_add_keterangan-1">Keterangan <small>(Opsional)</small></label>
+														<textarea class="form-control" id="input_add_keterangan-1" name="input_add_keterangan-1" placeholder="Masukkan Keterangan"></textarea>
+													</div>
+												</div>
+											</div>
 											<small class="form-text text-left text-muted">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
 											<br>
 											<button class="btn btn-primary text-center" type="submit">Submit</button>
@@ -687,13 +922,19 @@
 			</div>
 		</div>
 		<script src="<?php echo base_url('assets/js/additional_dashboard.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/js/jquery-3.3.1.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 		<script>
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})
+			window.onload = function() {
+				additional_onLoad_dataDistribusi();
+			};
+			var dataNamaMenuVarietas = new Array(<?php echo count($dataNamaMenuVarietas); ?>);
+			<?php for ($i = 0; $i < count($dataNamaMenuVarietas); $i++) { ?>
+				dataNamaMenuVarietas[<?php echo $i; ?>] = "<?php echo $dataNamaMenuVarietas[$i]; ?>";
+			<?php } ?>
 		</script>
 	</body>
 </html>

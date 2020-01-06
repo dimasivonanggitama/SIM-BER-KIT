@@ -40,7 +40,15 @@
 						$dataValueKolom[$i] => $this->input->post('input_hidden_id')
 					);
 				}
+				if ($tableName == "dataDistribusi") {	//Dikarenakan tabel 'dataDistribusi' merupakan tabel yang unik.
+					if ($this->input->post('hidden_input_varietas') != NULL) {
+						$id += array(
+							'varietas' => $this->input->post('hidden_input_varietas')
+						);
+					}
+				}
 			}
+			// echo '<pre>'.print_r($id, true).'</pre>';
 			$this->adminModel->deleteData($tableName, $deletingType, $id);
 			return redirect($tableName);
 		}
@@ -56,14 +64,39 @@
 						$dataValueKolom[$i] => $this->input->post('hidden_input_id')
 					);
 				} else {
-					if ($dataToUpdate == 0) {
-						$dataToUpdate = array (
-							$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
-						);
+					if ($tableName == "dataDistribusi") {	//Dikarenakan tabel 'dataDistribusi' merupakan tabel yang unik.
+						if ($this->input->post('varietas') != NULL) {
+							$id += array(
+								'varietas' => $this->input->post('hidden_input_varietas'),
+								'benihDasar' => $this->input->post('hidden_input_benihDasar'),
+								'benihPokok' => $this->input->post('hidden_input_benihPokok')
+							);
+							$dataToUpdate = array (
+								'varietas' => $this->input->post('varietas'),
+								'benihDasar' => $this->input->post('benihDasar'),
+								'benihPokok' => $this->input->post('benihPokok')
+							);
+						} else if ($this->input->post('dataPelanggan') != NULL) {
+							$id += array(
+								'dataPelanggan' => $this->input->post('hidden_input_dataPelanggan'),
+								'tanggalDistribusi' => $this->input->post('hidden_input_tanggalDistribusi')
+							);
+							$dataToUpdate = array (
+								'dataPelanggan' => $this->input->post('dataPelanggan'),
+								'tanggalDistribusi' => $this->input->post('tanggalDistribusi'),
+								'keterangan' => $this->input->post('keterangan')
+							);
+						}
 					} else {
-						$dataToUpdate += array (
-							$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
-						);
+						if ($dataToUpdate == 0) {
+							$dataToUpdate = array (
+								$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
+							);
+						} else {
+							$dataToUpdate += array (
+								$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
+							);
+						}
 					}
 				}
 			}
@@ -76,7 +109,17 @@
 			$pageFileName 			= 'view_dataDistribusi';
 			$pageURL = $tableName 	= 'dataDistribusi';
 			$pageTitle 				= "DATA DISTRIBUSI";
-			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
+			$particularColumn		= NULL;
+			
+			$i = 0;
+			$result = $this->adminModel->getData('dataVarietasBenihSumberJeruk', 'namaVarietasBenihSumberJeruk', NULL, NULL, NULL, 'namaVarietasBenihSumberJeruk', 'ASC')->result();	//unfortunately, '$this->getDataTable' oly can shows data on view file and it's parent class. it cannot pass the data from another function to manage it in this function. That's why we call getData from coreModel (in this function, we calls it via guestModel) which could manage the data in this function.
+			foreach ($result as $res) {
+				$additionalData['dataNamaMenuVarietas'][$i] = $res->namaVarietasBenihSumberJeruk;
+				$i++;
+			}
+
+			$this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName, $particularColumn, $additionalData);	//
+			// $this->getDataTable($actorName, $pageFileName, $pageTitle, $pageURL, $tableName);
   		}
 		
   		public function getDataKonsumen() {	//menampilkan halaman Data Konsumen untuk Admin

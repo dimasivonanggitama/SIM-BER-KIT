@@ -264,21 +264,43 @@
 			$dataNamaKolom = $this->getNeatWriting($tableName, 'column');
 			$dataValueKolom = $this->getColumnValue($tableName);
 			$modelClass = $this->constantModelClass;
-			for ($i = 0; $i < count($dataValueKolom); $i++) {
-				if ($dataNamaKolom[$i] != "ID") {
-					if ($data == 0) {
-						$data = array (
-							$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
-						);
-					} else {
-						$data += array (
-							$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
-						);
+			// echo '<pre>'.print_r($this->input->post('input_hidden_count'), true).'</pre>';
+			if ($pageURL == "dataDistribusi") {	//dikarenakan tabel dataDistribusi adalah tabel yang unik.
+				$result = $this->$modelClass->getData($tableName, 'id_distribusi')->result();
+				foreach ($result as $res) {
+					$currentID = $res->id_distribusi;
+				}
+				$currentID = $currentID + 1;
+				echo $currentID;
+				for ($j = 1; $j <= $this->input->post('input_hidden_count'); $j++) {
+					$data = array (
+						'id_distribusi' 	=> $currentID,
+						'dataPelanggan'     => $this->input->post('input_add_dataPelanggan'),
+						'tanggalDistribusi' => $this->input->post('input_add_tanggalDistribusi'),
+						'varietas'   		=> $this->input->post('select_add_varietas-'.$j),
+						'benihDasar' 		=> $this->input->post('input_add_benihDasar-'.$j),
+						'benihPokok' 		=> $this->input->post('input_add_benihPokok-'.$j),
+						'keterangan' 		=> $this->input->post('input_add_keterangan-'.$j)
+					);
+					$this->$modelClass->postData($tableName, $data);
+				}
+			} else {
+				for ($i = 0; $i < count($dataValueKolom); $i++) {
+					if ($dataNamaKolom[$i] != "ID") {
+						if ($data == 0) {
+							$data = array (
+								$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
+							);
+						} else {
+							$data += array (
+								$dataValueKolom[$i] => $this->input->post($dataValueKolom[$i])
+							);
+						}
 					}
 				}
+				$this->$modelClass->postData($tableName, $data);
 			}
 			//echo '<pre>'.print_r($data, true).'</pre>';
-			$this->$modelClass->postData($tableName, $data);
 			return redirect($pageURL);
 		}
 		
