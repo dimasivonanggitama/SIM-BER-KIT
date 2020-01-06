@@ -22,7 +22,7 @@
 			}
 		}
 		
-		function getData($tableName, $particularColumn = NULL, $searchingType = NULL, $columnToSearch = NULL, $keyToSearch = NULL, $order = NULL, $orderDirection = NULL, $number = NULL, $offset = NULL) {
+		function getData($tableName, $particularColumn = NULL, $searchingType = NULL, $keyToSearch = NULL, $valueToSearch = NULL, $order = NULL, $orderDirection = NULL, $number = NULL, $offset = NULL) {
 			//order
 			if ($order != NULL) {
 				if ($orderDirection == NULL || $orderDirection == 'asc') {
@@ -40,9 +40,9 @@
 			//where
 			if ($searchingType != NULL) {
 				if ($searchingType == 'similar') {
-					$this->db->like($columnToSearch, $keyToSearch);
+					$this->db->like($keyToSearch, $valueToSearch);
 				} else if ($searchingType == 'specific') {
-					$this->db->where($columnToSearch, $keyToSearch);
+					$this->db->where($keyToSearch, $valueToSearch);
 				}
 			}
 			
