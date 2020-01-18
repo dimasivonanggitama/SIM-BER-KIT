@@ -18,7 +18,7 @@
 .center {
   position: absolute;
   left: 0;
-  top: 35%;
+  top: 20%; /*35%*/
   width: 100%;
   text-align: center;
   background-color: black;
@@ -32,3 +32,26 @@
   transform: translateX(-50%);
   opacity: 1;
 }
+
+.card_group_position {
+  position: relative;
+  transform: translate(0px, -50%);
+  top: 50%;
+}
+
+.button_next_position {
+  position: relative;
+  transform: translate(0px, 500%);
+}
+
+.navigationBar-centered h4 {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Calibri";
+}
+
+
+

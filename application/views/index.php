@@ -34,10 +34,10 @@
 		<!-- Navigation Bar -->
 		<nav class="navbar navbar-light bg-light border border-secondary">
 			<ul class="nav justify-content-end">
-				<a class="navbar-brand" href="#"><img src="assets/images/logo/balitjestro.png"></img></a>
-			    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<a class="navbar-brand" href="#"><img src="assets/images/logo/balitjestro.png" width="277" height="55"></img></a>
+			    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
-			    </button>
+			    </button>-->
 			</ul>
 			<ul class="nav nav-pills nav-fill">
 				<li class="nav-item">
@@ -49,7 +49,7 @@
 				</li>
 				<?php if ($this->session->has_userdata('admin') == NULL) { ?>
 					<li class="nav-item">
-						<a class="nav-link text-dark" data-toggle="modal" href="#form_login">
+						<a class="btn btn-outline-dark" data-toggle="modal" href="#form_login">
 							<h4 class="mdi mdi-account">
 								Login
 							</h4>

@@ -77,6 +77,15 @@
 	color: white;
 }
 
+.additional-navbar-centered h4 {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Calibri";
+}
+
 .additional-selected-filter {
 	background-color: #FFAAAA;
 	color: black; 						/* text color */

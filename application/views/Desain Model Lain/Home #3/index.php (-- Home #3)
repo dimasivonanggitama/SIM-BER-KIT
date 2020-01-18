@@ -1,0 +1,193 @@
+<html>
+	<head>
+		<title>Balai Penelitian Jeruk</title>
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/additional_dashboard.css'); ?>">
+		<link rel="stylesheet" href="assets/css/additional.css">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css">
+	</head>
+	<body id="home">
+		
+		<!-- Navigation Bar -->
+		<nav class="navbar navbar-light bg-light border border-secondary">
+			<ul class="nav justify-content-end">
+				<a class="navbar-brand" href="#"><img src="assets/images/logo/balitjestro.png" width="277" height="55"></img></a>
+			    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+			    </button>-->
+			</ul>
+			<div class="navigationBar-centered">
+				<h4><b>SIM·BER·KIT</b></h4>
+			</div>
+			<ul class="nav nav-pills nav-fill">
+				<li class="nav-item">
+					<a class="nav-link text-dark" href="#home">
+						<h4>
+							<b>Home</b>
+						</h4>
+					</a>
+				</li>
+				<?php if ($this->session->has_userdata('admin') == NULL) { ?>
+					<li class="nav-item">
+						<a class="btn btn-outline-dark" data-toggle="modal" href="#form_login">
+							<h4 class="mdi mdi-account">
+								Login
+							</h4>
+						</a>
+						
+						<!-- Modal in login button -->
+						<div class="modal fade" id="form_login" tabindex="-1" role="dialog" aria-labelledby="form_login_label" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title mdi mdi-alert" id="form_login_label"> LOGIN</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form action="<?php echo base_url('/login'); ?>" method="post">
+										<div class="modal-body">
+											<p class="modal-title" id="form_login_label">
+												<h6>ANDA HARUS LOGIN TERLEBIH DAHULU</h6>
+											</p>
+											<div class="form-group">
+												<label for="input_username">Username<b class="text-danger">*</b></label>
+												<input class="form-control" name="input_username" placeholder="Masukkan username anda" type="text" required>
+											</div>
+											<div class="form-group">
+												<label for="input_password">Password<b class="text-danger">*</b></label>
+												<input class="form-control" name="input_password" placeholder="Masukkan password anda" type="password" required>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<small class="form-text text-muted text-left">(<b class="text-danger">*</b>) Diharuskan untuk mengisi bagian formulir.</small>
+											<button type="submit" class="btn btn-primary">Login</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>
+				<?php } ?>
+			</ul>
+		</nav>
+		
+		<!-- Welcome Background -->
+		<div class="crop">
+			<!-- <img src="assets/images/oranges_background.jpg" class="img-fluid" style="width: 100%" alt="oranges fruit's background"> -->
+			<img src="assets/images/oranges_background.jpg" class="img-fluid w-100" alt="oranges fruit's background">
+			<?php if ($this->session->has_userdata('loginfirst')) { ?>
+				<div class="container alert alert-danger text-center" id="success-alert" style="position: fixed;">
+					Anda harus <strong>Login</strong> terlebih dahulu!
+				</div>
+			<?php } ?>
+			<?php if ($this->session->has_userdata('logout')) { ?>
+				<div class="container alert alert-success text-center" id="success-alert" style="position: fixed;">
+					Anda telah melakukan <strong>Logout</strong>.
+				</div>
+			<?php } ?>
+			<?php if ($this->session->has_userdata('announcementText')) { ?>
+				<div class="container alert alert-<?php echo $this->session->userdata('announcementColor'); ?> text-center" id="success-alert" style="position: fixed;">
+					<?php echo $this->session->userdata('announcementText'); ?>
+				</div>
+			<?php } ?>
+			<div class="center">
+				<h1 style="font-size:4vw">Sistem Informasi Manajemen <br>Benih Sumber <br>Bebas Penyakit</h1>
+			</div>
+		</div>
+		<hr>
+		<div class="container-fluid">
+			<p class="tab text-justify">
+				&emsp;&emsp;Sistem informasi manajemen atau SIM (bahasa Inggris: management information system, MIS) adalah sistem perencanaan bagian dari pengendalian internal suatu bisnis yang meliputi pemanfaatan manusia, dokumen, teknologi, dan prosedur oleh akuntansi manajemen untuk memecahkan masalah bisnis seperti biaya produk, layanan, atau suatu strategi bisnis. Sistem informasi manajemen dibedakan dengan sistem informasi biasa karena SIM digunakan untuk menganalisis sistem informasi lain yang diterapkan pada aktivitas operasional organisasi. Secara akademis, istilah ini umumnya digunakan untuk merujuk pada kelompok metode manajemen informasi yang bertalian dengan otomasi atau dukungan terhadap pengambilan keputusan manusia, misalnya sistem pendukung keputusan, sistem pakar, dan sistem informasi eksekutif.
+			</p>
+			<center><a class="btn btn-primary btn-lg mdi mdi-arrow-down-box mdi-36px" href="#cardGroup_infoKonsumen"></a></center>
+			<br>
+			<!-- Card Menu -->
+			<div style="height:100vh" id="cardGroup_infoKonsumen">
+				<a class="card-group text-dark card_group_position" href="<?php echo site_url('infoKonsumen'); ?>">
+					<div class="card col-3 card-header">
+						<div class="card-body">
+							<h5 class="card-title">INFORMASI KONSUMEN</h5>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<p class="card-text">Informasi mengenai konsumen (perorangan/instansi).</p>
+							<p class="card-text">Konsumen adalah setiap orang pemakai barang atau jasa yang tersedia dalam masyarakat, baik bagi kepentingan diri sendiri, keluarga, orang lain, maupun makhluk hidup lain dan tidak untuk diperdagangkan. Jika tujuan pembelian produk tersebut untuk dijual kembali (Jawa: kulakan), maka dia disebut pengecer atau distributor.</p>
+							<small class="text-muted">Klik ini untuk info lebih lanjut</small>
+						</div>
+					</div>
+				</a>
+				<center><a class="btn btn-primary btn-lg mdi mdi-arrow-down-box mdi-36px button_next_position" href="#cardGroup_infoVarietas"></a></center>
+			</div>
+			<br>
+			<div style="height:100vh" id="cardGroup_infoVarietas">
+				<a class="card-group text-dark card_group_position" href="<?php echo site_url('infoVarietasBenihSumberJeruk'); ?>">
+					<div class="card col-3 card-header">
+						<div class="card-body">
+							<h5 class="card-title">INFORMASI VARIETAS</h5>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<p class="card-text">Informasi mengenai jenis varietas harga benih sumber (Benih Dasar dan Benih Pokok).</p>
+							<p class="card-text">Dalam pengertian botani varietas adalah suatu peringkat taksonomi sekunder di bawah spesies[1]. Peringkat sekunder lain di bawah spesies adalah forma. Suatu varietas menunjukan penampilan yang khas berbeda dari varietas lain, tetapi akan bersilang dengan bebas terhadap varietas lainnya (jika dilakukan kontak dengannya). Penulisan nama varietas dicetak miring (atau diberi garis bawah jika tulisan tangan) dan didahului dengan singkatan "var." Contoh: Oryza sativa var. indica.</p>
+							<small class="text-muted">Klik ini untuk info lebih lanjut</small>
+						</div>
+					</div>
+				</a>
+				<center><a class="btn btn-primary btn-lg mdi mdi-arrow-down-box mdi-36px button_next_position" href="#cardGroup_infoPermintaan"></a></center>
+			</div>
+			<br>
+			<div style="height:100vh" id="cardGroup_infoPermintaan">
+				<a class="card-group text-dark card_group_position" href="<?php echo site_url('infoPermintaan'); ?>">
+					<div class="card col-3 card-header">
+						<div class="card-body">
+							<h5 class="card-title">INFORMASI PERMINTAAN BENIH</h5>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<p class="card-text">Informasi permintaan tahunan setiap varietas dan menampilkan form pendaftaran pemesanan benih.</p>
+							<p class="card-text">Permintaan adalah sejumlah barang yang dibeli atau diminta pada suatu harga dan waktu tertentu. Permintaan berkaitan dengan keinginan konsumen akan suatu barang dan jasa yang ingin dipenuhi. Dan kecenderungan permintaan konsumen akan barang dan jasa tak terbatas.</p>
+							<small class="text-muted">Klik ini untuk info lebih lanjut</small>
+						</div>
+					</div>
+				</a>
+				<center><a class="btn btn-primary btn-lg mdi mdi-arrow-down-box mdi-36px button_next_position" href="#cardGroup_infoDistribusi"></a></center>
+			</div>
+			<br>
+			<div style="height:100vh" id="cardGroup_infoDistribusi">
+				<a class="card-group text-dark card_group_position" href="<?php echo site_url('infoDistribusi'); ?>">
+					<div class="card col-3 card-header">
+						<div class="card-body">
+							<h5 class="card-title">INFORMASI DISTRIBUSI BENIH</h5>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<p class="card-text">Informasi mengenai pendistribusian benih tahunan.</p>
+							<p class="card-text">Distribusi adalah salah satu aspek dari pemasaran. Distribusi juga dapat diartikan sebagai kegiatan pemasaran yang berusaha memperlancar dan mempermudah penyampaian barang dan jasa dari produsen kepada konsumen, sehingga penggunaannya sesuai dengan yang diperlukan (jenis, jumlah, harga, tempat, dan saat dibutuhkan). Seorang atau sebuah perusahaan distributor adalah perantara yang menyalurkan produk dari pabrikan (manufacturer) ke pengecer (retailer). Setelah suatu produk dihasilkan oleh pabrik, produk tersebut dikirimkan (dan biasanya juga sekaligus dijual) ke suatu distributor. Distributor tersebut kemudian menjual produk tersebut ke pengecer atau pelanggan.</p>
+							<small class="text-muted">Klik ini untuk info lebih lanjut</small>
+						</div>
+					</div>
+				</a>
+				<center><a class="btn btn-primary btn-lg mdi mdi-arrow-up-box mdi-24px button_next_position" href="#home"> Kembali Ke Atas</a></center>
+			</div>
+			<br>
+		</div>
+		
+		<script src="assets/js/jquery-3.3.1.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready (function showAlert() {
+				$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+					$("#success-alert").slideUp(500);
+				});  
+			});
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
+	</body>
+</html>
