@@ -1,3 +1,3 @@
-# SIMPEJE
+# SIM-BER-KIT
 
-Website Sistem Informasi Manajemen Perbenihan Jeruk (SIMPEJE) untuk BALITJESTRO (Balai Penelitian Tanaman Jeruk dan Buah Subtropika), sebuah perusahaan yang bergerak dibawah naungan BALITBANGTAN - Kementerian Pertanian
+Sistem Informasi Manajemen Benih Induk Jeruk Bebas Penyakit (SIMBERKIT) merupakan website yang mengelola informasi konsumen, varietas benih, dan distribusi terhadap calon konsumen, dan calon konsumen dapat melakukan permintaan melalui form permintaan. Website ini dibangun untuk BALITJESTRO (Balai Penelitian Tanaman Jeruk dan Buah Subtropika), yang bergerak dibawah naungan BALITBANGTAN - Kementerian Pertanian
